@@ -1,4 +1,4 @@
-package de.ravenguard.dispatcher;
+package gui.controller;
 
 import java.util.Collections;
 import java.util.HashMap;

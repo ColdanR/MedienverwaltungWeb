@@ -1,4 +1,4 @@
-package de.ravenguard.dispatcher;
+package gui.controller;
 
 import java.io.IOException;
 import java.nio.file.Files;
