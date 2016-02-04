@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class Controller {
 	private	Pattern	pattern;
 	
+	public Controller() {
+	}
+	
 	protected Controller (String pattern) throws PatternSyntaxException {
 		this.pattern = Pattern.compile(pattern);
 	}
