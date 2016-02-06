@@ -1,17 +1,16 @@
 /**
  * 
  */
-package data.speicherformate.logic;
+package logic.speicherformate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import data.DatenLogik;
-import data.SpeicherFormatInterface;
 import data.speicherformate.DigitalMusik;
 import database.DBSpeicherFormat;
-import enums.ErrorMessage;
-import enums.ErrorsSpeicherFormateLogik;
+import enums.errors.ErrorMessage;
+import enums.errors.ErrorsSpeicherFormateLogik;
+import logic.DatenLogik;
 
 /**
  * Klasse zur Abhandlung der Logik f�r Speicherformate

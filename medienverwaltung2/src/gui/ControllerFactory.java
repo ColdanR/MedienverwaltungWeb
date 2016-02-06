@@ -1,4 +1,4 @@
-package gui.controller;
+package gui;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,17 +8,19 @@ import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class URLFactory {
+import gui.controller.Controller;
+
+public class ControllerFactory {
 
 	private static	final	Map<Pattern, String>	MAP	=	Collections.synchronizedMap(new HashMap<Pattern, String>());
 	
-	private	static	URLFactory	INSTANCE	=	new	URLFactory();
+	private	static	ControllerFactory	INSTANCE	=	new	ControllerFactory();
 	
-	private URLFactory() {
+	private ControllerFactory() {
 		super();
 	}
 	
-	public static URLFactory getInstance() {
+	public static ControllerFactory getInstance() {
 		return INSTANCE;
 	}
 	

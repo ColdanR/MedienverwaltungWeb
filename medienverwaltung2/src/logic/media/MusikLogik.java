@@ -1,17 +1,17 @@
-package data.medien.logic;
+package logic.media;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.DatenLogik;
-import data.Person;
-import data.SpeicherFormatInterface;
 import data.medien.Musik;
+import data.person.Person;
 import database.DBMusik;
-import enums.DatabaseErrors;
-import enums.ErrorMessage;
-import enums.ErrorsMusikLogik;
+import enums.errors.DatabaseErrors;
+import enums.errors.ErrorMessage;
+import enums.errors.ErrorsMusikLogik;
+import logic.DatenLogik;
+import logic.speicherformate.SpeicherFormatInterface;
 
 public class MusikLogik implements DatenLogik<Musik> {
 	private	Musik				object	=	null;

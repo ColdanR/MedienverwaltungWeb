@@ -1,4 +1,4 @@
-package enums;
+package enums.errors;
 
 public enum ErrorsGUI implements ErrorMessage {
 	NoSelection("Es wurde kein Element der Liste ausgew\u00E4hlt."),

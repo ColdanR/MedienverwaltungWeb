@@ -9,9 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.SpeicherFormatInterface;
-import data.logic.PersonLogik;
 import data.medien.Musik;
+import logic.person.PersonLogik;
+import logic.speicherformate.SpeicherFormatInterface;
 
 public class DBMusik extends DataBaseManager {
 

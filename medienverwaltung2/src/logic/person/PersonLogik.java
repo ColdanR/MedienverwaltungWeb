@@ -1,14 +1,14 @@
-package data.logic;
+package logic.person;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import data.DatenLogik;
-import data.Person;
+import data.person.Person;
 import database.DBPerson;
-import enums.DatabaseErrors;
-import enums.ErrorMessage;
-import enums.ErrorsPersonLogik;
+import enums.errors.DatabaseErrors;
+import enums.errors.ErrorMessage;
+import enums.errors.ErrorsPersonLogik;
+import logic.DatenLogik;
 
 public class PersonLogik implements DatenLogik<Person> {
 	private	Person				object	=	null;

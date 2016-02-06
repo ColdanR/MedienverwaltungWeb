@@ -1,7 +1,7 @@
 package data.speicherformate;
 
-import data.SpeicherFormatInterface;
 import enums.Speicherformat;
+import logic.speicherformate.SpeicherFormatInterface;
 
 public class DigitalMusik implements SpeicherFormatInterface {
 	private	int				id				=	0;

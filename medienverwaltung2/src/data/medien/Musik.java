@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.Person;
-import data.SpeicherFormatInterface;
+import data.person.Person;
+import logic.speicherformate.SpeicherFormatInterface;
 
 public class Musik {
 	private	int								id				=	0;

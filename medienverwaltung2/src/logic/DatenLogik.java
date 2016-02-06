@@ -1,8 +1,8 @@
-package data;
+package logic;
 
 import java.util.List;
 
-import enums.ErrorMessage;
+import enums.errors.ErrorMessage;
 
 /**
  * Interface zur Konsolidierung der Logikmethoden

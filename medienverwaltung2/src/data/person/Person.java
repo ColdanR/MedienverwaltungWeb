@@ -1,4 +1,4 @@
-package data;
+package data.person;
 
 public class Person {
 	private	int		id				=	0;

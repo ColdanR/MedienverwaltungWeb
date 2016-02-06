@@ -1,4 +1,4 @@
-package enums;
+package enums.errors;
 
 
 public enum ErrorsPersonLogik implements ErrorMessage {

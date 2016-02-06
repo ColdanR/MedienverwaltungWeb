@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.Person;
+import data.person.Person;
 
 /**
  * Database management Class for Person Object

@@ -1,4 +1,4 @@
-package data;
+package logic.speicherformate;
 
 import enums.Speicherformat;
 

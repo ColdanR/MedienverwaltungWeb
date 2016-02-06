@@ -1,4 +1,4 @@
-package gui.controller;
+package gui;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,6 +15,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import gui.controller.Controller;
+
 public class Dispatcher implements Filter {
 	private	static	String	BASE_DIR	=	null;
 	private	static	String	CONFIG_FILE	=	null;
@@ -30,7 +32,7 @@ public class Dispatcher implements Filter {
 		try {
 			HttpServletRequest	request		=	(HttpServletRequest) arg0;
 			HttpServletResponse	response	=	(HttpServletResponse) arg1;
-			URLFactory			factory		=	URLFactory.getInstance();
+			ControllerFactory			factory		=	ControllerFactory.getInstance();
 			
 			Controller handler = null;
 			try {
@@ -66,7 +68,7 @@ public class Dispatcher implements Filter {
 					// TODO Logging
 				}
 				if (handler != null) {
-					URLFactory.getInstance().register(handler);
+					ControllerFactory.getInstance().register(handler);
 				}
 			}
 		} catch (IOException | SecurityException e) {

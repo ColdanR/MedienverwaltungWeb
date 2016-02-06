@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import data.SpeicherFormatInterface;
 import data.speicherformate.DigitalMusik;
+import logic.speicherformate.SpeicherFormatInterface;
 
 public class DBSpeicherFormat extends DataBaseManager {
 	

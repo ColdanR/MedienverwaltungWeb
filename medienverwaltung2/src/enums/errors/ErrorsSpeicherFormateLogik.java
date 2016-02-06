@@ -1,4 +1,4 @@
-package enums;
+package enums.errors;
 
 public enum ErrorsSpeicherFormateLogik implements ErrorMessage {
 	NoObjectLoaded("Es ist kein Speicherformat geladen."),

@@ -1,4 +1,4 @@
-package enums;
+package enums.errors;
 
 public enum ErrorsMusikLogik implements ErrorMessage {
 	NoKuenstler("Kein K\u00FCnstler \u00FCbergeben."),
