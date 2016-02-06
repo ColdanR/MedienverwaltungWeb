@@ -19,7 +19,7 @@ import gui.controller.Controller;
 
 public class Dispatcher implements Filter {
 	private	static	String	BASE_DIR	=	null;
-	private	static	String	CONFIG_FILE	=	null;
+	private	static	String	CONFIG_FILE	=	"gui/urlhandlers.conf";
 	
 	@Override
 	public void destroy() {
@@ -54,7 +54,6 @@ public class Dispatcher implements Filter {
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		BASE_DIR = config.getServletContext().getRealPath("/");
-		CONFIG_FILE = config.getInitParameter("handlerFile");
 		
 		Path configFile = Paths.get(BASE_DIR, "WEB-INF/classes", CONFIG_FILE);
 		try {

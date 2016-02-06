@@ -2,10 +2,10 @@ package enums.errors;
 
 
 public enum DatabaseErrors implements ErrorMessage {
-	NoDBAvailable("Datenbank nicht verf\u00FCgbar."),
+	NoDBAvailable("Datenbank nicht verfügbar."),
 	UnableToRead("Es konnte nicht aus der Datenbank gelesen werden."),
-	UnableToDelete("Der Datensatz konnte nicht aus der Datenbank gel\u00F6scht werden."),
-	UnableToDeletePerson("Der Datensatz konnte nicht aus der Datenbank gel\u00F6scht werden. Eventuell sind noch Titel mit der Person verkn\u00FCpft."),
+	UnableToDelete("Der Datensatz konnte nicht aus der Datenbank gelöscht werden."),
+	UnableToDeletePerson("Der Datensatz konnte nicht aus der Datenbank gelöscht werden. Eventuell sind noch Titel mit der Person verknüpft."),
 	UnableToWrite("Das Schreiben in die Datenbank ist fehlgeschlagen."),
 	UnknownDriver("Unbekannter Treiber in den Einstellungen verwendet.")
 	;

@@ -73,7 +73,7 @@ public abstract class DataBaseManager {
 	
 	static {
 		try {
-			ResourceBundle	db		=	ResourceBundle.getBundle("database");
+			ResourceBundle	db		=	ResourceBundle.getBundle("database.database");
 			SqlServers		server	=	SqlServers.getServerByName(db.getString("dbDriver"));
 			sqlConnect				=	server.getconnectPart() + db.getString("dbHost") + "/" + db.getString("dbName");
 			username				=	db.getString("dbUser");
