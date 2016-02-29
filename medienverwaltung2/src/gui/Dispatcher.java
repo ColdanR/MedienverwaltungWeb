@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,11 +14,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import gui.controller.Controller;
 
 public class Dispatcher implements Filter {
 	private	static	String	BASE_DIR	=	null;
 	private	static	String	CONFIG_FILE	=	"gui/urlhandlers.conf";
+	private	static	Logger	LOGGER		=	LogManager.getLogger(Dispatcher.class);
 	
 	@Override
 	public void destroy() {
@@ -32,13 +35,15 @@ public class Dispatcher implements Filter {
 		try {
 			HttpServletRequest	request		=	(HttpServletRequest) arg0;
 			HttpServletResponse	response	=	(HttpServletResponse) arg1;
-			ControllerFactory			factory		=	ControllerFactory.getInstance();
+			ControllerFactory	factory		=	ControllerFactory.getInstance();
 			
 			Controller handler = null;
 			try {
 				handler = factory.getController(request);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
+					| IllegalStateException e) {
+				LOGGER.error("Fehler bei Zuholung des Controllers");
+				LOGGER.catching(e);
 			}
 			if (handler != null) {
 				handler.execute(request, response);
@@ -46,33 +51,30 @@ public class Dispatcher implements Filter {
 				arg2.doFilter(arg0, arg1);
 			}
 		} catch (ClassCastException e) {
-			e.printStackTrace();
-			// TODO Logging
+			LOGGER.warn("Fehlerhafter Cast für HttpServletRequest oder HttpServletResponse.");
 		}
 	}
 	
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		BASE_DIR = config.getServletContext().getRealPath("/");
-		
-		Path configFile = Paths.get(BASE_DIR, "WEB-INF/classes", CONFIG_FILE);
+				BASE_DIR	=	config.getServletContext().getRealPath("/");
+		Path	configFile	=	Paths.get(BASE_DIR, "WEB-INF/classes", CONFIG_FILE);
 		try {
-			List<String> lines = Files.readAllLines(configFile);
-			for (String line : lines) {
+			Files.readAllLines(configFile).parallelStream().forEach(line -> {
 				Controller handler = null;
 				try {
 					handler = (Controller) Class.forName(line).newInstance();
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-					e.printStackTrace();
-					// TODO Logging
+					LOGGER.error("Zugriff auf Konfigurationsdatei nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
+					LOGGER.catching(e);
 				}
 				if (handler != null) {
 					ControllerFactory.getInstance().register(handler);
 				}
-			}
+			});
 		} catch (IOException | SecurityException e) {
-			e.printStackTrace();
-			// TODO Logging
+			LOGGER.error("Zugriff auf Konfigurationsdatei nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
+			LOGGER.catching(e);
 		}
 	}
 	

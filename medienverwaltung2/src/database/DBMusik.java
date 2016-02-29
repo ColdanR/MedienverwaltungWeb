@@ -98,12 +98,6 @@ public class DBMusik extends DataBaseManager {
 				if (result.next()) {
 					musik.setId(result.getInt(1));
 				}
-				DBSpeicherFormat dbSpeicher = new DBSpeicherFormat();
-				if (dbSpeicher.writeList(conn, musik.getSpeicherformate(), musik.getId())) {
-					ret = true;
-				} else {
-					ret = false;
-				}
 			}
 			if (ret) {
 				conn.commit();
@@ -161,13 +155,6 @@ public class DBMusik extends DataBaseManager {
 				PersonLogik logik = new PersonLogik();
 				if (logik.loadObject(result.getInt(3))) {
 					ret.setInterpret(logik.getObject());
-					DBSpeicherFormat dbSpeicher = new DBSpeicherFormat();
-					List<SpeicherFormatInterface> list = dbSpeicher.getSpeicherFormateForTitel(ret.getId());
-					if (list != null) {
-						ret.setSpeicherformate(list);
-					} else {
-						ret = null;
-					}
 				} else {
 					ret = null;
 				}
@@ -210,16 +197,6 @@ public class DBMusik extends DataBaseManager {
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
-			DBSpeicherFormat dbformat = new DBSpeicherFormat();
-			if (dbformat.deleteList(conn, musik.getSpeicherformate())) {
-				stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, musik.getId());
-				stmt.execute();
-				conn.commit();
-				conn.setAutoCommit(true);
-			} else {
-				conn.rollback();
-			}
 		} catch (SQLException e) {
 			ret = false;
 			e.printStackTrace();
@@ -262,17 +239,6 @@ public class DBMusik extends DataBaseManager {
 				PersonLogik logik = new PersonLogik();
 				if (logik.loadObject(result.getInt(3))) {
 					element.setInterpret(logik.getObject());
-				}
-				
-				DBSpeicherFormat dbSpeicher = new DBSpeicherFormat();
-				List<SpeicherFormatInterface> list = dbSpeicher.getSpeicherFormateForTitel(element.getId());
-				if (list != null) {
-					element.setSpeicherformate(list);
-				} else {
-					ret = null;
-				}
-				if (ret != null) {
-					ret.add(element);
 				}
 			}
 		} catch (SQLException e) {

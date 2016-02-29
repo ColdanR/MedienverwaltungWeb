@@ -1,8 +1,8 @@
 package logic.speicherformate;
 
-import enums.Speicherformat;
+import enums.Format;
 
 public interface SpeicherFormatInterface {
 	
-	public Speicherformat getType();
+	public Format getType();
 }
