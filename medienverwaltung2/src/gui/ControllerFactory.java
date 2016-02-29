@@ -12,9 +12,8 @@ import gui.controller.Controller;
 
 public class ControllerFactory {
 
-	private static	final	Map<Pattern, String>	MAP	=	Collections.synchronizedMap(new HashMap<Pattern, String>());
-	
-	private	static	ControllerFactory	INSTANCE	=	new	ControllerFactory();
+	private static	final	Map<Pattern, String>	MAP			=	Collections.synchronizedMap(new HashMap<Pattern, String>());
+	private	static			ControllerFactory		INSTANCE	=	new	ControllerFactory();
 	
 	private ControllerFactory() {
 		super();
