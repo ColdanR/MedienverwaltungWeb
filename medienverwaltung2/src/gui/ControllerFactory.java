@@ -27,7 +27,7 @@ public class ControllerFactory {
 		MAP.put(handler.getPattern(), handler.getClass().getCanonicalName());
 	}
 
-	public Controller getController(HttpServletRequest request) throws Exception {
+	public Controller getController(HttpServletRequest request) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalStateException {
 		String uri = request.getServletPath();
 		if (request.getPathInfo() != null) {
 			uri += request.getPathInfo();
@@ -39,7 +39,7 @@ public class ControllerFactory {
 		if (patternStream.count() == 0) {
 			return null;
 		} else if (patternStream.count() > 1) {
-			throw new Exception("Multiple Controller for " + uri);
+			throw new IllegalStateException("Multiple Controller for " + uri);
 		} else {
 			Pattern found = patternStream.iterator().next();
 			return (Controller) Class.forName(MAP.get(found)).newInstance();

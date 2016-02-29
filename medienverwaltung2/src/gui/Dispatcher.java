@@ -39,8 +39,10 @@ public class Dispatcher implements Filter {
 			Controller			handler		=	null;
 			try {
 				handler = factory.getController(request);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
+					| IllegalStateException e) {
+				LOGGER.error("Fehler bei Zuholung des Controllers");
+				LOGGER.catching(e);
 			}
 			if (handler != null) {
 				handler.execute(request, response);
@@ -48,30 +50,31 @@ public class Dispatcher implements Filter {
 				arg2.doFilter(arg0, arg1);
 			}
 		} catch (ClassCastException e) {
-			LOGGER.error(e);
+			LOGGER.warn("Fehlerhafter Cast für HttpServletRequest oder HttpServletResponse.");
 			arg2.doFilter(arg0, arg1);
 		}
 	}
 	
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		BASE_DIR = config.getServletContext().getRealPath("/");
-		
-		Path configFile = Paths.get(BASE_DIR, "WEB-INF/classes", CONFIG_FILE);
+				BASE_DIR	=	config.getServletContext().getRealPath("/");
+		Path	configFile	=	Paths.get(BASE_DIR, "WEB-INF/classes", CONFIG_FILE);
 		try {
-			Files.readAllLines(configFile).stream().forEach(data -> {
+			Files.readAllLines(configFile).parallelStream().forEach(line -> {
 				Controller handler = null;
 				try {
-					handler = (Controller) Class.forName(data).newInstance();
+					handler = (Controller) Class.forName(line).newInstance();
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-					LOGGER.error(e);
+					LOGGER.error("Zugriff auf Konfigurationsdatei nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
+					LOGGER.catching(e);
 				}
 				if (handler != null) {
 					ControllerFactory.getInstance().register(handler);
 				}
 			});
 		} catch (IOException | SecurityException e) {
-			LOGGER.error(e);
+			LOGGER.error("Zugriff auf Konfigurationsdatei nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
+			LOGGER.catching(e);
 		}
 	}
 	

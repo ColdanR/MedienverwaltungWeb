@@ -3,5 +3,8 @@ package enums;
 public enum Mediengruppe {
 	Musik,
 	Film,
-	Buch
+	Buch,
+	Hoerbuch,
+	Spiel,
+	Bild
 }
