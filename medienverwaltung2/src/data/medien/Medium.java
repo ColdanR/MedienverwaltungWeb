@@ -7,6 +7,7 @@ import data.formate.Formate;
 import enums.Mediengruppe;
 
 public abstract class Medium {
+	private	int				dbId;
 	private	Mediengruppe	type;
 	private	String			titel;
 	private	Genre			genre;
@@ -18,6 +19,12 @@ public abstract class Medium {
 		this.type	=	type;
 	}
 	
+	public int getDbId() {
+		return dbId;
+	}
+	public void setDbId(int dbId) {
+		this.dbId = dbId;
+	}
 	public String getTitel() {
 		return titel;
 	}

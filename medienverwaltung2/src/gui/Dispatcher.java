@@ -20,9 +20,10 @@ import org.apache.logging.log4j.Logger;
 import gui.controller.Controller;
 
 public class Dispatcher implements Filter {
-	private	static	String	BASE_DIR	=	null;
-	private	static	String	CONFIG_FILE	=	"gui/urlhandlers.conf";
-	private	static	Logger	LOGGER		=	LogManager.getLogger(Dispatcher.class);
+	private	static	String				BASE_DIR	=	null;
+	private	static	ControllerFactory	FACTORY		=	ControllerFactory.getInstance();
+	private	static	String				CONFIG_FILE	=	"gui/urlhandlers.conf";
+	private	static	Logger				LOGGER		=	LogManager.getLogger(Dispatcher.class);
 	
 	@Override
 	public void destroy() {
@@ -35,10 +36,9 @@ public class Dispatcher implements Filter {
 		try {
 			HttpServletRequest	request		=	(HttpServletRequest) arg0;
 			HttpServletResponse	response	=	(HttpServletResponse) arg1;
-			ControllerFactory	factory		=	ControllerFactory.getInstance();
 			Controller			handler		=	null;
 			try {
-				handler = factory.getController(request);
+				handler = FACTORY.getController(request);
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
 					| IllegalStateException e) {
 				LOGGER.error("Fehler bei Zuholung des Controllers");
@@ -65,7 +65,7 @@ public class Dispatcher implements Filter {
 				try {
 					handler = (Controller) Class.forName(line).newInstance();
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-					LOGGER.error("Zugriff auf Konfigurationsdatei nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
+					LOGGER.error("Erstellung des Controllers {} fehlgeschlagen! Teilweise sind Komponenten daher nicht verfügbar!", line);
 					LOGGER.catching(e);
 				}
 				if (handler != null) {
