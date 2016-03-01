@@ -1,8 +1,7 @@
 package enums;
 
-public enum Speicherort {
-	CD,
-	DVD,
+public enum SpeicherortArt {
+	Optisch,
 	Schallplatte,
 	Buch,
 	Kassette,

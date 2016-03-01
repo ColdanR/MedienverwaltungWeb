@@ -4,13 +4,19 @@ import java.time.LocalDate;
 import java.util.List;
 
 import data.formate.Formate;
+import enums.Mediengruppe;
 
 public abstract class Medium {
+	private	Mediengruppe	type;
 	private	String			titel;
 	private	Genre			genre;
 	private	LocalDate		erscheinungsdatum;
 	private	String			bemerkungen;
 	private	List<Formate>	formate;
+	
+	protected Medium(Mediengruppe type) {
+		this.type	=	type;
+	}
 	
 	public String getTitel() {
 		return titel;
@@ -41,5 +47,8 @@ public abstract class Medium {
 	}
 	public void setFormate(List<Formate> formate) {
 		this.formate = formate;
+	}
+	public Mediengruppe getType() {
+		return type;
 	}
 }
