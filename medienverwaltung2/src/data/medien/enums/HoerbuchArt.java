@@ -1,4 +1,4 @@
-package data.medien;
+package data.medien.enums;
 
 public enum HoerbuchArt {
 

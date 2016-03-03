@@ -1,5 +1,6 @@
 package data.medien;
 
+import data.medien.enums.BuchArt;
 import enums.Mediengruppe;
 
 public class Buch extends Medium {

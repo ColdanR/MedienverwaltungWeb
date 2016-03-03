@@ -9,12 +9,17 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import gui.controller.Controller;
 
 public class ControllerFactory {
 
 	private static	final	Map<Pattern, String>	MAP			=	Collections.synchronizedMap(new HashMap<Pattern, String>());
 	private	static			ControllerFactory		INSTANCE	=	new	ControllerFactory();
+	private	static	final	Logger					LOGGER		=	LogManager.getLogger(ControllerFactory.class);
 	
 	private ControllerFactory() {
 		super();
@@ -33,16 +38,25 @@ public class ControllerFactory {
 		if (request.getPathInfo() != null) {
 			uri += request.getPathInfo();
 		}
-		final String uriFinal = uri;
-		List<Pattern> patternStream = MAP.keySet().parallelStream().filter(data -> {
-			return data.matcher(uriFinal).matches();
-		}).collect(Collectors.toList());
-		if (patternStream.size() == 0) {
+		LOGGER.debug("Verarbeite Request URI: {}", uri);
+		final	String			uriFinal		=	uri;
+				List<Pattern>	patternList	=	MAP.keySet()
+						.parallelStream()
+						.filter(data -> {return data.matcher(uriFinal).matches();})
+						.collect(Collectors.toList());
+		if (patternList.size() == 0) {
+			LOGGER.debug("Kein Controller gefunden.");
 			return null;
-		} else if (patternStream.size() > 1) {
+		} else if (patternList.size() > 1) {
+			LOGGER.debug("Mehrere Controller gefunden! Controller Klassen: {}", StringUtils.join(patternList.parallelStream().map(data -> {
+				return MAP.get(data);
+			}).filter(data -> {
+				return data != null;
+			}).collect(Collectors.toList()), ", "));
 			throw new IllegalStateException("Multiple Controller for " + uri);
 		} else {
-			Pattern found = patternStream.get(0);
+			Pattern found = patternList.get(0);
+			LOGGER.debug("Controller gefunden: {}", MAP.get(found));
 			return (Controller) Class.forName(MAP.get(found)).newInstance();
 		}
 	}

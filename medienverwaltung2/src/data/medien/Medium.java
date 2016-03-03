@@ -11,7 +11,7 @@ public abstract class Medium {
 	private	int				dbId;
 	private	Mediengruppe	type;
 	private	String			titel;
-	private	List<Genre>		genre				=	new ArrayList<>();
+	private	Genre			genre;
 	private	LocalDate		erscheinungsdatum;
 	private	String			bemerkungen;
 	private	List<Formate>	formate				=	new ArrayList<>();
@@ -32,11 +32,11 @@ public abstract class Medium {
 	public void setTitel(String titel) {
 		this.titel = titel;
 	}
-	public List<Genre> getGenre() {
+	public Genre getGenre() {
 		return genre;
 	}
-	public void addGenre(Genre genre) {
-		this.genre.add(genre);
+	public void setGenre(Genre genre) {
+		this.genre = genre;
 	}
 	public LocalDate getErscheinungsdatum() {
 		return erscheinungsdatum;

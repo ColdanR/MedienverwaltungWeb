@@ -1,5 +1,6 @@
 package data.medien;
 
+import data.medien.enums.HoerbuchArt;
 import enums.Mediengruppe;
 
 public class Hoerbuch extends Medium {

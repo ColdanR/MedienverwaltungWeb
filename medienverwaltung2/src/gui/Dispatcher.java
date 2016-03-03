@@ -45,8 +45,10 @@ public class Dispatcher implements Filter {
 				LOGGER.catching(e);
 			}
 			if (handler != null) {
+				LOGGER.debug("Rufe Controller {} auf", handler.getClass().getCanonicalName());
 				handler.execute(request, response);
 			} else {
+				LOGGER.debug("Leite Request weiter.");
 				arg2.doFilter(arg0, arg1);
 			}
 		} catch (ClassCastException e) {

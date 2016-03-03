@@ -1,5 +1,6 @@
 package data.medien;
 
+import data.medien.enums.FilmArt;
 import enums.Mediengruppe;
 
 public class Film extends Medium {
