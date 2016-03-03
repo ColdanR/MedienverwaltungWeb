@@ -2,9 +2,10 @@ package gui;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,15 +34,15 @@ public class ControllerFactory {
 			uri += request.getPathInfo();
 		}
 		final String uriFinal = uri;
-		Stream<Pattern> patternStream = MAP.keySet().parallelStream().filter(data -> {
+		List<Pattern> patternStream = MAP.keySet().parallelStream().filter(data -> {
 			return data.matcher(uriFinal).matches();
-		});
-		if (patternStream.count() == 0) {
+		}).collect(Collectors.toList());
+		if (patternStream.size() == 0) {
 			return null;
-		} else if (patternStream.count() > 1) {
+		} else if (patternStream.size() > 1) {
 			throw new IllegalStateException("Multiple Controller for " + uri);
 		} else {
-			Pattern found = patternStream.iterator().next();
+			Pattern found = patternStream.get(0);
 			return (Controller) Class.forName(MAP.get(found)).newInstance();
 		}
 	}

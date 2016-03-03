@@ -1,7 +1,3 @@
-<%@tag language="java" pageEncoding="UTF-8" trimDirectiveWhitespaces="false" body-content="scriptless" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -10,20 +6,14 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Multimediaverwaltung - ${context.titel}</title>
+        <title>Multimediaverwaltung</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-theme.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
-        <c:forEach items="${context.cssFiles}" var="cssFile">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/${cssFile}" />
-        </c:forEach>
-        <script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" defer></script>
-        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js" defer></script>
-        <c:forEach items="${context.jsFiles}" var="jsFile">
-        <script src="${pageContext.request.contextPath}/js/${jsFile}" defer></script>
-        </c:forEach>
+        <link rel="stylesheet" href="bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="bootstrap.min.css" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type="text/javascript" src="bootstrap.min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -109,19 +99,66 @@ and open the template in the editor.
         </div> 
         </nav>
         <div class="container">
-        	<c:if test="${fn:length(context.errors) > 0}">
-        	<div class="form-horizontal">
-            	<div class="form-section">
-            		<h3>Fehlermeldungen</h3>
-	        		<ul class="form-group errorList">
-	        			<c:forEach items="${context.errors}" var="error">
-	        			<li>${error}</li>
-	        			</c:forEach>
-	        		</ul>
-        		</div>
-        	</div>
-        	</c:if>
-        	<jsp:doBody/>
-         </div>
+            <form class="form-horizontal" role="form" action="" method="post">
+                <div class="form-section">
+                    <h3>Alle Felder müssen ausgefüllt werden</h3>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-lg-3 control-label">
+                            <label for="titel"> Titel</label>
+                        </div>    
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input  type="text" class="form-control" name="titel" id="titel" required="required" >
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <div class="col-sm-3 clo-lg-3 control-label">
+                            <label for="erstausgabe"> Erstausgabe</label>
+                        </div>    
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input  type="text" class="form-control" name="erstausgabe" id="erstausgabe" required="required" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 clo-lg-3 control-label">
+                            <label for="bemerkung"> Bemerkung</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input  type="text" class="form-control" name="bemerkung" id="bemerkung" required="required" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 clo-lg-3 control-label">
+                            <label for="live"> Live</label>
+                        </div>    
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input  type="checkbox" class="form-control" name="live" id="live" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 col-md-3 col-sm-3 control-label">
+                            <label for="genre">Genre</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-3">
+                            <select class="form-control" name="genre" id="genre">
+                                <option value="1">Test1</option>
+                                <option value="2">Test2</option>
+                                <option value="3">Test3</option>
+                                <option value="4">Test4</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <button class="btn btn-default">Hinzufügen</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-6 col-sm-3">
+                            <button class="btn btn-default center-block" name="send" id="send" style="margin-top: 7px">Eintragen</button>
+                        </div>
+                    </div>
+                </div>
+            </form>    
+        </div>    
     </body>
 </html>

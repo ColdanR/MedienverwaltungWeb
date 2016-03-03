@@ -61,15 +61,17 @@ public class Dispatcher implements Filter {
 		Path	configFile	=	Paths.get(BASE_DIR, "WEB-INF/classes", CONFIG_FILE);
 		try {
 			Files.readAllLines(configFile).parallelStream().forEach(line -> {
-				Controller handler = null;
-				try {
-					handler = (Controller) Class.forName(line).newInstance();
-				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-					LOGGER.error("Erstellung des Controllers {} fehlgeschlagen! Teilweise sind Komponenten daher nicht verfügbar!", line);
-					LOGGER.catching(e);
-				}
-				if (handler != null) {
-					ControllerFactory.getInstance().register(handler);
+				if (!line.startsWith("#")) {
+					Controller handler = null;
+					try {
+						handler = (Controller) Class.forName(line).newInstance();
+					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+						LOGGER.error("Erstellung des Controllers {} fehlgeschlagen! Teilweise sind Komponenten daher nicht verfügbar!", line);
+						LOGGER.catching(e);
+					}
+					if (handler != null) {
+						ControllerFactory.getInstance().register(handler);
+					}
 				}
 			});
 		} catch (IOException | SecurityException e) {

@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 04.02.2016, 10:52:31
+    Author     : Jasmin Burger
+*/
+.form-group input[type=checkbox] {
+    width: 18px;
+    margin: -6px 0 0;
+    border: 1px solid #333;
+
+}
+.form-group input[type=checkbox]:focus {
+    outline: 0 none;
+    outline-offset: 0;
+}
+.form-section {
+	padding: 0 15px 15px 15px;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+.form-section h3 {
+	color: #b2b2b2;
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+}
+
+.form-section:last-child {
+	padding: 3px 15px 0 15px;
+}
+#submit{
+	margin-top: 10px;
+}
+
+form.form-inline button[type=submit] {
+	margin-top: 0;
+}
+
+#detail p {
+	text-align: left;
+}

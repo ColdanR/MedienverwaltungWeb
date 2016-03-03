@@ -1,6 +1,7 @@
 package data.medien;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import data.formate.Formate;
@@ -10,10 +11,10 @@ public abstract class Medium {
 	private	int				dbId;
 	private	Mediengruppe	type;
 	private	String			titel;
-	private	Genre			genre;
+	private	List<Genre>		genre				=	new ArrayList<>();
 	private	LocalDate		erscheinungsdatum;
 	private	String			bemerkungen;
-	private	List<Formate>	formate;
+	private	List<Formate>	formate				=	new ArrayList<>();
 	
 	protected Medium(Mediengruppe type) {
 		this.type	=	type;
@@ -31,11 +32,11 @@ public abstract class Medium {
 	public void setTitel(String titel) {
 		this.titel = titel;
 	}
-	public Genre getGenre() {
+	public List<Genre> getGenre() {
 		return genre;
 	}
-	public void setGenre(Genre genre) {
-		this.genre = genre;
+	public void addGenre(Genre genre) {
+		this.genre.add(genre);
 	}
 	public LocalDate getErscheinungsdatum() {
 		return erscheinungsdatum;
@@ -52,8 +53,8 @@ public abstract class Medium {
 	public List<Formate> getFormate() {
 		return formate;
 	}
-	public void setFormate(List<Formate> formate) {
-		this.formate = formate;
+	public void addFormat(Formate format) {
+		this.formate.add(format);
 	}
 	public Mediengruppe getType() {
 		return type;

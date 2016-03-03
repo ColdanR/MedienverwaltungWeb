@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Multimediaverwaltung</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="bootstrap.min.css" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type="text/javascript" src="bootstrap.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="collapse navbar-collapse" id="navbar-collapse-2">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="index.html">Multimediaverwaltung</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Musik
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="musik-anlegen.html">Anlegen</a></li>
+                            <li><a href="musik-anzeigen.html">Anzeigen</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Person
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="person-anlegen.html">Anlegen</a></li>
+                            <li><a href="person-anzeigen.html">Anzeigen</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Buch
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="buch-anlegen.html">Anlegen</a></li>
+                            <li><a href="buch-anzeigen.html">Anzeigen</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Film
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="film-anlegen.html">Anlegen</a></li>
+                            <li><a href="film-anzeigen.html">Anzeigen</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hörbuch
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="hobuch-anlegen.html">Anlegen</a></li>
+                            <li><a href="hobuch-anzeigen.html">Anzeigen</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Spiele
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="spiel-anlegen.html">Anlegen</a></li>
+                            <li><a href="spiel-anzeigen.html">Anzeigen</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bilder
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="bild-anlegen.html">Anlegen</a></li>
+                            <li><a href="bild-anzeigen.html">Anzeigen</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <form class="form-horizontal" role="form" action="" method="post">
+                <div class="form-section">
+                    <h3>Alle Felder müssen ausgefüllt werden</h3>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-lg-3 control-label">
+                            <label for="titel"> Titel</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input  type="text" class="form-control" name="titel" id="titel" required="required" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 clo-lg-3 control-label">
+                            <label for="erscheinungsjahr"> Erscheinungsjahr</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input  type="text" class="form-control" name="erscheinungsjahr" id="erscheinungsjahr" required="required" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 clo-lg-3 control-label">
+                            <label for="bemerkung"> Bemerkung</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input  type="text" class="form-control" name="bemerkung" id="bemerkung" required="required" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 col-md-3 col-sm-3 control-label">
+                            <label for="genre">Genre</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-3">
+                            <select class="form-control" name="genre" id="genre">
+                                <option value="1">Test1</option>
+                                <option value="2">Test2</option>
+                                <option value="3">Test3</option>
+                                <option value="4">Test4</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <button class="btn btn-default">Hinzufügen</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-lg-3 control-label">
+                            <label for="fortsetzung">Fortsetzung</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input class="form-control" name="fortsetzung" id="fortsetzung" required="required" readonly>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            <button class="btn btn-default" id="hinzu" name="hinzu">Hinzufügen</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-lg-3 control-label">
+                            <label for="sprache">Sprache</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input class="form-control" name="sprache" id="sprache" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-lg-3 control-label">
+                            <label for="art">Art</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input class="form-control" name="art" id="art" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-lg-3 control-label">
+                            <label for="auflage">Auflage</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-4">
+                            <input class="form-control" name="auflage" id="auflage" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-6 col-sm-3">
+                            <button class="btn btn-default center-block" name="send" id="send" style="margin-top: 7px">Eintragen</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
