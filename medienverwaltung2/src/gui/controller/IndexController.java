@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import gui.Controller;
 import gui.dto.IndexDTO;
 
 public class IndexController extends Controller {

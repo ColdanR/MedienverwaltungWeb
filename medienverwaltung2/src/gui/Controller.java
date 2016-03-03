@@ -1,4 +1,4 @@
-package gui.controller;
+package gui;
 
 import java.io.IOException;
 import java.util.regex.Pattern;

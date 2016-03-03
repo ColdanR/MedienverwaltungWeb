@@ -43,4 +43,13 @@ public enum Mediengruppe implements SelectAble, URIPart {
 		}
 		return null;
 	}
+	
+	public static Mediengruppe getElementFromUriPart(String uriPart) {
+		for (Mediengruppe element : values()) {
+			if (element.getURIPart().equals(uriPart)) {
+				return element;
+			}
+		}
+		return null;
+	}
 }

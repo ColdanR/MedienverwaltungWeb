@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,13 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import gui.controller.Controller;
-
 public class Dispatcher implements Filter {
-	private	static	String				BASE_DIR	=	null;
-	private	static	ControllerFactory	FACTORY		=	ControllerFactory.getInstance();
-	private	static	String				CONFIG_FILE	=	"gui/urlhandlers.conf";
-	private	static	Logger				LOGGER		=	LogManager.getLogger(Dispatcher.class);
+	private	static	ControllerFactory	FACTORY			=	ControllerFactory.getInstance();
+	private	static	String				CONTROLLER_DIR	=	"gui/controller";
+	private	static	Logger				LOGGER			=	LogManager.getLogger(Dispatcher.class);
 	
 	@Override
 	public void destroy() {
@@ -33,6 +32,7 @@ public class Dispatcher implements Filter {
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
 			throws IOException, ServletException {
+		LocalDateTime	start	=	LocalDateTime.now();
 		try {
 			HttpServletRequest	request		=	(HttpServletRequest) arg0;
 			HttpServletResponse	response	=	(HttpServletResponse) arg1;
@@ -55,18 +55,21 @@ public class Dispatcher implements Filter {
 			LOGGER.warn("Fehlerhafter Cast für HttpServletRequest oder HttpServletResponse.");
 			arg2.doFilter(arg0, arg1);
 		}
+		LOGGER.info("Dauer des Requests auf Server: {} ms", ChronoUnit.MILLIS.between(start, LocalDateTime.now()));
 	}
 	
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-				BASE_DIR	=	config.getServletContext().getRealPath("/");
-		Path	configFile	=	Paths.get(BASE_DIR, "WEB-INF/classes", CONFIG_FILE);
+		String	baseDir			=	config.getServletContext().getRealPath("/");
+		Path	controllerPath	=	Paths.get(baseDir, "WEB-INF/classes", CONTROLLER_DIR);
 		try {
-			Files.readAllLines(configFile).parallelStream().forEach(line -> {
-				if (!line.startsWith("#")) {
+			Files.list(controllerPath).parallel().forEach(line -> {
+				String className = line.getFileName().toString();
+				if (className.endsWith(".class") && !className.contains("$")) {
+					className = CONTROLLER_DIR.replaceAll("/", ".") + "." + className.substring(0, className.indexOf(".class"));
 					Controller handler = null;
 					try {
-						handler = (Controller) Class.forName(line).newInstance();
+						handler = (Controller) Class.forName(className).newInstance();
 					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 						LOGGER.error("Erstellung des Controllers {} fehlgeschlagen! Teilweise sind Komponenten daher nicht verfügbar!", line);
 						LOGGER.catching(e);
@@ -80,9 +83,5 @@ public class Dispatcher implements Filter {
 			LOGGER.error("Zugriff auf Konfigurationsdatei nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
 			LOGGER.catching(e);
 		}
-	}
-	
-	public static String getBaseDir() {
-		return BASE_DIR;
 	}
 }
