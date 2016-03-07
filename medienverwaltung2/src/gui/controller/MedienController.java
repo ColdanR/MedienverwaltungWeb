@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import enums.Action;
 import enums.Mediengruppe;
 import gui.Controller;
 import gui.dto.ShowParameterDTO;
@@ -23,7 +24,9 @@ import gui.dto.ShowParameterDTO;
 public class MedienController extends Controller {
 	private static Pattern URI_PATTERN = Pattern.compile("/medium/(" + 
 			Arrays.asList(Mediengruppe.values()).stream().map(Mediengruppe::getURIPart).collect(Collectors.joining("|")) +
-			")/(anlage|editieren|anzeigen|details).html");
+			")/(" +
+			Arrays.asList(Action.values()).stream().map(Action::getURIPart).collect(Collectors.joining("|")) +
+			").html");
 	private	static	Logger	LOGGER	=	LogManager.getLogger(MedienController.class);
 	
 	public MedienController() {
@@ -39,9 +42,24 @@ public class MedienController extends Controller {
 		Matcher			matcher		=	URI_PATTERN.matcher(uri);
 		matcher.matches();
 		String			mediumPart	=	matcher.group(1);
-		String			action		=	matcher.group(2);
+		String			actionPart	=	matcher.group(2);
 		Mediengruppe	medium		=	Mediengruppe.getElementFromUriPart(mediumPart);
+		Action			action		=	Action.getFromURIPart(actionPart);
 		LOGGER.debug("Medientype: {} - Action: {}", medium.getBezeichnung(), action);
+		switch (action) {
+		case Bearbeiten:
+			break;
+		case Details:
+			break;
+		case List:
+			break;
+		case Neuanlage:
+			break;
+		default:
+			break;
+		}
+		
+		
 		ShowParameterDTO	dto				=	new ShowParameterDTO();
 		Enumeration<String> headerNames		=	request.getHeaderNames();
 		Enumeration<String> attributeNames	=	request.getAttributeNames();

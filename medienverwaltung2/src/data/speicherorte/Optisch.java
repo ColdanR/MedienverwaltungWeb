@@ -1,5 +1,6 @@
 package data.speicherorte;
 
+import data.speicherorte.enums.OptischArt;
 import enums.SpeicherortArt;
 
 public class Optisch extends Speicherort {

@@ -1,5 +1,6 @@
 package data.speicherorte;
 
+import data.speicherorte.enums.BuchArt;
 import enums.SpeicherortArt;
 
 public class Buch extends Speicherort {

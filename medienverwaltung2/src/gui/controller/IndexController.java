@@ -17,8 +17,6 @@ public class IndexController extends Controller {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		IndexDTO dto = new IndexDTO();
-		dto.addError("TestFehler!");
-		
 		forward(request, response, dto, "/index.jsp");
 	}
 }

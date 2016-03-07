@@ -1,5 +1,6 @@
 package data.speicherorte;
 
+import data.speicherorte.enums.SchallplatteArt;
 import enums.SpeicherortArt;
 
 public class Schallplatte extends Speicherort {

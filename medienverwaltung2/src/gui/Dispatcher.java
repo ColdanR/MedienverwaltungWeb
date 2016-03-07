@@ -37,19 +37,30 @@ public class Dispatcher implements Filter {
 			HttpServletRequest	request		=	(HttpServletRequest) arg0;
 			HttpServletResponse	response	=	(HttpServletResponse) arg1;
 			Controller			handler		=	null;
-			try {
-				handler = FACTORY.getController(request);
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
-					| IllegalStateException e) {
-				LOGGER.error("Fehler bei Zuholung des Controllers");
-				LOGGER.catching(e);
+			
+			String	uri	=	request.getServletPath();
+			if (request.getPathInfo() != null) {
+				uri	+=	request.getPathInfo();
 			}
-			if (handler != null) {
-				LOGGER.debug("Rufe Controller {} auf", handler.getClass().getCanonicalName());
-				handler.execute(request, response);
-			} else {
-				LOGGER.debug("Leite Request weiter.");
+			
+			if (uri.startsWith("/css") || uri.startsWith("/js")) {
+				LOGGER.debug("Direkte Verarbeitung der URI {}", uri);
 				arg2.doFilter(arg0, arg1);
+			} else {
+				try {
+					handler = FACTORY.getController(request);
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
+						| IllegalStateException e) {
+					LOGGER.error("Fehler bei Zuholung des Controllers");
+					LOGGER.catching(e);
+				}
+				if (handler != null) {
+					LOGGER.debug("Rufe Controller {} auf", handler.getClass().getCanonicalName());
+					handler.execute(request, response);
+				} else {
+					LOGGER.debug("Leite Request weiter.");
+					arg2.doFilter(arg0, arg1);
+				}
 			}
 		} catch (ClassCastException e) {
 			LOGGER.warn("Fehlerhafter Cast für HttpServletRequest oder HttpServletResponse.");
@@ -80,7 +91,7 @@ public class Dispatcher implements Filter {
 				}
 			});
 		} catch (IOException | SecurityException e) {
-			LOGGER.error("Zugriff auf Konfigurationsdatei nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
+			LOGGER.error("Zugriff auf Controller Verzeichnis nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
 			LOGGER.catching(e);
 		}
 	}
