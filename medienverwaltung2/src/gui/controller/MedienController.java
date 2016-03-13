@@ -2,6 +2,7 @@ package gui.controller;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -17,6 +18,8 @@ import enums.Action;
 import enums.Mediengruppe;
 import gui.Controller;
 import gui.dto.ShowParameterDTO;
+import logic.MediumLogicFactory;
+import logic.medien.MediumLogik;
 
 public class MedienController extends Controller {
 	private static Pattern URI_PATTERN = Pattern.compile("/medium/(" + 
@@ -72,7 +75,20 @@ public class MedienController extends Controller {
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
-		// TODO Auto-generated method stub
+		// Medium löschen?
+		if (request.getParameter("send") != null) {
+			String idString = request.getParameter("id");
+			if (idString == null || idString.trim().length() == 0) {
+				
+			}
+		}
+		MediumLogik<?> logic = MediumLogicFactory.create(medium);
+		List<?> list = logic.getAll();
+		if (list == null) {
+			// Fehler beim Laden
+		} else {
+			// Liste zu DTO
+		}
 		// Liste anzeigen, Medium löschen
 	}
 
