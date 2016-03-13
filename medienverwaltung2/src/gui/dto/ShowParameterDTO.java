@@ -1,7 +1,10 @@
 package gui.dto;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,6 +15,32 @@ public class ShowParameterDTO extends BaseDTO {
 	
 	public ShowParameterDTO() {
 		super("Parameter Auswertung");
+	}
+	
+	public ShowParameterDTO(HttpServletRequest request) {
+		super("Parameter Auswertung");
+		Enumeration<String> headerNames		=	request.getHeaderNames();
+		Enumeration<String> attributeNames	=	request.getAttributeNames();
+		Enumeration<String> parameterNames	=	request.getParameterNames();
+		while (headerNames.hasMoreElements()) {
+			String				header	=	headerNames.nextElement();
+			Enumeration<String>	value	=	request.getHeaders(header);
+			List<String>		list	=	new ArrayList<>();
+			while (value.hasMoreElements()) {
+				list.add(value.nextElement());
+			}
+			addHeader(header, list.toArray(new String[0]));
+		}
+		while (attributeNames.hasMoreElements()) {
+			String	header		=	attributeNames.nextElement();
+			Object	attribute	=	request.getAttribute(header);
+			addAttribute(header, attribute);
+		}
+		while (parameterNames.hasMoreElements()) {
+			String		header	=	parameterNames.nextElement();
+			String[]	values	=	request.getParameterValues(header);
+			addParameter(header, values);
+		}
 	}
 
 	public List<String[]> getHeader() {

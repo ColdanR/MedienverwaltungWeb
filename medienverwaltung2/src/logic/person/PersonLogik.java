@@ -1,33 +1,30 @@
 package logic.person;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import data.person.Person;
 import database.DBPerson;
 import enums.errors.DatabaseErrors;
-import enums.errors.ErrorMessage;
 import enums.errors.ErrorsPersonLogik;
 import logic.DatenLogik;
 
-public class PersonLogik implements DatenLogik<Person> {
+public class PersonLogik extends DatenLogik<Person> {
 	private	Person				object	=	null;
-	private	List<ErrorMessage>	errors	=	new ArrayList<ErrorMessage>();
 
 	public boolean createNew(String nachname, String vorname, String kuenstlername) {
 		if (nachname == null) {
-			errors.add(ErrorsPersonLogik.KeinNachname);
+			addError(ErrorsPersonLogik.KeinNachname.getErrorMessage());
 		}
 		if (vorname == null) {
-			errors.add(ErrorsPersonLogik.KeinVorname);
+			addError(ErrorsPersonLogik.KeinVorname.getErrorMessage());
 		}
 		if (kuenstlername == null || kuenstlername.trim().length() == 0) {
-			errors.add(ErrorsPersonLogik.KeinKuenstlername);
+			addError(ErrorsPersonLogik.KeinKuenstlername.getErrorMessage());
 		}
-		if (errors.size() > 0) {
+		if (getErrors().size() > 0) {
 			return false;
 		}
-		object = new Person();
+		object = create();
 		object.setKuenstlername(kuenstlername);
 		object.setNachname(nachname);
 		object.setVorname(vorname);
@@ -36,15 +33,15 @@ public class PersonLogik implements DatenLogik<Person> {
 	
 	public boolean editLoaded(String nachname, String vorname, String kuenstlername) {
 		if (nachname == null) {
-			errors.add(ErrorsPersonLogik.KeinNachname);
+			addError(ErrorsPersonLogik.KeinNachname.getErrorMessage());
 		}
 		if (vorname == null) {
-			errors.add(ErrorsPersonLogik.KeinVorname);
+			addError(ErrorsPersonLogik.KeinVorname.getErrorMessage());
 		}
 		if (kuenstlername == null || kuenstlername.trim().length() == 0) {
-			errors.add(ErrorsPersonLogik.KeinKuenstlername);
+			addError(ErrorsPersonLogik.KeinKuenstlername.getErrorMessage());
 		}
-		if (errors.size() > 0) {
+		if (getErrors().size() > 0) {
 			return false;
 		}
 		object.setKuenstlername(kuenstlername);
@@ -58,13 +55,13 @@ public class PersonLogik implements DatenLogik<Person> {
 		try {
 			DBPerson dbLogic = getDBLogic();
 			if (!dbLogic.delete(object)) {
-				errors.add(DatabaseErrors.UnableToDeletePerson);
+				addError(DatabaseErrors.UnableToDeletePerson.getErrorMessage());
 				return false;
 			} else {
 				return true;
 			}
 		} catch (ClassNotFoundException e) {
-			errors.add(DatabaseErrors.NoDBAvailable);
+			addError(DatabaseErrors.NoDBAvailable.getErrorMessage());
 		}
 		return false;
 	}
@@ -74,37 +71,32 @@ public class PersonLogik implements DatenLogik<Person> {
 		try {
 			DBPerson dbLogic = getDBLogic();
 			if (!dbLogic.writePerson(object)) {
-				errors.add(DatabaseErrors.UnableToWrite);
+				addError(DatabaseErrors.UnableToWrite.getErrorMessage());
 				return false;
 			} else {
 				return true;
 			}
 		} catch (ClassNotFoundException e) {
-			errors.add(DatabaseErrors.NoDBAvailable);
+			addError(DatabaseErrors.NoDBAvailable.getErrorMessage());
 		}
 		return false;
 	}
 
 	@Override
-	public boolean loadObject(int id) {
+	public boolean load(int id) {
 		try {
 			DBPerson dbLogic = getDBLogic();
 			object = dbLogic.getPerson(id);
 			if (object == null) {
-				errors.add(DatabaseErrors.UnableToRead);
+				addError(DatabaseErrors.UnableToRead.getErrorMessage());
 				return false;
 			} else {
 				return true;
 			}
 		} catch (ClassNotFoundException e) {
-			errors.add(DatabaseErrors.NoDBAvailable);
+			addError(DatabaseErrors.NoDBAvailable.getErrorMessage());
 		}
 		return false;
-	}
-
-	@Override
-	public Person getObject() {
-		return object;
 	}
 
 	@Override
@@ -113,20 +105,15 @@ public class PersonLogik implements DatenLogik<Person> {
 			DBPerson dbLogic = getDBLogic();
 			List<Person> ret = dbLogic.getAll();
 			if (ret == null) {
-				errors.add(DatabaseErrors.UnableToRead);
+				addError(DatabaseErrors.UnableToRead.getErrorMessage());
 				return null;
 			} else {
 				return ret;
 			}
 		} catch (ClassNotFoundException e) {
-			errors.add(DatabaseErrors.NoDBAvailable);
+			addError(DatabaseErrors.NoDBAvailable.getErrorMessage());
 		}
 		return null;
-	}
-
-	@Override
-	public List<ErrorMessage> getErrors() {
-		return errors;
 	}
 	
 	private DBPerson getDBLogic() throws ClassNotFoundException {
@@ -134,8 +121,7 @@ public class PersonLogik implements DatenLogik<Person> {
 	}
 
 	@Override
-	public void reset() {
-		this.object = null;
-		this.errors = new ArrayList<ErrorMessage>();
+	public Person create() {
+		return new Person();
 	}
 }

@@ -1,10 +1,7 @@
 package gui.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -48,41 +45,44 @@ public class MedienController extends Controller {
 		LOGGER.debug("Medientype: {} - Action: {}", medium.getBezeichnung(), action);
 		switch (action) {
 		case Bearbeiten:
+			bearbeiten(request, response, medium);
 			break;
 		case Details:
+			details(request, response, medium);
 			break;
 		case List:
+			list(request, response, medium);
 			break;
 		case Neuanlage:
+			create(request, response, medium);
 			break;
 		default:
 			break;
 		}
 		
 		
-		ShowParameterDTO	dto				=	new ShowParameterDTO();
-		Enumeration<String> headerNames		=	request.getHeaderNames();
-		Enumeration<String> attributeNames	=	request.getAttributeNames();
-		Enumeration<String> parameterNames	=	request.getParameterNames();
-		while (headerNames.hasMoreElements()) {
-			String				header	=	headerNames.nextElement();
-			Enumeration<String>	value	=	request.getHeaders(header);
-			List<String>		list	=	new ArrayList<>();
-			while (value.hasMoreElements()) {
-				list.add(value.nextElement());
-			}
-			dto.addHeader(header, list.toArray(new String[0]));
-		}
-		while (attributeNames.hasMoreElements()) {
-			String	header		=	attributeNames.nextElement();
-			Object	attribute	=	request.getAttribute(header);
-			dto.addAttribute(header, attribute);
-		}
-		while (parameterNames.hasMoreElements()) {
-			String		header	=	parameterNames.nextElement();
-			String[]	values	=	request.getParameterValues(header);
-			dto.addParameter(header, values);
-		}
+		ShowParameterDTO	dto				=	new ShowParameterDTO(request);
 		forward(request, response, dto, "/showRequest.jsp");
+	}
+
+	private void create(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
+		// TODO Auto-generated method stub
+		// Leeres DTO erzeugen oder Parameter übernehmen DTO
+		// Schreiben, usw. kontrollieren
+	}
+
+	private void list(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
+		// TODO Auto-generated method stub
+		// Liste anzeigen, Medium löschen
+	}
+
+	private void details(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
+		// TODO Auto-generated method stub
+		// Laden und ins DTO schreiben
+	}
+
+	private void bearbeiten(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
+		// TODO Auto-generated method stub
+		
 	}
 }
