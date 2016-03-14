@@ -6,5 +6,4 @@ public class Bild extends Medium {
 	public Bild() {
 		super(Mediengruppe.Bild);
 	}
-	
 }

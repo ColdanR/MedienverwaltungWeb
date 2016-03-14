@@ -71,4 +71,23 @@ public abstract class MediumEingabeDTO extends BaseDTO {
 	public Mediengruppe getMedium() {
 		return medium;
 	}
+	
+	public static MediumEingabeDTO getDTO(Mediengruppe medium, String titel) throws IllegalArgumentException {
+		switch(medium) {
+		case Bild:
+			return new BildEingabeDTO(titel);
+		case Buch:
+			return new BuchEingabeDTO(titel);
+		case Film:
+			return new FilmEingabeDTO(titel);
+		case Hoerbuch:
+			return new HoerbuchEingabeDTO(titel);
+		case Musik:
+			return new MusikEingabeDTO(titel);
+		case Spiel:
+			return new SpielEingabeDTO(titel);
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
 }

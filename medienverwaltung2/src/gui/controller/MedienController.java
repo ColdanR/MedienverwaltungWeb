@@ -30,6 +30,7 @@ import gui.Controller;
 import gui.dto.BaseDTO;
 import gui.dto.medien.ListAnzeigeDTO;
 import gui.dto.medien.ListAnzeigeDTO.ListElementDTO;
+import gui.dto.medien.MediumEingabeDTO;
 import gui.dto.medien.ShowParameterDTO;
 import logic.MediumLogicFactory;
 import logic.medien.MediumLogik;
@@ -79,12 +80,6 @@ public class MedienController extends Controller {
 		
 		ShowParameterDTO	dto				=	new ShowParameterDTO(request);
 		forward(request, response, dto, "/showRequest.jsp");
-	}
-
-	private void create(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
-		// TODO Auto-generated method stub
-		// Leeres DTO erzeugen oder Parameter übernehmen DTO
-		// Schreiben, usw. kontrollieren
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) throws ServletException, IOException {
@@ -137,7 +132,11 @@ public class MedienController extends Controller {
 			// Liste zu DTO
 			List<ListElementDTO> listDTO = new ArrayList<>();
 			list.stream().forEach(data -> {
-				listDTO.add(listElementToDTO(data, medium));
+				try {
+					listDTO.add(listElementToDTO(data, medium));
+				} catch (IllegalArgumentException e) {
+					LOGGER.error("Fehlerhafte Klasse für DTO Umwandlung! Medium: {} - Klasse: {}", medium.getBezeichnung(), data.getClass().getCanonicalName());
+				}
 			});
 			dto.setList(listDTO);
 		}
@@ -274,9 +273,155 @@ public class MedienController extends Controller {
 			}
 		}
 	}
+	
+	private void create(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
+		// TODO Auto-generated method stub
+		// Leeres DTO erzeugen oder Parameter übernehmen DTO
+		// Schreiben, usw. kontrollieren
+	}
 
 	private void bearbeiten(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
-		// TODO Auto-generated method stub
-		
+		MediumLogik<?>		logic		=	MediumLogicFactory.create(medium);
+		MediumEingabeDTO	dto			=	MediumEingabeDTO.getDTO(medium, medium.getBezeichnung() + " bearbeiten");
+		String				idString	=	request.getParameter("id");
+		if (idString == null || idString.trim().length() == 0) {
+			// TODO Fehlende ID
+		} else {
+			try {
+				int id = Integer.parseInt(idString);
+				if (logic.load(id)) {
+					Object item = logic.getObject();
+					switch (medium) {
+					case Bild:
+						if (item instanceof Bild) {
+							Bild bild = (Bild) item;
+							if (request.getParameter("send") != null) {
+								// TODO Parameter auslesen und bild zuweisen
+								String		titel		=	request.getParameter("bez");
+								String[]	genres		=	request.getParameterValues("genre");
+								String		erscheinung	=	request.getParameter("erscheinung");
+								String		bemerkungen	=	request.getParameter("bemerkungen");
+								List<Genre>	genre		=	new ArrayList<>();
+								if (genres != null) {
+									for (String element : genres) {
+										
+									}
+								}
+								bild.setTitel(titel);
+								bild.setBemerkungen(bemerkungen);
+								if (logic.write()) {
+									// TODO Weiterleitung wohin? Detailseite oder Liste?
+								} else {
+									// TODO DTO aus Objekt bestücken
+									// TODO Weiterleitung Eingabeseite
+								}
+							} else {
+								// TODO DTO aus Object bestücken
+							}
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Buch:
+						if (item instanceof Buch) {
+							Buch buch = (Buch) item;
+							if (request.getParameter("send") != null) {
+								// TODO Parameter auslesen und bild zuweisen
+								if (logic.write()) {
+									// TODO Weiterleitung wohin? Detailseite oder Liste?
+								} else {
+									// TODO DTO aus Objekt bestücken
+									// TODO Weiterleitung Eingabeseite
+								}
+							} else {
+								// TODO DTO aus Object bestücken
+							}
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Film:
+						if (item instanceof Film) {
+							Film film = (Film) item;
+							if (request.getParameter("send") != null) {
+								// TODO Parameter auslesen und bild zuweisen
+								if (logic.write()) {
+									// TODO Weiterleitung wohin? Detailseite oder Liste?
+								} else {
+									// TODO DTO aus Objekt bestücken
+									// TODO Weiterleitung Eingabeseite
+								}
+							} else {
+								// TODO DTO aus Object bestücken
+							}
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Hoerbuch:
+						if (item instanceof Hoerbuch) {
+							Hoerbuch hoerbuch = (Hoerbuch) item;
+							if (request.getParameter("send") != null) {
+								// TODO Parameter auslesen und bild zuweisen
+								if (logic.write()) {
+									// TODO Weiterleitung wohin? Detailseite oder Liste?
+								} else {
+									// TODO DTO aus Objekt bestücken
+									// TODO Weiterleitung Eingabeseite
+								}
+							} else {
+								// TODO DTO aus Object bestücken
+							}
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Musik:
+						if (item instanceof Musik) {
+							Musik musik = (Musik) item;
+							if (request.getParameter("send") != null) {
+								// TODO Parameter auslesen und bild zuweisen
+								if (logic.write()) {
+									// TODO Weiterleitung wohin? Detailseite oder Liste?
+								} else {
+									// TODO DTO aus Objekt bestücken
+									// TODO Weiterleitung Eingabeseite
+								}
+							} else {
+								// TODO DTO aus Object bestücken
+							}
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Spiel:
+						if (item instanceof Spiel) {
+							Spiel spiel = (Spiel) item;
+							if (request.getParameter("send") != null) {
+								// TODO Parameter auslesen und bild zuweisen
+								if (logic.write()) {
+									// TODO Weiterleitung wohin? Detailseite oder Liste?
+								} else {
+									// TODO DTO aus Objekt bestücken
+									// TODO Weiterleitung Eingabeseite
+								}
+							} else {
+								// TODO DTO aus Object bestücken
+							}
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					default:
+						// TODO Never ever
+						break;
+					}
+				} else {
+					// TODO Fehler - kann nicht laden
+				}
+			} catch (NumberFormatException e) {
+				// TODO Fehlerhafte ID
+			}
+		}
 	}
 }
