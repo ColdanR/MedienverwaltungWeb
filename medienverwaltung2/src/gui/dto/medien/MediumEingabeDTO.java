@@ -13,7 +13,7 @@ public abstract class MediumEingabeDTO extends BaseDTO {
 	private	String				erscheinungsjahr	=	"";
 	private	String				bemerkung			=	"";
 	private	List<Genre>			genreOptions		=	null;
-	private	Genre				genreSelected		=	null;
+	private	List<Genre>			genreSelected		=	null;
 	
 	protected MediumEingabeDTO(String titel, Mediengruppe medium) {
 		super(titel);
@@ -52,11 +52,11 @@ public abstract class MediumEingabeDTO extends BaseDTO {
 		this.genreOptions = genreOptions;
 	}
 
-	public Genre getGenreSelected() {
+	public List<Genre> getGenreSelected() {
 		return genreSelected;
 	}
 
-	public void setGenreSelected(Genre genreSelected) {
+	public void setGenreSelected(List<Genre> genreSelected) {
 		this.genreSelected = genreSelected;
 	}
 
