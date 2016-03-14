@@ -16,4 +16,11 @@ public class Genre {
 	public void setBezeichnung(String bezeichnung) {
 		this.bezeichnung = bezeichnung;
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Genre) {
+			return dbId == ((Genre) obj).getDbId();
+		}
+		return super.equals(obj);
+	}
 }
