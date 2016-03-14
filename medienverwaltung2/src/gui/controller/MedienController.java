@@ -75,14 +75,30 @@ public class MedienController extends Controller {
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
+		MediumLogik<?> logic = MediumLogicFactory.create(medium);
 		// Medium löschen?
-		if (request.getParameter("send") != null) {
+		if (request.getParameter("act") != null && request.getParameter("act").equals("delete")) {
 			String idString = request.getParameter("id");
 			if (idString == null || idString.trim().length() == 0) {
-				
+				// Fehler: ID fehlt
+			} else {
+				try {
+					int id = Integer.parseInt(idString);
+					if (logic.load(id)) {
+						if (!logic.delete()) {
+							// Fehler DTO
+						} else {
+							// Mitteilung DTO
+						}
+					} else {
+						// Fehler DTO
+					}
+				} catch (NumberFormatException e) {
+					// Fehler: Falsche ID
+				}
 			}
 		}
-		MediumLogik<?> logic = MediumLogicFactory.create(medium);
+		
 		List<?> list = logic.getAll();
 		if (list == null) {
 			// Fehler beim Laden
