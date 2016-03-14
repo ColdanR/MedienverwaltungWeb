@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import enums.Action;
 import enums.Mediengruppe;
 import gui.Controller;
-import gui.dto.ShowParameterDTO;
+import gui.dto.medien.ShowParameterDTO;
 import logic.MediumLogicFactory;
 import logic.medien.MediumLogik;
 

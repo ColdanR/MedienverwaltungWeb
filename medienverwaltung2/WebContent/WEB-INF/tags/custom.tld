@@ -18,6 +18,12 @@
 			<type>java.util.List</type>
 		</attribute>
 		<attribute>
+			<name>selectedList</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.util.List</type>
+		</attribute>
+		<attribute>
 			<name>selected</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>

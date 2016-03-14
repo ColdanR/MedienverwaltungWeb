@@ -86,7 +86,7 @@ public class Dispatcher implements Filter {
 						LOGGER.catching(e);
 					}
 					if (handler != null) {
-						ControllerFactory.getInstance().register(handler);
+						FACTORY.register(handler);
 					}
 				}
 			});

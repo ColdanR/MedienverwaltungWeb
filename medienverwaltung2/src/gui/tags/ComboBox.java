@@ -18,6 +18,7 @@ public class ComboBox extends TagSupport {
 	private	static	final Logger	LOGGER	=	LogManager.getLogger(ComboBox.class);
 	
 	private	List<SelectAble>	selectOptions;
+	private	List<SelectAble>	selectedList;
 	private	SelectAble			selected;
 	
 	private	String				parameterName;
@@ -42,9 +43,12 @@ public class ComboBox extends TagSupport {
 			sb.append(" multiple");
 		}
 		sb.append(">").append(System.lineSeparator());
+		sb.append("<option value=\"-1\">Keine Auswahl</option>").append(System.lineSeparator());
 		for (SelectAble element : selectOptions) {
 			sb.append("<option value=\"").append(element.getId()).append("\"");
-			if (selected == element) {
+			if (selected != null && selected.equals(element)) {
+				sb.append(" selected");
+			} else if (selectedList != null && selectedList.size() > 0 && selectedList.contains(element)) {
 				sb.append(" selected");
 			}
 			sb.append(">").append(element.getBezeichnung())
@@ -97,5 +101,13 @@ public class ComboBox extends TagSupport {
 
 	public void setMultiple(boolean multiple) {
 		this.multiple = multiple;
+	}
+
+	public List<SelectAble> getSelectedList() {
+		return selectedList;
+	}
+
+	public void setSelectedList(List<SelectAble> selectedList) {
+		this.selectedList = selectedList;
 	}
 }

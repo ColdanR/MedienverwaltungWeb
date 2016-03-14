@@ -1,4 +1,4 @@
-package gui.dto;
+package gui.dto.medien;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+
+import gui.dto.BaseDTO;
 
 public class ShowParameterDTO extends BaseDTO {
 	private	List<String[]>	header		=	new ArrayList<>();
