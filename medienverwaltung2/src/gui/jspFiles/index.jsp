@@ -7,7 +7,7 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">Information</h3>
 			</div>
-			<div class="panel-body" style="text-align: justify; text-align: center">
+			<div class="panel-body" id="startseite">
 				Dieses Projekt wurde erstellt von:<br>
 				Andreas John<br>
 				Bernd Schmidt<br>

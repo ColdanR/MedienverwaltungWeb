@@ -7,6 +7,11 @@ and open the template in the editor.
     Created on : 04.02.2016, 10:52:31
     Author     : Jasmin Burger
 */
+#startseite {
+	text-align: justify;
+	text-align: center
+}
+
 .form-group input[type=checkbox] {
     width: 18px;
     margin: -6px 0 0;
@@ -46,4 +51,7 @@ form.form-inline button[type=submit] {
 
 #detail p {
 	text-align: left;
+}
+#send {
+	margin-top: 7px;
 }

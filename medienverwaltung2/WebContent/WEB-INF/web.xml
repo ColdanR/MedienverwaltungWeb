@@ -3,6 +3,12 @@
 		xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+		<jsp-config>
+			<taglib>
+				<taglib-uri>custom_lib</taglib-uri>
+				<taglib-location>/WEB-INF/tags/custom.tld</taglib-location>
+			</taglib>
+		</jsp-config>
 		<filter>
 			<filter-name>dispatcher</filter-name>
 			<filter-class>gui.Dispatcher</filter-class>
