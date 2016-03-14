@@ -1,6 +1,8 @@
 package gui.controller;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -14,9 +16,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import data.medien.Bild;
+import data.medien.Buch;
+import data.medien.Film;
+import data.medien.Genre;
+import data.medien.Hoerbuch;
+import data.medien.Medium;
+import data.medien.Musik;
+import data.medien.Spiel;
 import enums.Action;
 import enums.Mediengruppe;
 import gui.Controller;
+import gui.dto.BaseDTO;
+import gui.dto.medien.ListAnzeigeDTO;
+import gui.dto.medien.ListAnzeigeDTO.ListElementDTO;
 import gui.dto.medien.ShowParameterDTO;
 import logic.MediumLogicFactory;
 import logic.medien.MediumLogik;
@@ -74,27 +87,41 @@ public class MedienController extends Controller {
 		// Schreiben, usw. kontrollieren
 	}
 
-	private void list(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
-		MediumLogik<?> logic = MediumLogicFactory.create(medium);
+	private void list(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) throws ServletException, IOException {
+		ListAnzeigeDTO	dto		=	new ListAnzeigeDTO("Liste aller Elemente der Art " + medium.getBezeichnung());
+		MediumLogik<?>	logic	=	MediumLogicFactory.create(medium);
+		dto.setMedium(medium);
+		dto.setBaseURI(request.getContextPath() + "/medium/" + medium.getURIPart() + "/");
 		// Medium löschen?
 		if (request.getParameter("act") != null && request.getParameter("act").equals("delete")) {
 			String idString = request.getParameter("id");
 			if (idString == null || idString.trim().length() == 0) {
 				// Fehler: ID fehlt
+				dto.addError("Löschen konnte nicht durchgeführt werden: Fehlernde ID beim Aufruf.");
 			} else {
 				try {
 					int id = Integer.parseInt(idString);
 					if (logic.load(id)) {
 						if (!logic.delete()) {
 							// Fehler DTO
+							dto.addError("Fehler beim Löschen.");
+							logic.getErrors().stream().forEach(data -> {
+								dto.addError(data);
+							});
 						} else {
 							// Mitteilung DTO
+							dto.addError(medium.getBezeichnung() + " mit der ID " + id + " wurde gelöscht.");
 						}
 					} else {
 						// Fehler DTO
+						dto.addError("Kein Medium dieser ID gefunden.");
+						logic.getErrors().stream().forEach(data -> {
+							dto.addError(data);
+						});
 					}
 				} catch (NumberFormatException e) {
 					// Fehler: Falsche ID
+					dto.addError("Löschen konnte nicht durchgeführt werden: Fehlernde ID beim Aufruf.");
 				}
 			}
 		}
@@ -102,15 +129,150 @@ public class MedienController extends Controller {
 		List<?> list = logic.getAll();
 		if (list == null) {
 			// Fehler beim Laden
+			dto.addError("Laden der Elemente fehlgeschlagen.");
+			logic.getErrors().stream().forEach(data -> {
+				dto.addError(data);
+			});
 		} else {
 			// Liste zu DTO
+			List<ListElementDTO> listDTO = new ArrayList<>();
+			list.stream().forEach(data -> {
+				listDTO.add(listElementToDTO(data, medium));
+			});
+			dto.setList(listDTO);
 		}
-		// Liste anzeigen, Medium löschen
+		// TODO jspFile
+		forward(request, response, dto, "");
+	}
+
+	private ListElementDTO listElementToDTO(Object data, Mediengruppe mediumType) throws IllegalArgumentException {
+		int		id			=	0;
+		String	bezeichnung	=	null;
+		String	erscheinung	=	null;
+		String	genre		=	null;
+		String	person		=	null;
+		if (data instanceof Medium) {
+			Medium 	medium	=	(Medium) data;
+			id			=	medium.getDbId();
+			bezeichnung	=	medium.getTitel();
+			erscheinung	=	medium.getErscheinungsdatum().format(DateTimeFormatter.BASIC_ISO_DATE);
+			genre		=	medium.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", "));
+		} else {
+			throw new IllegalArgumentException();
+		}
+		switch (mediumType) {
+		case Bild:
+			if (data instanceof Bild) {
+				person = "";
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+			} else {
+				throw new IllegalArgumentException();
+			}
+		case Buch:
+			if (data instanceof Buch) {
+				person = "";
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+			} else {
+				throw new IllegalArgumentException();
+			}
+		case Film:
+			if (data instanceof Film) {
+				person = "";
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+			} else {
+				throw new IllegalArgumentException();
+			}
+		case Hoerbuch:
+			if (data instanceof Hoerbuch) {
+				person = "";
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+			} else {
+				throw new IllegalArgumentException();
+			}
+		case Musik:
+			if (data instanceof Musik) {
+				person = "";
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+			} else {
+				throw new IllegalArgumentException();
+			}
+		case Spiel:
+			if (data instanceof Spiel) {
+				person = "";
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+			} else {
+				throw new IllegalArgumentException();
+			}
+		default:
+			throw new IllegalArgumentException();
+		}
 	}
 
 	private void details(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
-		// TODO Auto-generated method stub
-		// Laden und ins DTO schreiben
+		MediumLogik<?>	logic		=	MediumLogicFactory.create(medium);
+		BaseDTO			dto			=	null;
+		String			idString	=	request.getParameter("id");
+		if (idString == null || idString.trim().length() == 0) {
+			// TODO Fehlende ID
+		} else {
+			try {
+				int id = Integer.parseInt(idString);
+				if (logic.load(id)) {
+					Object item = logic.getObject();
+					switch (medium) {
+					case Bild:
+						if (item instanceof Bild) {
+							Bild bild = (Bild) item;
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Buch:
+						if (item instanceof Buch) {
+							Buch buch = (Buch) item;
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Film:
+						if (item instanceof Film) {
+							Film film = (Film) item;
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Hoerbuch:
+						if (item instanceof Hoerbuch) {
+							Hoerbuch hoerbuch = (Hoerbuch) item;
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Musik:
+						if (item instanceof Musik) {
+							Musik musik = (Musik) item;
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					case Spiel:
+						if (item instanceof Spiel) {
+							Spiel spiel = (Spiel) item;
+						} else {
+							// TODO Something is wrong
+						}
+						break;
+					default:
+						// TODO Never ever
+						break;
+					}
+				} else {
+					// TODO Fehler - kann nicht laden
+				}
+			} catch (NumberFormatException e) {
+				// TODO Fehlerhafte ID
+			}
+		}
 	}
 
 	private void bearbeiten(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
