@@ -60,9 +60,6 @@
                 <div class="col-lg-6 col-md-6 col-sm-3">
                 <cu:comboBox multiple="false" parameterName="art" selectOptions="${context.artOptions}" className="form-control" title="art" selected="${context.artSelected}"/>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <button class="btn btn-default">Hinzufügen</button>
-                </div>
             </div>
             </c:if>
             <c:if test="${context.medium.id != 0 || context.medium.id != 5}">
