@@ -21,4 +21,13 @@ public enum BuchArt implements SelectAble {
 	public int getId() {
 		return id;
 	}
+	
+	public static BuchArt getFromId(int id) {
+		for (BuchArt art : BuchArt.values()) {
+			if (art.getId() == id) {
+				return art;
+			}
+		}
+		return null;
+	}
 }

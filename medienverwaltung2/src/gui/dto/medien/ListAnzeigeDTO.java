@@ -11,15 +11,13 @@ public class ListAnzeigeDTO extends BaseDTO {
 		private	String	bezeichnung;
 		private	String	ersterscheinung;
 		private	String	genre;
-		private	String	person;
 		
-		public ListElementDTO(int id, String bezeichnung, String ersterscheinung, String genre, String person) {
+		public ListElementDTO(int id, String bezeichnung, String ersterscheinung, String genre) {
 			super();
 			this.id = id;
 			this.bezeichnung = bezeichnung;
 			this.ersterscheinung = ersterscheinung;
 			this.genre = genre;
-			this.person = person;
 		}
 
 		public int getId() {
@@ -36,10 +34,6 @@ public class ListAnzeigeDTO extends BaseDTO {
 
 		public String getGenre() {
 			return genre;
-		}
-
-		public String getPerson() {
-			return person;
 		}
 	}
 	

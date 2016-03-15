@@ -21,4 +21,13 @@ public enum HoerbuchArt implements SelectAble {
 	public int getId() {
 		return id;
 	}
+	
+	public static HoerbuchArt getFromId(int id) {
+		for (HoerbuchArt art : HoerbuchArt.values()) {
+			if (art.getId() == id) {
+				return art;
+			}
+		}
+		return null;
+	}
 }

@@ -21,4 +21,13 @@ public enum FilmArt implements SelectAble {
 	public int getId() {
 		return id;
 	}
+	
+	public static FilmArt getFromId(int id) {
+		for (FilmArt art : FilmArt.values()) {
+			if (art.getId() == id) {
+				return art;
+			}
+		}
+		return null;
+	}
 }

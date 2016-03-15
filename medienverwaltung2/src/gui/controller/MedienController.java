@@ -3,6 +3,7 @@ package gui.controller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +26,7 @@ import data.medien.Hoerbuch;
 import data.medien.Medium;
 import data.medien.Musik;
 import data.medien.Spiel;
+import data.medien.enums.HoerbuchArt;
 import data.medien.validator.BildValidator;
 import data.medien.validator.BuchValidator;
 import data.medien.validator.FilmValidator;
@@ -34,12 +36,14 @@ import data.medien.validator.SpielValidator;
 import enums.Action;
 import enums.Mediengruppe;
 import gui.Controller;
+import gui.StaticElements;
 import gui.dto.BaseDTO;
 import gui.dto.medien.ListAnzeigeDTO;
 import gui.dto.medien.ListAnzeigeDTO.ListElementDTO;
 import gui.dto.medien.MediumEingabeDTO;
 import gui.dto.medien.ShowParameterDTO;
 import logic.MediumLogicFactory;
+import logic.genre.GenreLogik;
 import logic.medien.MediumLogik;
 
 public class MedienController extends Controller {
@@ -147,8 +151,7 @@ public class MedienController extends Controller {
 			});
 			dto.setList(listDTO);
 		}
-		// TODO jspFile
-		forward(request, response, dto, "");
+		forward(request, response, dto, "mediumAnzeige.jsp");
 	}
 
 	private ListElementDTO listElementToDTO(Object data, Mediengruppe mediumType) throws IllegalArgumentException {
@@ -156,7 +159,6 @@ public class MedienController extends Controller {
 		String	bezeichnung	=	null;
 		String	erscheinung	=	null;
 		String	genre		=	null;
-		String	person		=	null;
 		if (data instanceof Medium) {
 			Medium 	medium	=	(Medium) data;
 			id			=	medium.getDbId();
@@ -169,43 +171,37 @@ public class MedienController extends Controller {
 		switch (mediumType) {
 		case Bild:
 			if (data instanceof Bild) {
-				person = "";
-				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre);
 			} else {
 				throw new IllegalArgumentException();
 			}
 		case Buch:
 			if (data instanceof Buch) {
-				person = "";
-				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre);
 			} else {
 				throw new IllegalArgumentException();
 			}
 		case Film:
 			if (data instanceof Film) {
-				person = "";
-				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre);
 			} else {
 				throw new IllegalArgumentException();
 			}
 		case Hoerbuch:
 			if (data instanceof Hoerbuch) {
-				person = "";
-				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre);
 			} else {
 				throw new IllegalArgumentException();
 			}
 		case Musik:
 			if (data instanceof Musik) {
-				person = "";
-				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre);
 			} else {
 				throw new IllegalArgumentException();
 			}
 		case Spiel:
 			if (data instanceof Spiel) {
-				person = "";
-				return new ListElementDTO(id, bezeichnung, erscheinung, genre, person);
+				return new ListElementDTO(id, bezeichnung, erscheinung, genre);
 			} else {
 				throw new IllegalArgumentException();
 			}
@@ -297,139 +293,190 @@ public class MedienController extends Controller {
 				int id = Integer.parseInt(idString);
 				if (logic.load(id)) {
 					Object item = logic.getObject();
-					switch (medium) {
-					case Bild:
-						if (item instanceof Bild) {
-							Bild bild = (Bild) item;
-							if (request.getParameter("send") != null) {
-								// TODO Parameter auslesen und bild zuweisen
-								String		titel		=	request.getParameter("bez");
-								String[]	genres		=	request.getParameterValues("genre");
-								String		erscheinung	=	request.getParameter("erscheinung");
-								String		bemerkungen	=	request.getParameter("bemerkungen");
-								List<Genre>	genre		=	new ArrayList<>();
-								if (genres != null) {
-									for (String element : genres) {
-										
+					if (item instanceof Medium) {
+						Medium mediumItem = (Medium) item;
+						if (request.getParameter("send") != null) {
+							// TODO Parameter auslesen und zuweisen
+							String		titel		=	request.getParameter("bezeichnung");
+							String[]	genres		=	request.getParameterValues("genre");
+							String		erscheinung	=	request.getParameter("erscheinungsjahr");
+							String		bemerkungen	=	request.getParameter("bemerkung");
+							List<Genre>	genre		=	new ArrayList<>();
+							if (genres != null) {
+								for (String element : genres) {
+									GenreLogik	genreLogik	=	new GenreLogik();
+									try {
+										int idGenre = Integer.parseInt(element);
+										if (genreLogik.load(idGenre)) {
+											genre.add(genreLogik.getObject());
+										} else {
+											// TODO Fehler
+										}
+									} catch (NumberFormatException e) {
+										// TODO Fehler
 									}
 								}
-								LocalDate	erscheinungsdatum	=	null;
-								bild.setTitel(titel);
-								bild.setBemerkungen(bemerkungen);
-								bild.setGenre(genre);
-								bild.setErscheinungsdatum(erscheinungsdatum);
-								BildValidator validator = new BildValidator();
-								if (validator.validate(bild) && logic.write()) {
-									// TODO Weiterleitung wohin? Detailseite oder Liste?
+							}
+							LocalDate	erscheinungsdatum	=	null;
+							try {
+								erscheinungsdatum = LocalDate.parse(erscheinung, StaticElements.FORMATTER);
+							} catch (DateTimeParseException e) {
+								// TODO Fehler to DTO
+							}
+							mediumItem.setTitel(titel);
+							mediumItem.setBemerkungen(bemerkungen);
+							mediumItem.setGenre(genre);
+							mediumItem.setErscheinungsdatum(erscheinungsdatum);
+						}
+						switch (medium) {
+						case Bild:
+							if (item instanceof Bild) {
+								Bild bild = (Bild) item;
+								if (request.getParameter("send") != null) {
+									// Keine weiteren Parameter
+									BildValidator validator = new BildValidator();
+									if (validator.validate(bild) && logic.write()) {
+										// TODO Weiterleitung wohin? Detailseite oder Liste?
+									} else {
+										// TODO DTO aus Objekt bestücken
+										// TODO Weiterleitung Eingabeseite
+									}
 								} else {
-									// TODO DTO aus Objekt bestücken
-									// TODO Weiterleitung Eingabeseite
+									// TODO DTO aus Object bestücken
 								}
 							} else {
-								// TODO DTO aus Object bestücken
+								// TODO Something is wrong
 							}
-						} else {
-							// TODO Something is wrong
-						}
-						break;
-					case Buch:
-						if (item instanceof Buch) {
-							Buch buch = (Buch) item;
-							if (request.getParameter("send") != null) {
-								// TODO Parameter auslesen und bild zuweisen
-								BuchValidator validator = new BuchValidator();
-								if (validator.validate(buch) && logic.write()) {
-									// TODO Weiterleitung wohin? Detailseite oder Liste?
+							break;
+						case Buch:
+							if (item instanceof Buch) {
+								Buch buch = (Buch) item;
+								if (request.getParameter("send") != null) {
+									// TODO Parameter auslesen und bild zuweisen
+									String	art		=	request.getParameter("art");
+									String	sprache	=	request.getParameter("sprache");
+									String	auflage	=	request.getParameter("auflage");
+									BuchValidator validator = new BuchValidator();
+									if (validator.validate(buch) && logic.write()) {
+										// TODO Weiterleitung wohin? Detailseite oder Liste?
+									} else {
+										// TODO DTO aus Objekt bestücken
+										// TODO Weiterleitung Eingabeseite
+									}
 								} else {
-									// TODO DTO aus Objekt bestücken
-									// TODO Weiterleitung Eingabeseite
+									// TODO DTO aus Object bestücken
 								}
 							} else {
-								// TODO DTO aus Object bestücken
+								// TODO Something is wrong
 							}
-						} else {
-							// TODO Something is wrong
-						}
-						break;
-					case Film:
-						if (item instanceof Film) {
-							Film film = (Film) item;
-							if (request.getParameter("send") != null) {
-								// TODO Parameter auslesen und bild zuweisen
-								FilmValidator validator = new FilmValidator();
-								if (validator.validate(film) && logic.write()) {
-									// TODO Weiterleitung wohin? Detailseite oder Liste?
+							break;
+						case Film:
+							if (item instanceof Film) {
+								Film film = (Film) item;
+								if (request.getParameter("send") != null) {
+									// TODO Parameter auslesen und bild zuweisen
+									String	art		=	request.getParameter("art");
+									String	sprache	=	request.getParameter("sprache");
+									FilmValidator validator = new FilmValidator();
+									if (validator.validate(film) && logic.write()) {
+										// TODO Weiterleitung wohin? Detailseite oder Liste?
+									} else {
+										// TODO DTO aus Objekt bestücken
+										// TODO Weiterleitung Eingabeseite
+									}
 								} else {
-									// TODO DTO aus Objekt bestücken
-									// TODO Weiterleitung Eingabeseite
+									// TODO DTO aus Object bestücken
 								}
 							} else {
-								// TODO DTO aus Object bestücken
+								// TODO Something is wrong
 							}
-						} else {
-							// TODO Something is wrong
-						}
-						break;
-					case Hoerbuch:
-						if (item instanceof Hoerbuch) {
-							Hoerbuch hoerbuch = (Hoerbuch) item;
-							if (request.getParameter("send") != null) {
-								// TODO Parameter auslesen und bild zuweisen
-								HoerbuchValidator validator = new HoerbuchValidator();
-								if (validator.validate(hoerbuch) && logic.write()) {
-									// TODO Weiterleitung wohin? Detailseite oder Liste?
+							break;
+						case Hoerbuch:
+							if (item instanceof Hoerbuch) {
+								Hoerbuch hoerbuch = (Hoerbuch) item;
+								if (request.getParameter("send") != null) {
+									// Parameter auslesen
+									String	art		=	request.getParameter("art");
+									String	sprache	=	request.getParameter("sprache");
+									// Parameter auswerten
+									HoerbuchArt	hoerbuchArt = null;
+									try {
+										int artId = Integer.parseInt(art);
+										hoerbuchArt = HoerbuchArt.getFromId(artId);
+										
+									} catch (NumberFormatException e) {
+										// TODO Fehler
+									}
+									// Parameter binden
+									hoerbuch.setSprache(sprache);
+									hoerbuch.setArt(hoerbuchArt);
+									// Validieren und speichern
+									HoerbuchValidator validator = new HoerbuchValidator();
+									if (validator.validate(hoerbuch) && logic.write()) {
+										// TODO Weiterleitung wohin? Detailseite oder Liste?
+									} else {
+										// TODO DTO aus Objekt bestücken
+										// TODO Weiterleitung Eingabeseite
+									}
 								} else {
-									// TODO DTO aus Objekt bestücken
-									// TODO Weiterleitung Eingabeseite
+									// TODO DTO aus Object bestücken
 								}
 							} else {
-								// TODO DTO aus Object bestücken
+								// TODO Something is wrong
 							}
-						} else {
-							// TODO Something is wrong
-						}
-						break;
-					case Musik:
-						if (item instanceof Musik) {
-							Musik musik = (Musik) item;
-							if (request.getParameter("send") != null) {
-								// TODO Parameter auslesen und bild zuweisen
-								MusikValidator validator = new MusikValidator();
-								if (validator.validate(musik) && logic.write()) {
-									// TODO Weiterleitung wohin? Detailseite oder Liste?
+							break;
+						case Musik:
+							if (item instanceof Musik) {
+								Musik musik = (Musik) item;
+								if (request.getParameter("send") != null) {
+									// Parameter auslesen
+									boolean live = request.getParameter("live") != null;
+									// Parameter binden
+									musik.setLive(live);
+									// Validieren und Speichern
+									MusikValidator validator = new MusikValidator();
+									if (validator.validate(musik) && logic.write()) {
+										// TODO Weiterleitung wohin? Detailseite oder Liste?
+									} else {
+										// TODO DTO aus Objekt bestücken
+										// TODO Weiterleitung Eingabeseite
+									}
 								} else {
-									// TODO DTO aus Objekt bestücken
-									// TODO Weiterleitung Eingabeseite
+									// TODO DTO aus Object bestücken
 								}
 							} else {
-								// TODO DTO aus Object bestücken
+								// TODO Something is wrong
 							}
-						} else {
-							// TODO Something is wrong
-						}
-						break;
-					case Spiel:
-						if (item instanceof Spiel) {
-							Spiel spiel = (Spiel) item;
-							if (request.getParameter("send") != null) {
-								// TODO Parameter auslesen und bild zuweisen
-								SpielValidator validator = new SpielValidator();
-								if (validator.validate(spiel) && logic.write()) {
-									// TODO Weiterleitung wohin? Detailseite oder Liste?
+							break;
+						case Spiel:
+							if (item instanceof Spiel) {
+								Spiel spiel = (Spiel) item;
+								if (request.getParameter("send") != null) {
+									// Parameter auslesen
+									String	sprache	=	request.getParameter("sprache");
+									String	betrieb	=	request.getParameter("betrieb");
+									// Parameter binden
+									spiel.setSprache(sprache);
+									spiel.setBetriebssystem(betrieb);
+									// Validieren und Speichern
+									SpielValidator validator = new SpielValidator();
+									if (validator.validate(spiel) && logic.write()) {
+										// TODO Weiterleitung wohin? Detailseite oder Liste?
+									} else {
+										// TODO DTO aus Objekt bestücken
+										// TODO Weiterleitung Eingabeseite
+									}
 								} else {
-									// TODO DTO aus Objekt bestücken
-									// TODO Weiterleitung Eingabeseite
+									// TODO DTO aus Object bestücken
 								}
 							} else {
-								// TODO DTO aus Object bestücken
+								// TODO Something is wrong
 							}
-						} else {
-							// TODO Something is wrong
+							break;
+						default:
+							// TODO Never ever
+							break;
 						}
-						break;
-					default:
-						// TODO Never ever
-						break;
 					}
 				} else {
 					// TODO Fehler - kann nicht laden

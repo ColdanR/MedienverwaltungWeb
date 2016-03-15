@@ -1,11 +1,11 @@
 package logic.medien;
 
 import data.medien.Bild;
+import database.medien.DBBild;
 
 public class BildLogik extends MediumLogik<Bild> {
 	public BildLogik() {
-		super(null);
-		// TODO Auto-generated constructor stub
+		super(new DBBild());
 	}
 
 	@Override
