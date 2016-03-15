@@ -3,11 +3,9 @@ package data.speicherorte.enums;
 import interfaces.SelectAble;
 
 public enum SchallplatteArt implements SelectAble{
-	Single			("Single",	1),
-	//Maxi Single = EP (Extended Play)
-	MaxiSingle		("EP",		2),
-	// ExtendedPlay = LongPlay(Langspielplatte)
-	ExtendedPlay	("LP",		3);
+	Single	("Single",	1),
+	EP		("EP",		2),
+	LP		("LP",		3);
 	
 	private String 	bezeichnung;
 	private int 	id;
