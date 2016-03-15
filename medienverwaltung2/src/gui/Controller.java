@@ -31,4 +31,10 @@ public abstract class Controller {
 		request.setAttribute("context", dto);
 		request.getRequestDispatcher("/WEB-INF/classes/gui/jspFiles" + filePath).forward(request, response);
 	}
+	
+	protected void redirect (HttpServletRequest request, HttpServletResponse response, String uri) {
+		String server = request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + uri;
+		response.setStatus(HttpServletResponse.SC_SEE_OTHER);
+		response.setHeader("location", server);
+	}
 }

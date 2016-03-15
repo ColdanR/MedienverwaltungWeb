@@ -10,7 +10,7 @@ public class BuchEingabeDTO extends MediumEingabeDTO {
 	private	String				sprache				=	"";
 	private	List<BuchArt>		buchartOptions		=	Arrays.asList(BuchArt.values());
 	private BuchArt				buchartSelected		=	null;
-	private	String				auflage				=	"";
+	private	int					auflage				=	0;
 	
 	public BuchEingabeDTO(String titel) {
 		super(titel, Mediengruppe.Buch);
@@ -40,11 +40,11 @@ public class BuchEingabeDTO extends MediumEingabeDTO {
 		this.buchartSelected = buchartSelected;
 	}
 
-	public String getAuflage() {
+	public int getAuflage() {
 		return auflage;
 	}
 
-	public void setAuflage(String auflage) {
+	public void setAuflage(int auflage) {
 		this.auflage = auflage;
 	}
 

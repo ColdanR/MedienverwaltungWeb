@@ -26,6 +26,8 @@ import data.medien.Hoerbuch;
 import data.medien.Medium;
 import data.medien.Musik;
 import data.medien.Spiel;
+import data.medien.enums.BuchArt;
+import data.medien.enums.FilmArt;
 import data.medien.enums.HoerbuchArt;
 import data.medien.validator.BildValidator;
 import data.medien.validator.BuchValidator;
@@ -38,10 +40,16 @@ import enums.Mediengruppe;
 import gui.Controller;
 import gui.StaticElements;
 import gui.dto.BaseDTO;
+import gui.dto.FehlerDTO;
+import gui.dto.medien.BildEingabeDTO;
+import gui.dto.medien.BuchEingabeDTO;
+import gui.dto.medien.FilmEingabeDTO;
+import gui.dto.medien.HoerbuchEingabeDTO;
 import gui.dto.medien.ListAnzeigeDTO;
 import gui.dto.medien.ListAnzeigeDTO.ListElementDTO;
-import gui.dto.medien.MediumEingabeDTO;
+import gui.dto.medien.MusikEingabeDTO;
 import gui.dto.medien.ShowParameterDTO;
+import gui.dto.medien.SpielEingabeDTO;
 import logic.MediumLogicFactory;
 import logic.genre.GenreLogik;
 import logic.medien.MediumLogik;
@@ -277,17 +285,445 @@ public class MedienController extends Controller {
 		}
 	}
 	
-	private void create(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
-		// TODO Auto-generated method stub
-		// Leeres DTO erzeugen oder Parameter übernehmen DTO
-		// Schreiben, usw. kontrollieren
+	private void create(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) throws ServletException, IOException {
+		MediumLogik<?>		logic		=	MediumLogicFactory.create(medium);
+		List<String>		errors		=	new ArrayList<>();
+		GenreLogik			genreLogik	=	new GenreLogik();
+		List<Genre>			genreList	=	genreLogik.getAll();
+		if (genreList == null) {
+			genreLogik.getErrors().stream().forEach(error -> {
+				errors.add(error);
+			});
+		}
+		Object item = logic.create();
+		if (item != null) {
+			if (item instanceof Medium) {
+				Medium mediumItem = (Medium) item;
+				if (request.getParameter("send") != null) {
+					// Parameter auslesen
+					String		titel		=	request.getParameter("bezeichnung");
+					String[]	genres		=	request.getParameterValues("genre");
+					String		erscheinung	=	request.getParameter("erscheinungsjahr");
+					String		bemerkungen	=	request.getParameter("bemerkung");
+					List<Genre>	genre		=	new ArrayList<>();
+					if (genres != null) {
+						for (String element : genres) {
+							try {
+								int idGenre = Integer.parseInt(element);
+								if (genreLogik.load(idGenre)) {
+									genre.add(genreLogik.getObject());
+								} else {
+									genreLogik.getErrors().stream().forEach(error -> {
+										errors.add(error);
+									});
+								}
+							} catch (NumberFormatException e) {
+								errors.add("Ausgewählte Genre konnte nicht ermittelt werden.");
+							}
+						}
+					}
+					LocalDate	erscheinungsdatum	=	null;
+					try {
+						erscheinungsdatum = LocalDate.parse(erscheinung, StaticElements.FORMATTER);
+					} catch (DateTimeParseException e) {
+						errors.add("Datum hat falsches Format.");
+					}
+					mediumItem.setTitel(titel);
+					mediumItem.setBemerkungen(bemerkungen);
+					mediumItem.setGenre(genre);
+					mediumItem.setErscheinungsdatum(erscheinungsdatum);
+				}
+				switch (medium) {
+				case Bild:
+					if (item instanceof Bild) {
+						Bild bild = (Bild) item;
+						if (request.getParameter("send") != null) {
+							// Keine weiteren Parameter
+							BildValidator validator = new BildValidator();
+							if (validator.validate(bild) && logic.write()) {
+								redirect(request, response, "medium/" + bild.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + bild.getDbId());
+							} else {
+								validator.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								logic.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								// DTO aus Objekt bestücken
+								BildEingabeDTO	dto	=	new BildEingabeDTO("Bild anlegen");
+								errors.stream().forEach(error -> {
+									dto.addError(error);
+								});
+								dto.setBemerkung(bild.getBemerkungen());
+								dto.setBezeichnung(bild.getTitel());
+								dto.setDbId(bild.getDbId());
+								dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								dto.setGenreOptions(genreList);
+								dto.setGenreSelected(bild.getGenre());
+								forward(request, response, dto, "/mediumEingabe.jsp");
+							}
+						} else {
+							// DTO aus Object bestücken
+							BildEingabeDTO	dto	=	new BildEingabeDTO("Bild anlegen");
+							errors.stream().forEach(error -> {
+								dto.addError(error);
+							});
+							dto.setBemerkung(bild.getBemerkungen());
+							dto.setBezeichnung(bild.getTitel());
+							dto.setDbId(bild.getDbId());
+							dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenreOptions(genreList);
+							dto.setGenreSelected(bild.getGenre());
+							forward(request, response, dto, "/mediumEingabe.jsp");
+						}
+					} else {
+						errors.add("Fehlerhaftes Casten der Daten");
+						FehlerDTO dto = new FehlerDTO();
+						errors.stream().forEach(error -> {
+							dto.addError(error);
+						});
+						forward(request, response, dto, "/404.jsp");
+					}
+					break;
+				case Buch:
+					if (item instanceof Buch) {
+						Buch buch = (Buch) item;
+						if (request.getParameter("send") != null) {
+							// Parameter auslesen
+							String	art		=	request.getParameter("art");
+							String	sprache	=	request.getParameter("sprache");
+							String	auflage	=	request.getParameter("auflage");
+							// Parameter auswerten
+							BuchArt	buchArt		=	null;
+							int		auflageInt	=	0;
+							try {
+								int artId = Integer.parseInt(art);
+								auflageInt = Integer.parseInt(auflage);
+								buchArt = BuchArt.getFromId(artId);
+							} catch (NumberFormatException e) {
+								errors.add("Fehlerhafte Buchart");
+							}
+							// Parameter binden
+							buch.setArt(buchArt);
+							buch.setAuflage(auflageInt);
+							buch.setSprache(sprache);
+							// Validieren und Speichern
+							BuchValidator validator = new BuchValidator();
+							if (validator.validate(buch) && logic.write()) {
+								redirect(request, response, "medium/" + buch.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + buch.getDbId());
+							} else {
+								validator.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								logic.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								// DTO aus Objekt bestücken
+								BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch anlegen");
+								dto.setAuflage(buch.getAuflage());
+								dto.setBemerkung(buch.getBemerkungen());
+								dto.setBezeichnung(buch.getTitel());
+								dto.setBuchartOptions(Arrays.asList(BuchArt.values()));
+								dto.setBuchartSelected(buch.getArt());
+								dto.setDbId(buch.getDbId());
+								dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								dto.setGenreOptions(genreList);
+								dto.setGenreSelected(buch.getGenre());
+								dto.setSprache(buch.getSprache());
+								forward(request, response, dto, "/mediumEingabe.jsp");
+							}
+						} else {
+							// DTO aus Object bestücken
+							BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch anlegen");
+							dto.setAuflage(buch.getAuflage());
+							dto.setBemerkung(buch.getBemerkungen());
+							dto.setBezeichnung(buch.getTitel());
+							dto.setBuchartOptions(Arrays.asList(BuchArt.values()));
+							dto.setBuchartSelected(buch.getArt());
+							dto.setDbId(buch.getDbId());
+							dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenreOptions(genreList);
+							dto.setGenreSelected(buch.getGenre());
+							dto.setSprache(buch.getSprache());
+							forward(request, response, dto, "/mediumEingabe.jsp");
+						}
+					} else {
+						errors.add("Fehlerhaftes Casten der Daten");
+						FehlerDTO dto = new FehlerDTO();
+						errors.stream().forEach(error -> {
+							dto.addError(error);
+						});
+						forward(request, response, dto, "/404.jsp");
+					}
+					break;
+				case Film:
+					if (item instanceof Film) {
+						Film film = (Film) item;
+						if (request.getParameter("send") != null) {
+							// Parameter auslesen
+							String	art		=	request.getParameter("art");
+							String	sprache	=	request.getParameter("sprache");
+							// Parameter auswerten
+							FilmArt	filmArt = null;
+							try {
+								int artId = Integer.parseInt(art);
+								filmArt = FilmArt.getFromId(artId);
+							} catch (NumberFormatException e) {
+								errors.add("Fehlerhafte Filmart");
+							}
+							// Parameter binden
+							film.setSprache(sprache);
+							film.setArt(filmArt);
+							// Validieren und Speichern
+							FilmValidator validator = new FilmValidator();
+							if (validator.validate(film) && logic.write()) {
+								redirect(request, response, "medium/" + film.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + film.getDbId());
+							} else {
+								validator.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								logic.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								// DTO aus Objekt bestücken
+								FilmEingabeDTO dto = new FilmEingabeDTO("Film anlegen");
+								dto.setBemerkung(film.getBemerkungen());
+								dto.setBezeichnung(film.getTitel());
+								dto.setDbId(film.getDbId());
+								dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								dto.setFilmartOptions(Arrays.asList(FilmArt.values()));
+								dto.setFilmartSelected(film.getArt());
+								dto.setGenreOptions(genreList);
+								dto.setGenreSelected(film.getGenre());
+								dto.setSprache(film.getSprache());
+								forward(request, response, dto, "/mediumEingabe.jsp");
+							}
+						} else {
+							// DTO aus Object bestücken
+							FilmEingabeDTO dto = new FilmEingabeDTO("Film anlegen");
+							dto.setBemerkung(film.getBemerkungen());
+							dto.setBezeichnung(film.getTitel());
+							dto.setDbId(film.getDbId());
+							dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setFilmartOptions(Arrays.asList(FilmArt.values()));
+							dto.setFilmartSelected(film.getArt());
+							dto.setGenreOptions(genreList);
+							dto.setGenreSelected(film.getGenre());
+							dto.setSprache(film.getSprache());
+							forward(request, response, dto, "/mediumEingabe.jsp");
+						}
+					} else {
+						errors.add("Fehlerhaftes Casten der Daten");
+						FehlerDTO dto = new FehlerDTO();
+						errors.stream().forEach(error -> {
+							dto.addError(error);
+						});
+						forward(request, response, dto, "/404.jsp");
+					}
+					break;
+				case Hoerbuch:
+					if (item instanceof Hoerbuch) {
+						Hoerbuch hoerbuch = (Hoerbuch) item;
+						if (request.getParameter("send") != null) {
+							// Parameter auslesen
+							String	art		=	request.getParameter("art");
+							String	sprache	=	request.getParameter("sprache");
+							// Parameter auswerten
+							HoerbuchArt	hoerbuchArt = null;
+							try {
+								int artId = Integer.parseInt(art);
+								hoerbuchArt = HoerbuchArt.getFromId(artId);
+							} catch (NumberFormatException e) {
+								errors.add("Fehlerhafte Hörbuchart");
+							}
+							// Parameter binden
+							hoerbuch.setSprache(sprache);
+							hoerbuch.setArt(hoerbuchArt);
+							// Validieren und speichern
+							HoerbuchValidator validator = new HoerbuchValidator();
+							if (validator.validate(hoerbuch) && logic.write()) {
+								redirect(request, response, "medium/" + hoerbuch.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + hoerbuch.getDbId());
+							} else {
+								validator.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								logic.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								// DTO aus Objekt bestücken
+								HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch anlegen");
+								dto.setBemerkung(hoerbuch.getBemerkungen());
+								dto.setBezeichnung(hoerbuch.getTitel());
+								dto.setDbId(hoerbuch.getDbId());
+								dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								dto.setGenreOptions(genreList);
+								dto.setGenreSelected(hoerbuch.getGenre());
+								dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
+								dto.setHoerbuchartSelected(hoerbuch.getArt());
+								dto.setSprache(hoerbuch.getSprache());
+								forward(request, response, dto, "/mediumEingabe.jsp");
+							}
+						} else {
+							// DTO aus Object bestücken
+							HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch anlegen");
+							dto.setBemerkung(hoerbuch.getBemerkungen());
+							dto.setBezeichnung(hoerbuch.getTitel());
+							dto.setDbId(hoerbuch.getDbId());
+							dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenreOptions(genreList);
+							dto.setGenreSelected(hoerbuch.getGenre());
+							dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
+							dto.setHoerbuchartSelected(hoerbuch.getArt());
+							dto.setSprache(hoerbuch.getSprache());
+							forward(request, response, dto, "/mediumEingabe.jsp");
+						}
+					} else {
+						errors.add("Fehlerhaftes Casten der Daten");
+						FehlerDTO dto = new FehlerDTO();
+						errors.stream().forEach(error -> {
+							dto.addError(error);
+						});
+						forward(request, response, dto, "/404.jsp");
+					}
+					break;
+				case Musik:
+					if (item instanceof Musik) {
+						Musik musik = (Musik) item;
+						if (request.getParameter("send") != null) {
+							// Parameter auslesen
+							boolean live = request.getParameter("live") != null;
+							// Parameter binden
+							musik.setLive(live);
+							// Validieren und Speichern
+							MusikValidator validator = new MusikValidator();
+							if (validator.validate(musik) && logic.write()) {
+								redirect(request, response, "medium/" + musik.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + musik.getDbId());
+							} else {
+								validator.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								logic.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								// DTO aus Objekt bestücken
+								MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel anlegen");
+								dto.setBemerkung(musik.getBemerkungen());
+								dto.setBezeichnung(musik.getTitel());
+								dto.setDbId(musik.getDbId());
+								dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								dto.setGenreOptions(genreList);
+								dto.setGenreSelected(musik.getGenre());
+								dto.setLive(musik.isLive());
+								forward(request, response, dto, "/mediumEingabe.jsp");
+							}
+						} else {
+							// DTO aus Object bestücken
+							MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel anlegen");
+							dto.setBemerkung(musik.getBemerkungen());
+							dto.setBezeichnung(musik.getTitel());
+							dto.setDbId(musik.getDbId());
+							dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenreOptions(genreList);
+							dto.setGenreSelected(musik.getGenre());
+							dto.setLive(musik.isLive());
+							forward(request, response, dto, "/mediumEingabe.jsp");
+						}
+					} else {
+						errors.add("Fehlerhaftes Casten der Daten");
+						FehlerDTO dto = new FehlerDTO();
+						errors.stream().forEach(error -> {
+							dto.addError(error);
+						});
+						forward(request, response, dto, "/404.jsp");
+					}
+					break;
+				case Spiel:
+					if (item instanceof Spiel) {
+						Spiel spiel = (Spiel) item;
+						if (request.getParameter("send") != null) {
+							// Parameter auslesen
+							String	sprache	=	request.getParameter("sprache");
+							String	betrieb	=	request.getParameter("betrieb");
+							// Parameter binden
+							spiel.setSprache(sprache);
+							spiel.setBetriebssystem(betrieb);
+							// Validieren und Speichern
+							SpielValidator validator = new SpielValidator();
+							if (validator.validate(spiel) && logic.write()) {
+								redirect(request, response, "medium/" + spiel.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + spiel.getDbId());
+							} else {
+								validator.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								logic.getErrors().stream().forEach(error -> {
+									errors.add(error);
+								});
+								// DTO aus Objekt bestücken
+								SpielEingabeDTO dto = new SpielEingabeDTO("Spiel anlegen");
+								dto.setBemerkung(spiel.getBemerkungen());
+								dto.setBetriebssystem(spiel.getBetriebssystem());
+								dto.setBezeichnung(spiel.getTitel());
+								dto.setDbId(spiel.getDbId());
+								dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								dto.setGenreOptions(genreList);
+								dto.setGenreSelected(spiel.getGenre());
+								dto.setSprache(spiel.getSprache());
+								forward(request, response, dto, "/mediumEingabe.jsp");
+							}
+						} else {
+							// DTO aus Object bestücken
+							SpielEingabeDTO dto = new SpielEingabeDTO("Spiel anlegen");
+							dto.setBemerkung(spiel.getBemerkungen());
+							dto.setBetriebssystem(spiel.getBetriebssystem());
+							dto.setBezeichnung(spiel.getTitel());
+							dto.setDbId(spiel.getDbId());
+							dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenreOptions(genreList);
+							dto.setGenreSelected(spiel.getGenre());
+							dto.setSprache(spiel.getSprache());
+							forward(request, response, dto, "/mediumEingabe.jsp");
+						}
+					} else {
+						errors.add("Fehlerhaftes Casten der Daten");
+						FehlerDTO dto = new FehlerDTO();
+						errors.stream().forEach(error -> {
+							dto.addError(error);
+						});
+						forward(request, response, dto, "/404.jsp");
+					}
+					break;
+				}
+			}
+		} else {
+			logic.getErrors().stream().forEach(error -> {
+				errors.add(error);
+			});
+			FehlerDTO dto = new FehlerDTO();
+			errors.stream().forEach(error -> {
+				dto.addError(error);
+			});
+			forward(request, response, dto, "/404.jsp");
+		}
 	}
 
-	private void bearbeiten(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
+	private void bearbeiten(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) throws ServletException, IOException {
 		MediumLogik<?>		logic		=	MediumLogicFactory.create(medium);
+		List<String>		errors		=	new ArrayList<>();
 		String				idString	=	request.getParameter("id");
+		GenreLogik			genreLogik	=	new GenreLogik();
+		List<Genre>			genreList	=	genreLogik.getAll();
+		if (genreList == null) {
+			genreLogik.getErrors().stream().forEach(error -> {
+				errors.add(error);
+			});
+		}
 		if (idString == null || idString.trim().length() == 0) {
-			// TODO Fehlende ID
+			errors.add("Keine ID gefunden!");
+			FehlerDTO dto = new FehlerDTO();
+			errors.stream().forEach(error -> {
+				dto.addError(error);
+			});
+			forward(request, response, dto, "/404.jsp");
 		} else {
 			try {
 				int id = Integer.parseInt(idString);
@@ -296,7 +732,7 @@ public class MedienController extends Controller {
 					if (item instanceof Medium) {
 						Medium mediumItem = (Medium) item;
 						if (request.getParameter("send") != null) {
-							// TODO Parameter auslesen und zuweisen
+							// Parameter auslesen
 							String		titel		=	request.getParameter("bezeichnung");
 							String[]	genres		=	request.getParameterValues("genre");
 							String		erscheinung	=	request.getParameter("erscheinungsjahr");
@@ -304,16 +740,17 @@ public class MedienController extends Controller {
 							List<Genre>	genre		=	new ArrayList<>();
 							if (genres != null) {
 								for (String element : genres) {
-									GenreLogik	genreLogik	=	new GenreLogik();
 									try {
 										int idGenre = Integer.parseInt(element);
 										if (genreLogik.load(idGenre)) {
 											genre.add(genreLogik.getObject());
 										} else {
-											// TODO Fehler
+											genreLogik.getErrors().stream().forEach(error -> {
+												errors.add(error);
+											});
 										}
 									} catch (NumberFormatException e) {
-										// TODO Fehler
+										errors.add("Ausgewählte Genre konnte nicht ermittelt werden.");
 									}
 								}
 							}
@@ -321,7 +758,7 @@ public class MedienController extends Controller {
 							try {
 								erscheinungsdatum = LocalDate.parse(erscheinung, StaticElements.FORMATTER);
 							} catch (DateTimeParseException e) {
-								// TODO Fehler to DTO
+								errors.add("Datum hat falsches Format.");
 							}
 							mediumItem.setTitel(titel);
 							mediumItem.setBemerkungen(bemerkungen);
@@ -336,59 +773,184 @@ public class MedienController extends Controller {
 									// Keine weiteren Parameter
 									BildValidator validator = new BildValidator();
 									if (validator.validate(bild) && logic.write()) {
-										// TODO Weiterleitung wohin? Detailseite oder Liste?
+										redirect(request, response, "medium/" + bild.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + bild.getDbId());
 									} else {
-										// TODO DTO aus Objekt bestücken
-										// TODO Weiterleitung Eingabeseite
+										validator.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										logic.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										// DTO aus Objekt bestücken
+										BildEingabeDTO	dto	=	new BildEingabeDTO("Bild editieren");
+										errors.stream().forEach(error -> {
+											dto.addError(error);
+										});
+										dto.setBemerkung(bild.getBemerkungen());
+										dto.setBezeichnung(bild.getTitel());
+										dto.setDbId(bild.getDbId());
+										dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										dto.setGenreOptions(genreList);
+										dto.setGenreSelected(bild.getGenre());
+										forward(request, response, dto, "/mediumEingabe.jsp");
 									}
 								} else {
-									// TODO DTO aus Object bestücken
+									// DTO aus Object bestücken
+									BildEingabeDTO	dto	=	new BildEingabeDTO("Bild editieren");
+									errors.stream().forEach(error -> {
+										dto.addError(error);
+									});
+									dto.setBemerkung(bild.getBemerkungen());
+									dto.setBezeichnung(bild.getTitel());
+									dto.setDbId(bild.getDbId());
+									dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									dto.setGenreOptions(genreList);
+									dto.setGenreSelected(bild.getGenre());
+									forward(request, response, dto, "/mediumEingabe.jsp");
 								}
 							} else {
-								// TODO Something is wrong
+								errors.add("Fehlerhaftes Casten der Daten");
+								FehlerDTO dto = new FehlerDTO();
+								errors.stream().forEach(error -> {
+									dto.addError(error);
+								});
+								forward(request, response, dto, "/404.jsp");
 							}
 							break;
 						case Buch:
 							if (item instanceof Buch) {
 								Buch buch = (Buch) item;
 								if (request.getParameter("send") != null) {
-									// TODO Parameter auslesen und bild zuweisen
+									// Parameter auslesen
 									String	art		=	request.getParameter("art");
 									String	sprache	=	request.getParameter("sprache");
 									String	auflage	=	request.getParameter("auflage");
+									// Parameter auswerten
+									BuchArt	buchArt		=	null;
+									int		auflageInt	=	0;
+									try {
+										int artId = Integer.parseInt(art);
+										auflageInt = Integer.parseInt(auflage);
+										buchArt = BuchArt.getFromId(artId);
+									} catch (NumberFormatException e) {
+										errors.add("Fehlerhafte Buchart");
+									}
+									// Parameter binden
+									buch.setArt(buchArt);
+									buch.setAuflage(auflageInt);
+									buch.setSprache(sprache);
+									// Validieren und Speichern
 									BuchValidator validator = new BuchValidator();
 									if (validator.validate(buch) && logic.write()) {
-										// TODO Weiterleitung wohin? Detailseite oder Liste?
+										redirect(request, response, "medium/" + buch.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + buch.getDbId());
 									} else {
-										// TODO DTO aus Objekt bestücken
-										// TODO Weiterleitung Eingabeseite
+										validator.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										logic.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										// DTO aus Objekt bestücken
+										BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch editieren");
+										dto.setAuflage(buch.getAuflage());
+										dto.setBemerkung(buch.getBemerkungen());
+										dto.setBezeichnung(buch.getTitel());
+										dto.setBuchartOptions(Arrays.asList(BuchArt.values()));
+										dto.setBuchartSelected(buch.getArt());
+										dto.setDbId(buch.getDbId());
+										dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										dto.setGenreOptions(genreList);
+										dto.setGenreSelected(buch.getGenre());
+										dto.setSprache(buch.getSprache());
+										forward(request, response, dto, "/mediumEingabe.jsp");
 									}
 								} else {
-									// TODO DTO aus Object bestücken
+									// DTO aus Object bestücken
+									BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch editieren");
+									dto.setAuflage(buch.getAuflage());
+									dto.setBemerkung(buch.getBemerkungen());
+									dto.setBezeichnung(buch.getTitel());
+									dto.setBuchartOptions(Arrays.asList(BuchArt.values()));
+									dto.setBuchartSelected(buch.getArt());
+									dto.setDbId(buch.getDbId());
+									dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									dto.setGenreOptions(genreList);
+									dto.setGenreSelected(buch.getGenre());
+									dto.setSprache(buch.getSprache());
+									forward(request, response, dto, "/mediumEingabe.jsp");
 								}
 							} else {
-								// TODO Something is wrong
+								errors.add("Fehlerhaftes Casten der Daten");
+								FehlerDTO dto = new FehlerDTO();
+								errors.stream().forEach(error -> {
+									dto.addError(error);
+								});
+								forward(request, response, dto, "/404.jsp");
 							}
 							break;
 						case Film:
 							if (item instanceof Film) {
 								Film film = (Film) item;
 								if (request.getParameter("send") != null) {
-									// TODO Parameter auslesen und bild zuweisen
+									// Parameter auslesen
 									String	art		=	request.getParameter("art");
 									String	sprache	=	request.getParameter("sprache");
+									// Parameter auswerten
+									FilmArt	filmArt = null;
+									try {
+										int artId = Integer.parseInt(art);
+										filmArt = FilmArt.getFromId(artId);
+									} catch (NumberFormatException e) {
+										errors.add("Fehlerhafte Filmart");
+									}
+									// Parameter binden
+									film.setSprache(sprache);
+									film.setArt(filmArt);
+									// Validieren und Speichern
 									FilmValidator validator = new FilmValidator();
 									if (validator.validate(film) && logic.write()) {
-										// TODO Weiterleitung wohin? Detailseite oder Liste?
+										redirect(request, response, "medium/" + film.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + film.getDbId());
 									} else {
-										// TODO DTO aus Objekt bestücken
-										// TODO Weiterleitung Eingabeseite
+										validator.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										logic.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										// DTO aus Objekt bestücken
+										FilmEingabeDTO dto = new FilmEingabeDTO("Film editieren");
+										dto.setBemerkung(film.getBemerkungen());
+										dto.setBezeichnung(film.getTitel());
+										dto.setDbId(film.getDbId());
+										dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										dto.setFilmartOptions(Arrays.asList(FilmArt.values()));
+										dto.setFilmartSelected(film.getArt());
+										dto.setGenreOptions(genreList);
+										dto.setGenreSelected(film.getGenre());
+										dto.setSprache(film.getSprache());
+										forward(request, response, dto, "/mediumEingabe.jsp");
 									}
 								} else {
-									// TODO DTO aus Object bestücken
+									// DTO aus Object bestücken
+									FilmEingabeDTO dto = new FilmEingabeDTO("Film editieren");
+									dto.setBemerkung(film.getBemerkungen());
+									dto.setBezeichnung(film.getTitel());
+									dto.setDbId(film.getDbId());
+									dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									dto.setFilmartOptions(Arrays.asList(FilmArt.values()));
+									dto.setFilmartSelected(film.getArt());
+									dto.setGenreOptions(genreList);
+									dto.setGenreSelected(film.getGenre());
+									dto.setSprache(film.getSprache());
+									forward(request, response, dto, "/mediumEingabe.jsp");
 								}
 							} else {
-								// TODO Something is wrong
+								errors.add("Fehlerhaftes Casten der Daten");
+								FehlerDTO dto = new FehlerDTO();
+								errors.stream().forEach(error -> {
+									dto.addError(error);
+								});
+								forward(request, response, dto, "/404.jsp");
 							}
 							break;
 						case Hoerbuch:
@@ -403,9 +965,8 @@ public class MedienController extends Controller {
 									try {
 										int artId = Integer.parseInt(art);
 										hoerbuchArt = HoerbuchArt.getFromId(artId);
-										
 									} catch (NumberFormatException e) {
-										// TODO Fehler
+										errors.add("Fehlerhafte Hörbuchart");
 									}
 									// Parameter binden
 									hoerbuch.setSprache(sprache);
@@ -413,16 +974,48 @@ public class MedienController extends Controller {
 									// Validieren und speichern
 									HoerbuchValidator validator = new HoerbuchValidator();
 									if (validator.validate(hoerbuch) && logic.write()) {
-										// TODO Weiterleitung wohin? Detailseite oder Liste?
+										redirect(request, response, "medium/" + hoerbuch.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + hoerbuch.getDbId());
 									} else {
-										// TODO DTO aus Objekt bestücken
-										// TODO Weiterleitung Eingabeseite
+										validator.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										logic.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										// DTO aus Objekt bestücken
+										HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch editieren");
+										dto.setBemerkung(hoerbuch.getBemerkungen());
+										dto.setBezeichnung(hoerbuch.getTitel());
+										dto.setDbId(hoerbuch.getDbId());
+										dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										dto.setGenreOptions(genreList);
+										dto.setGenreSelected(hoerbuch.getGenre());
+										dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
+										dto.setHoerbuchartSelected(hoerbuch.getArt());
+										dto.setSprache(hoerbuch.getSprache());
+										forward(request, response, dto, "/mediumEingabe.jsp");
 									}
 								} else {
-									// TODO DTO aus Object bestücken
+									// DTO aus Object bestücken
+									HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch editieren");
+									dto.setBemerkung(hoerbuch.getBemerkungen());
+									dto.setBezeichnung(hoerbuch.getTitel());
+									dto.setDbId(hoerbuch.getDbId());
+									dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									dto.setGenreOptions(genreList);
+									dto.setGenreSelected(hoerbuch.getGenre());
+									dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
+									dto.setHoerbuchartSelected(hoerbuch.getArt());
+									dto.setSprache(hoerbuch.getSprache());
+									forward(request, response, dto, "/mediumEingabe.jsp");
 								}
 							} else {
-								// TODO Something is wrong
+								errors.add("Fehlerhaftes Casten der Daten");
+								FehlerDTO dto = new FehlerDTO();
+								errors.stream().forEach(error -> {
+									dto.addError(error);
+								});
+								forward(request, response, dto, "/404.jsp");
 							}
 							break;
 						case Musik:
@@ -436,16 +1029,44 @@ public class MedienController extends Controller {
 									// Validieren und Speichern
 									MusikValidator validator = new MusikValidator();
 									if (validator.validate(musik) && logic.write()) {
-										// TODO Weiterleitung wohin? Detailseite oder Liste?
+										redirect(request, response, "medium/" + musik.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + musik.getDbId());
 									} else {
-										// TODO DTO aus Objekt bestücken
-										// TODO Weiterleitung Eingabeseite
+										validator.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										logic.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										// DTO aus Objekt bestücken
+										MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel editieren");
+										dto.setBemerkung(musik.getBemerkungen());
+										dto.setBezeichnung(musik.getTitel());
+										dto.setDbId(musik.getDbId());
+										dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										dto.setGenreOptions(genreList);
+										dto.setGenreSelected(musik.getGenre());
+										dto.setLive(musik.isLive());
+										forward(request, response, dto, "/mediumEingabe.jsp");
 									}
 								} else {
-									// TODO DTO aus Object bestücken
+									// DTO aus Object bestücken
+									MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel editieren");
+									dto.setBemerkung(musik.getBemerkungen());
+									dto.setBezeichnung(musik.getTitel());
+									dto.setDbId(musik.getDbId());
+									dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									dto.setGenreOptions(genreList);
+									dto.setGenreSelected(musik.getGenre());
+									dto.setLive(musik.isLive());
+									forward(request, response, dto, "/mediumEingabe.jsp");
 								}
 							} else {
-								// TODO Something is wrong
+								errors.add("Fehlerhaftes Casten der Daten");
+								FehlerDTO dto = new FehlerDTO();
+								errors.stream().forEach(error -> {
+									dto.addError(error);
+								});
+								forward(request, response, dto, "/404.jsp");
 							}
 							break;
 						case Spiel:
@@ -461,28 +1082,65 @@ public class MedienController extends Controller {
 									// Validieren und Speichern
 									SpielValidator validator = new SpielValidator();
 									if (validator.validate(spiel) && logic.write()) {
-										// TODO Weiterleitung wohin? Detailseite oder Liste?
+										redirect(request, response, "medium/" + spiel.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + spiel.getDbId());
 									} else {
-										// TODO DTO aus Objekt bestücken
-										// TODO Weiterleitung Eingabeseite
+										validator.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										logic.getErrors().stream().forEach(error -> {
+											errors.add(error);
+										});
+										// DTO aus Objekt bestücken
+										SpielEingabeDTO dto = new SpielEingabeDTO("Spiel editieren");
+										dto.setBemerkung(spiel.getBemerkungen());
+										dto.setBetriebssystem(spiel.getBetriebssystem());
+										dto.setBezeichnung(spiel.getTitel());
+										dto.setDbId(spiel.getDbId());
+										dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										dto.setGenreOptions(genreList);
+										dto.setGenreSelected(spiel.getGenre());
+										dto.setSprache(spiel.getSprache());
+										forward(request, response, dto, "/mediumEingabe.jsp");
 									}
 								} else {
-									// TODO DTO aus Object bestücken
+									// DTO aus Object bestücken
+									SpielEingabeDTO dto = new SpielEingabeDTO("Spiel editieren");
+									dto.setBemerkung(spiel.getBemerkungen());
+									dto.setBetriebssystem(spiel.getBetriebssystem());
+									dto.setBezeichnung(spiel.getTitel());
+									dto.setDbId(spiel.getDbId());
+									dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									dto.setGenreOptions(genreList);
+									dto.setGenreSelected(spiel.getGenre());
+									dto.setSprache(spiel.getSprache());
+									forward(request, response, dto, "/mediumEingabe.jsp");
 								}
 							} else {
-								// TODO Something is wrong
+								errors.add("Fehlerhaftes Casten der Daten");
+								FehlerDTO dto = new FehlerDTO();
+								errors.stream().forEach(error -> {
+									dto.addError(error);
+								});
+								forward(request, response, dto, "/404.jsp");
 							}
-							break;
-						default:
-							// TODO Never ever
 							break;
 						}
 					}
 				} else {
-					// TODO Fehler - kann nicht laden
+					errors.add("Unbekannte ID");
+					FehlerDTO dto = new FehlerDTO();
+					errors.stream().forEach(error -> {
+						dto.addError(error);
+					});
+					forward(request, response, dto, "/404.jsp");
 				}
 			} catch (NumberFormatException e) {
-				// TODO Fehlerhafte ID
+				errors.add("Fehlerhafte ID");
+				FehlerDTO dto = new FehlerDTO();
+				errors.stream().forEach(error -> {
+					dto.addError(error);
+				});
+				forward(request, response, dto, "/404.jsp");
 			}
 		}
 	}
