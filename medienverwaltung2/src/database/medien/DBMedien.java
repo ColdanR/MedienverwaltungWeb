@@ -3,9 +3,10 @@ package database.medien;
 import java.util.ArrayList;
 import java.util.List;
 
+import data.medien.Medium;
 import database.DataBaseManager;
 
-public abstract class DBMedien<E> extends DataBaseManager {
+public abstract class DBMedien<E extends Medium> extends DataBaseManager {
 	private	List<String>	errors	=	new ArrayList<>();
 	
 	protected final void addError(String error) {
