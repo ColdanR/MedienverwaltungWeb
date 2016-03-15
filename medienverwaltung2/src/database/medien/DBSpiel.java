@@ -10,33 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.medien.Genre;
-import data.medien.Musik;
+import data.medien.Spiel;
 import logic.genre.GenreLogik;
 
-public class DBMusik extends DBMedien<Musik> {
-
+public class DBSpiel extends DBMedien<Spiel>{
 	@Override
-	public Musik load(int id) {
+	public Spiel load(int id) {
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
-		Musik				ret		=	null;
+		Spiel				ret		=	null;
 		
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mediabase.idMediabase, mediabase.titel, mediabase.erscheinungsjahr, mediabase.bemerkung, "
-					+ "musik.live"
-					+ "FROM mediabase INNER JOIN musik ON mediabase.idMediabase = musik.mdbase_id "
+					+ "spiel.sprache, spiel.betriebssystem"
+					+ "FROM mediabase INNER JOIN spiel ON mediabase.idMediabase = spiel.mdbase_id "
 					+ "WHERE mediabase.idMediabase = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
-				ret = new Musik();
+				ret = new Spiel();
 				ret.setDbId(result.getInt(1));
 				ret.setTitel(result.getString(2));
 				ret.setErscheinungsdatum(result.getDate(3).toLocalDate());
 				ret.setBemerkungen(result.getString(4));
-				ret.setLive(result.getBoolean(5));
+				ret.setSprache(result.getString(5));
+				ret.setBetriebssystem(result.getString(6));
 								
 				GenreLogik genreLogik = new GenreLogik();
 				List<Genre> genres = genreLogik.getForMedium(id);
@@ -51,7 +51,7 @@ public class DBMusik extends DBMedien<Musik> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Musiktitels!");
+			addError("Fehler beim Laden des Spieltitels!");
 		} finally {
 			if (result != null) {
 				try {
@@ -79,7 +79,7 @@ public class DBMusik extends DBMedien<Musik> {
 	}
 
 	@Override
-	public boolean write(Musik medium) {
+	public boolean write(Spiel medium) {
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
@@ -98,8 +98,9 @@ public class DBMusik extends DBMedien<Musik> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE musik SET live = ? WHERE idMusik = ?");
-				stmt.setBoolean(1, medium.isLive());
+				stmt = conn.prepareStatement("UPDATE spiel SET sprache = ?, betriebssystem = ? WHERE idSpiel = ?");
+				stmt.setString(1, medium.getSprache());
+				stmt.setString(2, medium.getBetriebssystem());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
@@ -117,9 +118,10 @@ public class DBMusik extends DBMedien<Musik> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO musik (mdbase_id, live) VALUES(?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO spiel (mdbase_id, sprache, betriebssystem) VALUES(?, ?, ?)");
 				stmt.setInt(1, medium.getDbId());
-				stmt.setBoolean(2, medium.isLive());
+				stmt.setString(2, medium.getSprache());
+				stmt.setString(3, medium.getBetriebssystem());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
@@ -145,7 +147,7 @@ public class DBMusik extends DBMedien<Musik> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Schreiben des Musiktitels!");
+			addError("Fehler beim Schreiben des Spieltitels!");
 			ret = false;
 		} finally {
 			if (result != null) {
@@ -185,7 +187,7 @@ public class DBMusik extends DBMedien<Musik> {
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM musik WHERE mdbase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM spiel WHERE mdbase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -200,7 +202,7 @@ public class DBMusik extends DBMedien<Musik> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Musiktitels!");
+			addError("Fehler beim Löschen des Spieltitels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -222,8 +224,8 @@ public class DBMusik extends DBMedien<Musik> {
 	}
 
 	@Override
-	public List<Musik> list() {
-		List<Musik>			ret		=	new ArrayList<>();
+	public List<Spiel> list() {
+		List<Spiel>			ret		=	new ArrayList<>();
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
@@ -231,11 +233,11 @@ public class DBMusik extends DBMedien<Musik> {
 			boolean noError = true;
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
-					+ "FROM mediabase INNER JOIN musik ON mediabase.idMediabase = musik.mdbase_id");
+					+ "FROM mediabase INNER JOIN spiel ON mediabase.idMediabase = spiel.mdbase_id");
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
 				int id = result.getInt(1);
-				Musik element = load(id);
+				Spiel element = load(id);
 				if (element != null) {
 					ret.add(element);
 				} else {
@@ -244,7 +246,7 @@ public class DBMusik extends DBMedien<Musik> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Titelliste!");
+			addError("Fehler beim Laden der Spieleliste!");
 			ret = null;
 		} finally {
 			if (result != null) {
