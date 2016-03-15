@@ -1,8 +1,5 @@
 package gui.dto.medien;
 
-import java.util.List;
-
-import data.medien.Genre;
 import enums.Mediengruppe;
 import gui.dto.BaseDTO;
 
