@@ -7,8 +7,7 @@ public enum BuchArt implements SelectAble {
 	SoftCover 	("Softcover",   2),
 	Taschenbuch	("Taschenbuch",	3),
 	Magazin 	("Magazin",		4),
-	Manga  		("Manga",		5),
-	Comic 		("Comic", 		6);
+	ebook  		("E-Book",		5);
 	
 	private int id;
 	private String bezeichnung;

@@ -13,7 +13,7 @@ public class FilmEingabeDTO extends MediumEingabeDTO {
 	
 	public FilmEingabeDTO(String titel) {
 		super(titel, Mediengruppe.Film);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public String getSprache() {

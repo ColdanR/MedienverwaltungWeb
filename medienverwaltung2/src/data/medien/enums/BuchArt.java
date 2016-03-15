@@ -3,7 +3,13 @@ package data.medien.enums;
 import interfaces.SelectAble;
 
 public enum BuchArt implements SelectAble {
-	;
+	
+	Belletristik	(1,"Belletristik"),
+	Literatur		(2,"Literatur"),
+	Comic			(3,"Comic"),
+	Manga			(4,"Manga"),
+	Fachbuch		(5,"Fachbuch");
+	
 	private	int		id;
 	private	String	bezeichnung;
 	
