@@ -117,10 +117,9 @@ public class DBMusik extends DBMedien<Musik> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO Film (mdbase_id, sprache, art) VALUES(?, ?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO musik (mdbase_id, live) VALUES(?, ?)");
 				stmt.setInt(1, medium.getDbId());
-				stmt.setString(2, medium.getSprache());
-				stmt.setInt(3, medium.getArt().getId());
+				stmt.setBoolean(2, medium.isLive());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
@@ -146,7 +145,7 @@ public class DBMusik extends DBMedien<Musik> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Schreiben des Filmes!");
+			addError("Fehler beim Schreiben des Musiktitels!");
 			ret = false;
 		} finally {
 			if (result != null) {
@@ -186,7 +185,7 @@ public class DBMusik extends DBMedien<Musik> {
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM film WHERE mdbase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM musik WHERE mdbase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -201,7 +200,7 @@ public class DBMusik extends DBMedien<Musik> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Filmes!");
+			addError("Fehler beim Löschen des Musiktitels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -232,7 +231,7 @@ public class DBMusik extends DBMedien<Musik> {
 			boolean noError = true;
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
-					+ "FROM mediabase INNER JOIN film ON mediabase.idMediabase = film.mdbase_id");
+					+ "FROM mediabase INNER JOIN musik ON mediabase.idMediabase = musik.mdbase_id");
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
 				int id = result.getInt(1);
@@ -245,7 +244,7 @@ public class DBMusik extends DBMedien<Musik> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Filmliste!");
+			addError("Fehler beim Laden der Titelliste!");
 			ret = null;
 		} finally {
 			if (result != null) {
