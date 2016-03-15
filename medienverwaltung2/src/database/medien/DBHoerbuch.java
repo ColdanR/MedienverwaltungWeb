@@ -9,37 +9,36 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.medien.Film;
 import data.medien.Genre;
-import data.medien.enums.FilmArt;
+import data.medien.Hoerbuch;
+import data.medien.enums.HoerbuchArt;
 import logic.genre.GenreLogik;
 
-public class DBFilm extends DBMedien<Film> {
-
+public class DBHoerbuch extends DBMedien<Hoerbuch> {
 	@Override
-	public Film load(int id) {
+	public Hoerbuch load(int id) {
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
-		Film				ret		=	null;
+		Hoerbuch				ret		=	null;
 		
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mediabase.idMediabase, mediabase.titel, mediabase.erscheinungsjahr, mediabase.bemerkung, "
-					+ "film.sprache, film.art"
-					+ "FROM mediabase INNER JOIN film ON mediabase.idMediabase = film.mdbase_id "
+					+ "hoerbuch.sprache, hoerbuch.art"
+					+ "FROM mediabase INNER JOIN hoerbuch ON mediabase.idMediabase = hoerbuch.mdbase_id "
 					+ "WHERE mediabase.idMediabase = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
-				ret = new Film();
+				ret = new Hoerbuch();
 				ret.setDbId(result.getInt(1));
 				ret.setTitel(result.getString(2));
 				ret.setErscheinungsdatum(result.getDate(3).toLocalDate());
 				ret.setBemerkungen(result.getString(4));
 				ret.setSprache(result.getString(5));
-				ret.setArt(FilmArt.getFromId(result.getInt(6)));
-				
+				ret.setArt(HoerbuchArt.getFromId(result.getInt(6)));
+								
 				GenreLogik genreLogik = new GenreLogik();
 				List<Genre> genres = genreLogik.getForMedium(id);
 				if (genres == null) {
@@ -53,7 +52,7 @@ public class DBFilm extends DBMedien<Film> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Filmes!");
+			addError("Fehler beim Laden des Hörbuchs!");
 		} finally {
 			if (result != null) {
 				try {
@@ -81,7 +80,7 @@ public class DBFilm extends DBMedien<Film> {
 	}
 
 	@Override
-	public boolean write(Film medium) {
+	public boolean write(Hoerbuch medium) {
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
@@ -100,9 +99,9 @@ public class DBFilm extends DBMedien<Film> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE film SET sprache = ?, art = ? WHERE idFilm = ?");
+				stmt = conn.prepareStatement("UPDATE hoerbuch SET sprache = ?, betriebssystem = ? WHERE idHoerbuch = ?");
 				stmt.setString(1, medium.getSprache());
-				stmt.setInt(2, medium.getArt().getId());
+				stmt.setString(2, medium.getBetriebssystem());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
@@ -120,10 +119,10 @@ public class DBFilm extends DBMedien<Film> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO Film (mdbase_id, sprache, art) VALUES(?, ?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO hoerbuch (mdbase_id, sprache, betriebssystem) VALUES(?, ?, ?)");
 				stmt.setInt(1, medium.getDbId());
 				stmt.setString(2, medium.getSprache());
-				stmt.setInt(3, medium.getArt().getId());
+				stmt.setString(3, medium.getBetriebssystem());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
@@ -149,7 +148,7 @@ public class DBFilm extends DBMedien<Film> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Schreiben des Filmes!");
+			addError("Fehler beim Schreiben des Hörbuchtitels!");
 			ret = false;
 		} finally {
 			if (result != null) {
@@ -189,7 +188,7 @@ public class DBFilm extends DBMedien<Film> {
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM film WHERE mdbase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM hoerbuch WHERE mdbase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -204,7 +203,7 @@ public class DBFilm extends DBMedien<Film> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Filmes!");
+			addError("Fehler beim Löschen des Hörbuchs!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -226,8 +225,8 @@ public class DBFilm extends DBMedien<Film> {
 	}
 
 	@Override
-	public List<Film> list() {
-		List<Film>			ret		=	new ArrayList<>();
+	public List<Hoerbuch> list() {
+		List<Hoerbuch>			ret		=	new ArrayList<>();
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
@@ -235,11 +234,11 @@ public class DBFilm extends DBMedien<Film> {
 			boolean noError = true;
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
-					+ "FROM mediabase INNER JOIN film ON mediabase.idMediabase = film.mdbase_id");
+					+ "FROM mediabase INNER JOIN hoerbuch ON mediabase.idMediabase = hoerbuch.mdbase_id");
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
 				int id = result.getInt(1);
-				Film element = load(id);
+				Hoerbuch element = load(id);
 				if (element != null) {
 					ret.add(element);
 				} else {
@@ -248,7 +247,7 @@ public class DBFilm extends DBMedien<Film> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Filmliste!");
+			addError("Fehler beim Laden der Hörbuchliste!");
 			ret = null;
 		} finally {
 			if (result != null) {
@@ -274,6 +273,4 @@ public class DBFilm extends DBMedien<Film> {
 			}
 		}
 		return ret;
-	}
-
 }
