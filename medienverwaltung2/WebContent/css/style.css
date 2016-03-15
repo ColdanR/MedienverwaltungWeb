@@ -52,6 +52,6 @@ form.form-inline button[type=submit] {
 #detail p {
 	text-align: left;
 }
-#send {
+#button button {
 	margin-top: 7px;
 }

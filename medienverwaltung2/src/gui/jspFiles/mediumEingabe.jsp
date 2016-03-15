@@ -46,7 +46,7 @@
                     <label for="genre">Genre</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-3">
-                <cu:comboBox multiple="true" parameterName="genre" selectOptions="${context.genreOptions }" className="form-control" title="genre" selected="${context.genreSelected }"/>
+                <cu:comboBox multiple="true" parameterName="genre" selectOptions="${context.genreOptions}" className="form-control" title="genre" selected="${context.genreSelected}"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <button class="btn btn-default">Hinzufügen</button>
@@ -58,7 +58,7 @@
                     <label for="art">Art</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-3">
-                <cu:comboBox multiple="true" parameterName="art" selectOptions="" className="form-control" title="art" selected=""/>
+                <cu:comboBox multiple="false" parameterName="art" selectOptions="${context.artOptions}" className="form-control" title="art" selected="${context.artSelected}"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <button class="btn btn-default">Hinzufügen</button>
@@ -98,7 +98,7 @@
         </div> 	
         <div class="form-section">
             <div class="form-group">
-                <div class="col-lg-12 col-md-6 col-sm-3">
+                <div class="col-lg-12 col-md-6 col-sm-3" id="button">
                     <button class="btn btn-default center-block" name="send" id="send">Eintragen</button>
                 </div>
             </div>
