@@ -1,6 +1,7 @@
 package gui.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,12 @@ import data.medien.Hoerbuch;
 import data.medien.Medium;
 import data.medien.Musik;
 import data.medien.Spiel;
+import data.medien.validator.BildValidator;
+import data.medien.validator.BuchValidator;
+import data.medien.validator.FilmValidator;
+import data.medien.validator.HoerbuchValidator;
+import data.medien.validator.MusikValidator;
+import data.medien.validator.SpielValidator;
 import enums.Action;
 import enums.Mediengruppe;
 import gui.Controller;
@@ -282,7 +289,6 @@ public class MedienController extends Controller {
 
 	private void bearbeiten(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
 		MediumLogik<?>		logic		=	MediumLogicFactory.create(medium);
-		MediumEingabeDTO	dto			=	MediumEingabeDTO.getDTO(medium, medium.getBezeichnung() + " bearbeiten");
 		String				idString	=	request.getParameter("id");
 		if (idString == null || idString.trim().length() == 0) {
 			// TODO Fehlende ID
@@ -307,9 +313,13 @@ public class MedienController extends Controller {
 										
 									}
 								}
+								LocalDate	erscheinungsdatum	=	null;
 								bild.setTitel(titel);
 								bild.setBemerkungen(bemerkungen);
-								if (logic.write()) {
+								bild.setGenre(genre);
+								bild.setErscheinungsdatum(erscheinungsdatum);
+								BildValidator validator = new BildValidator();
+								if (validator.validate(bild) && logic.write()) {
 									// TODO Weiterleitung wohin? Detailseite oder Liste?
 								} else {
 									// TODO DTO aus Objekt bestücken
@@ -327,7 +337,8 @@ public class MedienController extends Controller {
 							Buch buch = (Buch) item;
 							if (request.getParameter("send") != null) {
 								// TODO Parameter auslesen und bild zuweisen
-								if (logic.write()) {
+								BuchValidator validator = new BuchValidator();
+								if (validator.validate(buch) && logic.write()) {
 									// TODO Weiterleitung wohin? Detailseite oder Liste?
 								} else {
 									// TODO DTO aus Objekt bestücken
@@ -345,7 +356,8 @@ public class MedienController extends Controller {
 							Film film = (Film) item;
 							if (request.getParameter("send") != null) {
 								// TODO Parameter auslesen und bild zuweisen
-								if (logic.write()) {
+								FilmValidator validator = new FilmValidator();
+								if (validator.validate(film) && logic.write()) {
 									// TODO Weiterleitung wohin? Detailseite oder Liste?
 								} else {
 									// TODO DTO aus Objekt bestücken
@@ -363,7 +375,8 @@ public class MedienController extends Controller {
 							Hoerbuch hoerbuch = (Hoerbuch) item;
 							if (request.getParameter("send") != null) {
 								// TODO Parameter auslesen und bild zuweisen
-								if (logic.write()) {
+								HoerbuchValidator validator = new HoerbuchValidator();
+								if (validator.validate(hoerbuch) && logic.write()) {
 									// TODO Weiterleitung wohin? Detailseite oder Liste?
 								} else {
 									// TODO DTO aus Objekt bestücken
@@ -381,7 +394,8 @@ public class MedienController extends Controller {
 							Musik musik = (Musik) item;
 							if (request.getParameter("send") != null) {
 								// TODO Parameter auslesen und bild zuweisen
-								if (logic.write()) {
+								MusikValidator validator = new MusikValidator();
+								if (validator.validate(musik) && logic.write()) {
 									// TODO Weiterleitung wohin? Detailseite oder Liste?
 								} else {
 									// TODO DTO aus Objekt bestücken
@@ -399,7 +413,8 @@ public class MedienController extends Controller {
 							Spiel spiel = (Spiel) item;
 							if (request.getParameter("send") != null) {
 								// TODO Parameter auslesen und bild zuweisen
-								if (logic.write()) {
+								SpielValidator validator = new SpielValidator();
+								if (validator.validate(spiel) && logic.write()) {
 									// TODO Weiterleitung wohin? Detailseite oder Liste?
 								} else {
 									// TODO DTO aus Objekt bestücken

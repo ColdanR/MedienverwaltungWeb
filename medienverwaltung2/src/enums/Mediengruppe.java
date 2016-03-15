@@ -4,20 +4,21 @@ import interfaces.SelectAble;
 import interfaces.URIPart;
 
 public enum Mediengruppe implements SelectAble, URIPart {
-	Musik	("Musik",	"musik"),
-	Film	("Film",	"film"),
-	Buch	("Buch",	"buch"),
-	Hoerbuch("Hörbuch",	"hoerbuch"),
-	Spiel	("Spiel",	"spiel"),
-	Bild	("Bild",	"bild");
+	Musik	("Musik",	"musik",	0),
+	Film	("Film",	"film",		1),
+	Buch	("Buch",	"buch",		2),
+	Hoerbuch("Hörbuch",	"hoerbuch",	3),
+	Spiel	("Spiel",	"spiel",	4),
+	Bild	("Bild",	"bild",		5);
 
 	private	String	bezeichnung;
 	private	String	uriPart;
-	private	int		id			=	ordinal();
+	private	int		id;
 	
-	private Mediengruppe(String bezeichnung, String uriPart) {
+	private Mediengruppe(String bezeichnung, String uriPart, int id) {
 		this.bezeichnung	=	bezeichnung;
 		this.uriPart		=	uriPart;
+		this.id				=	id;
 	}
 
 	@Override

@@ -1,10 +1,12 @@
 package data.medien;
 
-public class Genre {
+import interfaces.SelectAble;
+
+public class Genre implements SelectAble {
 	private int		dbId;
 	private	String	bezeichnung;
 	
-	public int getDbId() {
+	public int getId() {
 		return dbId;
 	}
 	public void setDbId(int dbId) {
@@ -19,7 +21,7 @@ public class Genre {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Genre) {
-			return dbId == ((Genre) obj).getDbId();
+			return dbId == ((Genre) obj).getId();
 		}
 		return super.equals(obj);
 	}
