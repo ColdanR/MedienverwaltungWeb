@@ -4,17 +4,17 @@ import data.speicherorte.enums.KassettenArt;
 import enums.SpeicherortArt;
 
 public class Kassette extends Speicherort {
-	private	int				zustand;
+	private	String			zustand;
 	private	KassettenArt	art;
 	
 	public Kassette() {
 		super(SpeicherortArt.Kassette);
 	}
 	
-	public int getZustand() {
+	public String getZustand() {
 		return zustand;
 	}
-	public void setZustand(int zustand) {
+	public void setZustand(String zustand) {
 		this.zustand = zustand;
 	}
 	public KassettenArt getArt() {

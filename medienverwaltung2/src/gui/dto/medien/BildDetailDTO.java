@@ -2,10 +2,8 @@ package gui.dto.medien;
 
 import enums.Mediengruppe;
 
-public abstract class BildDetailDTO extends MediumDetailDTO {
-
-	protected BildDetailDTO(String titel, Mediengruppe medium) {
+public class BildDetailDTO extends MediumDetailDTO {
+	public BildDetailDTO(String titel) {
 		super(titel, Mediengruppe.Bild);
 	}
-
 }

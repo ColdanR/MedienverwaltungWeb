@@ -2,11 +2,11 @@ package gui.dto.medien;
 
 import enums.Mediengruppe;
 
-public abstract class SpielDetailDTO extends MediumDetailDTO {
+public class SpielDetailDTO extends MediumDetailDTO {
 	private	String				sprache				=	"";
 	private	String				betriebssystem		=	"";
 	
-	protected SpielDetailDTO(String titel, Mediengruppe medium) {
+	public SpielDetailDTO(String titel) {
 		super(titel, Mediengruppe.Spiel);
 	}
 

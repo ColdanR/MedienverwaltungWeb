@@ -2,12 +2,12 @@ package gui.dto.medien;
 
 import enums.Mediengruppe;
 
-public abstract class BuchDetailDTO extends MediumDetailDTO {
+public class BuchDetailDTO extends MediumDetailDTO {
 	private	String				sprache				=	"";
 	private	String				art					= 	"";
 	private	int					auflage				=	0;
 	
-	protected BuchDetailDTO(String titel, Mediengruppe medium) {
+	public BuchDetailDTO(String titel) {
 		super(titel, Mediengruppe.Buch);
 	}
 

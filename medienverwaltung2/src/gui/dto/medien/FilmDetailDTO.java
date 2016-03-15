@@ -2,10 +2,11 @@ package gui.dto.medien;
 
 import enums.Mediengruppe;
 
-public abstract class FilmDetailDTO extends MediumDetailDTO {
+public class FilmDetailDTO extends MediumDetailDTO {
 	private	String				sprache				=	"";
 	private	String				art					=	"";
-	protected FilmDetailDTO(String titel, Mediengruppe medium) {
+	
+	public FilmDetailDTO(String titel) {
 		super(titel, Mediengruppe.Film);
 	}
 	public String getSprache() {

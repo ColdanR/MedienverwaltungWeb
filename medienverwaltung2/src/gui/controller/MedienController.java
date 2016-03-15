@@ -40,14 +40,20 @@ import enums.Mediengruppe;
 import gui.Controller;
 import gui.StaticElements;
 import gui.dto.FehlerDTO;
+import gui.dto.medien.BildDetailDTO;
 import gui.dto.medien.BildEingabeDTO;
+import gui.dto.medien.BuchDetailDTO;
 import gui.dto.medien.BuchEingabeDTO;
+import gui.dto.medien.FilmDetailDTO;
 import gui.dto.medien.FilmEingabeDTO;
+import gui.dto.medien.HoerbuchDetailDTO;
 import gui.dto.medien.HoerbuchEingabeDTO;
 import gui.dto.medien.ListAnzeigeDTO;
 import gui.dto.medien.ListAnzeigeDTO.ListElementDTO;
+import gui.dto.medien.MusikDetailDTO;
 import gui.dto.medien.MusikEingabeDTO;
 import gui.dto.medien.ShowParameterDTO;
+import gui.dto.medien.SpielDetailDTO;
 import gui.dto.medien.SpielEingabeDTO;
 import logic.MediumLogicFactory;
 import logic.genre.GenreLogik;
@@ -237,6 +243,12 @@ public class MedienController extends Controller {
 					case Bild:
 						if (item instanceof Bild) {
 							Bild bild = (Bild) item;
+							BildDetailDTO dto = new BildDetailDTO("Bild betrachten");
+							dto.setBemerkung(bild.getBemerkungen());
+							dto.setBezeichnung(bild.getTitel());
+							dto.setDbId(bild.getDbId());
+							dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenre(bild.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
 							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -250,6 +262,15 @@ public class MedienController extends Controller {
 					case Buch:
 						if (item instanceof Buch) {
 							Buch buch = (Buch) item;
+							BuchDetailDTO dto = new BuchDetailDTO("Buch betrachten");
+							dto.setBemerkung(buch.getBemerkungen());
+							dto.setBezeichnung(buch.getTitel());
+							dto.setDbId(buch.getDbId());
+							dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenre(buch.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
+							dto.setArt(buch.getArt().getBezeichnung());
+							dto.setAuflage(buch.getAuflage());
+							dto.setSprache(buch.getSprache());
 							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -263,6 +284,14 @@ public class MedienController extends Controller {
 					case Film:
 						if (item instanceof Film) {
 							Film film = (Film) item;
+							FilmDetailDTO dto = new FilmDetailDTO("Film betrachten");
+							dto.setBemerkung(film.getBemerkungen());
+							dto.setBezeichnung(film.getTitel());
+							dto.setDbId(film.getDbId());
+							dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenre(film.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
+							dto.setArt(film.getArt().getBezeichnung());
+							dto.setSprache(film.getSprache());
 							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -276,6 +305,14 @@ public class MedienController extends Controller {
 					case Hoerbuch:
 						if (item instanceof Hoerbuch) {
 							Hoerbuch hoerbuch = (Hoerbuch) item;
+							HoerbuchDetailDTO dto = new HoerbuchDetailDTO("Hörbuch betrachten");
+							dto.setBemerkung(hoerbuch.getBemerkungen());
+							dto.setBezeichnung(hoerbuch.getTitel());
+							dto.setDbId(hoerbuch.getDbId());
+							dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenre(hoerbuch.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
+							dto.setArt(hoerbuch.getArt().getBezeichnung());
+							dto.setSprache(hoerbuch.getSprache());
 							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -289,6 +326,13 @@ public class MedienController extends Controller {
 					case Musik:
 						if (item instanceof Musik) {
 							Musik musik = (Musik) item;
+							MusikDetailDTO dto = new MusikDetailDTO("Musik betrachten");
+							dto.setBemerkung(musik.getBemerkungen());
+							dto.setBezeichnung(musik.getTitel());
+							dto.setDbId(musik.getDbId());
+							dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenre(musik.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
+							dto.setLive(musik.isLive());
 							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -302,6 +346,14 @@ public class MedienController extends Controller {
 					case Spiel:
 						if (item instanceof Spiel) {
 							Spiel spiel = (Spiel) item;
+							SpielDetailDTO dto = new SpielDetailDTO("Spiel betrachten");
+							dto.setBemerkung(spiel.getBemerkungen());
+							dto.setBezeichnung(spiel.getTitel());
+							dto.setDbId(spiel.getDbId());
+							dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							dto.setGenre(spiel.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
+							dto.setBetriebssystem(spiel.getBetriebssystem());
+							dto.setSprache(spiel.getSprache());
 							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");

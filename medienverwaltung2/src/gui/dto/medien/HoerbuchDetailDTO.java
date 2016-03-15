@@ -2,11 +2,11 @@ package gui.dto.medien;
 
 import enums.Mediengruppe;
 
-public abstract class HoerbuchDetailDTO extends MediumDetailDTO {
+public class HoerbuchDetailDTO extends MediumDetailDTO {
 	private	String				sprache				=	"";
 	private	String				art					=	"";
 	
-	protected HoerbuchDetailDTO(String titel, Mediengruppe medium) {
+	public HoerbuchDetailDTO(String titel) {
 		super(titel, Mediengruppe.Hoerbuch);
 	}
 

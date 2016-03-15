@@ -2,10 +2,10 @@ package gui.dto.medien;
 
 import enums.Mediengruppe;
 
-public abstract class MusikDetailDTO extends MediumDetailDTO {
+public class MusikDetailDTO extends MediumDetailDTO {
 	private	boolean	live	=	false;
 	
-	protected MusikDetailDTO(String titel, Mediengruppe medium) {
+	public MusikDetailDTO(String titel) {
 		super(titel, Mediengruppe.Musik);
 	}
 
