@@ -20,7 +20,7 @@
                             <label for="nname"> Nachname</label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-4">
-                            <input  type="text" class="form-control" name="nname" id="nname" required="required" value="${context.nname}">
+                            <input  type="text" class="form-control" name="nname" id="nname" required="required" value="${context.vname}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -28,7 +28,7 @@
                             <label for="kname"> Künstlername</label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-4">
-                            <input  type="text" class="form-control" name="kname" id="kname" required="required" value="${context.kname}">
+                            <input  type="text" class="form-control" name="kname" id="kname" required="required" value="${context.vname}">
                         </div>
                     </div>
                 </div>
