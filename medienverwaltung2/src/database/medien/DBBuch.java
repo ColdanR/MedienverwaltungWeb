@@ -10,34 +10,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.medien.Genre;
-import data.medien.Hoerbuch;
-import data.medien.enums.HoerbuchArt;
+import data.medien.enums.BuchArt;
+import data.medien.Buch;
 import logic.genre.GenreLogik;
 
-public class DBHoerbuch extends DBMedien<Hoerbuch> {
+public class DBBuch extends DBMedien<Buch> {
 	@Override
-	public Hoerbuch load(int id) {
+	public Buch load(int id) {
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
-		Hoerbuch			ret		=	null;
+		Buch				ret		=	null;
 		
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mediabase.idMediabase, mediabase.titel, mediabase.erscheinungsjahr, mediabase.bemerkung, "
-					+ "hoerbuch.sprache, hoerbuch.art"
-					+ "FROM mediabase INNER JOIN hoerbuch ON mediabase.idMediabase = hoerbuch.mdbase_id "
+					+ "buch.sprache, buch.art, buch.auflage"
+					+ "FROM mediabase INNER JOIN buch ON mediabase.idMediabase = buch.mdbase_id "
 					+ "WHERE mediabase.idMediabase = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
-				ret = new Hoerbuch();
+				ret = new Buch();
 				ret.setDbId(result.getInt(1));
 				ret.setTitel(result.getString(2));
 				ret.setErscheinungsdatum(result.getDate(3).toLocalDate());
 				ret.setBemerkungen(result.getString(4));
 				ret.setSprache(result.getString(5));
-				ret.setArt(HoerbuchArt.getFromId(result.getInt(6)));
+				ret.setArt(BuchArt.getFromId(result.getInt(6)));
+				ret.setAuflage(result.getInt(7));
 								
 				GenreLogik genreLogik = new GenreLogik();
 				List<Genre> genres = genreLogik.getForMedium(id);
@@ -52,7 +53,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Hörbuchs!");
+			addError("Fehler beim Laden des Buchs!");
 		} finally {
 			if (result != null) {
 				try {
@@ -80,7 +81,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 	}
 
 	@Override
-	public boolean write(Hoerbuch medium) {
+	public boolean write(Buch medium) {
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
@@ -99,9 +100,10 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE hoerbuch SET sprache = ?, art = ? WHERE idHoerbuch = ?");
+				stmt = conn.prepareStatement("UPDATE buch SET sprache = ?, art = ?, auflage =? WHERE idBuch = ?");
 				stmt.setString(1, medium.getSprache());
 				stmt.setInt(2, medium.getArt().getId());
+				stmt.setInt(3, medium.getAuflage());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
@@ -119,10 +121,11 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO hoerbuch (mdbase_id, sprache, art) VALUES(?, ?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO buch (mdbase_id, sprache, art, auflage) VALUES(?, ?, ?, ?)");
 				stmt.setInt(1, medium.getDbId());
 				stmt.setString(2, medium.getSprache());
 				stmt.setInt(3, medium.getArt().getId());
+				stmt.setInt(4, medium.getAuflage());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
@@ -149,7 +152,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Schreiben des Hörbuchs!");
+			addError("Fehler beim Schreiben des Buchs!");
 			ret = false;
 		} finally {
 			if (result != null) {
@@ -189,7 +192,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM hoerbuch WHERE mdbase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM buch WHERE mdbase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -204,7 +207,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Hörbuchs!");
+			addError("Fehler beim Löschen des Buchs!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -226,8 +229,8 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 	}
 
 	@Override
-	public List<Hoerbuch> list() {
-		List<Hoerbuch>			ret		=	new ArrayList<>();
+	public List<Buch> list() {
+		List<Buch>			ret		=	new ArrayList<>();
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
@@ -235,11 +238,11 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			boolean noError = true;
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
-					+ "FROM mediabase INNER JOIN hoerbuch ON mediabase.idMediabase = hoerbuch.mdbase_id");
+					+ "FROM mediabase INNER JOIN buch ON mediabase.idMediabase = buch.mdbase_id");
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
 				int id = result.getInt(1);
-				Hoerbuch element = load(id);
+				Buch element = load(id);
 				if (element != null) {
 					ret.add(element);
 				} else {
@@ -248,7 +251,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Hörbuchliste!");
+			addError("Fehler beim Laden der Bücherliste!");
 			ret = null;
 		} finally {
 			if (result != null) {
