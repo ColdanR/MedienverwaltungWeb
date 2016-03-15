@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
+import data.medien.Bild;
 import data.medien.Film;
 import data.medien.Genre;
 import data.medien.enums.FilmArt;
@@ -99,11 +101,9 @@ public class DBFilm extends DBMedien<Film> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE film SET titel = ?, erscheinungsjahr = ?, bemerkung = ? WHERE idMediabase = ?");
-				stmt.setString(1, medium.getTitel());
-				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
-				stmt.setString(3, medium.getBemerkungen());
-				stmt.setInt(4, medium.getDbId());
+				stmt = conn.prepareStatement("UPDATE film SET sprache = ?, art = ? WHERE idFilm = ?");
+				stmt.setString(1, medium.getSprache());
+				stmt.setInt(2, medium.getArt().getId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
@@ -121,9 +121,26 @@ public class DBFilm extends DBMedien<Film> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO bild (mdbase_id) VALUES(?)");
+				stmt = conn.prepareStatement("INSERT INTO Film (mdbase_id, sprache, art) VALUES(?, ?, ?)");
+				stmt.setInt(1, medium.getDbId());
+				stmt.setString(2, medium.getSprache());
+				stmt.setInt(3, medium.getArt().getId());
+				stmt.execute();
+				stmt.close();
+				stmt = null;
+			}
+			if (medium.getGenre() != null) {
+				stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
 				stmt.setInt(1, medium.getDbId());
 				stmt.execute();
+				stmt.close();
+				stmt = null;
+				stmt = conn.prepareStatement("INSERT INTO MEDIABASEGENRE (mediabase_id, genre_id) VALUES (?, ?)");
+				for (Genre genre : medium.getGenre()) {
+					stmt.setInt(1, medium.getDbId());
+					stmt.setInt(2, genre.getId());
+					stmt.execute();
+				}
 				stmt.close();
 				stmt = null;
 			}
@@ -157,21 +174,107 @@ public class DBFilm extends DBMedien<Film> {
 					e.printStackTrace();
 				}
 			}
-		}
-		
+		}		
 		return ret;
 	}
 
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		Connection			conn	=	null;
+		PreparedStatement	stmt	=	null;
+		boolean				ret		=	true;
+		try {
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+			stmt.setInt(1, id);
+			stmt.execute();
+			stmt.close();
+			stmt = conn.prepareStatement("DELETE FROM film WHERE mdbase_id = ?");
+			stmt.setInt(1, id);
+			stmt.execute();
+			stmt.close();
+			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE idMediabase = ?");
+			stmt.setInt(1, id);
+			stmt.execute();
+			stmt.close();
+			stmt = null;
+			conn.commit();
+			conn.setAutoCommit(true);
+			conn.close();
+			conn = null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			addError("Fehler beim Löschen des Filmes!");
+			ret = false;
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return ret;
 	}
 
 	@Override
 	public List<Film> list() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Film>			ret		=	new ArrayList<>();
+		Connection			conn	=	null;
+		PreparedStatement	stmt	=	null;
+		ResultSet			result	=	null;
+		try {
+			boolean noError = true;
+			conn = getConnection();
+			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
+					+ "FROM mediabase INNER JOIN film ON mediabase.idMediabase = film.mdbase_id");
+			result = stmt.executeQuery();
+			while (result.next() && noError) {
+				int id = result.getInt(1);
+				Film element = load(id);
+				if (element != null) {
+					ret.add(element);
+				} else {
+					noError = false;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			addError("Fehler beim Laden der Filmliste!");
+			ret = null;
+		} finally {
+			if (result != null) {
+				try {
+					result.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return ret;
 	}
 
 }
