@@ -39,7 +39,6 @@ import enums.Action;
 import enums.Mediengruppe;
 import gui.Controller;
 import gui.StaticElements;
-import gui.dto.BaseDTO;
 import gui.dto.FehlerDTO;
 import gui.dto.medien.BildEingabeDTO;
 import gui.dto.medien.BuchEingabeDTO;
@@ -218,12 +217,17 @@ public class MedienController extends Controller {
 		}
 	}
 
-	private void details(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) {
+	private void details(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) throws ServletException, IOException {
 		MediumLogik<?>	logic		=	MediumLogicFactory.create(medium);
-		BaseDTO			dto			=	null;
+		List<String>	errors		=	new ArrayList<>();
 		String			idString	=	request.getParameter("id");
 		if (idString == null || idString.trim().length() == 0) {
-			// TODO Fehlende ID
+			errors.add("Fehlerhafte ID der Daten");
+			FehlerDTO dto = new FehlerDTO();
+			errors.stream().forEach(error -> {
+				dto.addError(error);
+			});
+			forward(request, response, dto, "/404.jsp");
 		} else {
 			try {
 				int id = Integer.parseInt(idString);
@@ -233,54 +237,97 @@ public class MedienController extends Controller {
 					case Bild:
 						if (item instanceof Bild) {
 							Bild bild = (Bild) item;
+							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
-							// TODO Something is wrong
+							errors.add("Medium wurde nicht gefunden");
+							FehlerDTO dto = new FehlerDTO();
+							errors.stream().forEach(error -> {
+								dto.addError(error);
+							});
+							forward(request, response, dto, "/404.jsp");
 						}
 						break;
 					case Buch:
 						if (item instanceof Buch) {
 							Buch buch = (Buch) item;
+							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
-							// TODO Something is wrong
+							errors.add("Medium wurde nicht gefunden");
+							FehlerDTO dto = new FehlerDTO();
+							errors.stream().forEach(error -> {
+								dto.addError(error);
+							});
+							forward(request, response, dto, "/404.jsp");
 						}
 						break;
 					case Film:
 						if (item instanceof Film) {
 							Film film = (Film) item;
+							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
-							// TODO Something is wrong
+							errors.add("Medium wurde nicht gefunden");
+							FehlerDTO dto = new FehlerDTO();
+							errors.stream().forEach(error -> {
+								dto.addError(error);
+							});
+							forward(request, response, dto, "/404.jsp");
 						}
 						break;
 					case Hoerbuch:
 						if (item instanceof Hoerbuch) {
 							Hoerbuch hoerbuch = (Hoerbuch) item;
+							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
-							// TODO Something is wrong
+							errors.add("Medium wurde nicht gefunden");
+							FehlerDTO dto = new FehlerDTO();
+							errors.stream().forEach(error -> {
+								dto.addError(error);
+							});
+							forward(request, response, dto, "/404.jsp");
 						}
 						break;
 					case Musik:
 						if (item instanceof Musik) {
 							Musik musik = (Musik) item;
+							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
-							// TODO Something is wrong
+							errors.add("Medium wurde nicht gefunden");
+							FehlerDTO dto = new FehlerDTO();
+							errors.stream().forEach(error -> {
+								dto.addError(error);
+							});
+							forward(request, response, dto, "/404.jsp");
 						}
 						break;
 					case Spiel:
 						if (item instanceof Spiel) {
 							Spiel spiel = (Spiel) item;
+							forward(request, response, dto, "/mediumDetails.jsp");
 						} else {
-							// TODO Something is wrong
+							errors.add("Medium wurde nicht gefunden");
+							FehlerDTO dto = new FehlerDTO();
+							errors.stream().forEach(error -> {
+								dto.addError(error);
+							});
+							forward(request, response, dto, "/404.jsp");
 						}
-						break;
-					default:
-						// TODO Never ever
 						break;
 					}
 				} else {
-					// TODO Fehler - kann nicht laden
+					errors.add("Medium wurde nicht gefunden");
+					FehlerDTO dto = new FehlerDTO();
+					errors.stream().forEach(error -> {
+						dto.addError(error);
+					});
+					forward(request, response, dto, "/404.jsp");
 				}
 			} catch (NumberFormatException e) {
-				// TODO Fehlerhafte ID
+				errors.add("Fehlerhafte ID der Daten");
+				FehlerDTO dto = new FehlerDTO();
+				errors.stream().forEach(error -> {
+					dto.addError(error);
+				});
+				forward(request, response, dto, "/404.jsp");
 			}
 		}
 	}

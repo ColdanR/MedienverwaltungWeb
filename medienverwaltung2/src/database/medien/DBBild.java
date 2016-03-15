@@ -115,6 +115,21 @@ public class DBBild extends DBMedien<Bild> {
 				stmt.close();
 				stmt = null;
 			}
+			if (medium.getGenre() != null) {
+				stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+				stmt.setInt(1, medium.getDbId());
+				stmt.execute();
+				stmt.close();
+				stmt = null;
+				stmt = conn.prepareStatement("INSERT INTO MEDIABASEGENRE (mediabase_id, genre_id) VALUES (?, ?)");
+				for (Genre genre : medium.getGenre()) {
+					stmt.setInt(1, medium.getDbId());
+					stmt.setInt(2, genre.getId());
+					stmt.execute();
+				}
+				stmt.close();
+				stmt = null;
+			}
 			conn.commit();
 			conn.setAutoCommit(true);
 			conn.close();
@@ -157,6 +172,10 @@ public class DBBild extends DBMedien<Bild> {
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
+			stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+			stmt.setInt(1, id);
+			stmt.execute();
+			stmt.close();
 			stmt = conn.prepareStatement("DELETE FROM bild WHERE mdbase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
