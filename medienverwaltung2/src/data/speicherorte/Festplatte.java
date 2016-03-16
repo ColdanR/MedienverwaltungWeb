@@ -5,7 +5,7 @@ import enums.SpeicherortArt;
 public class Festplatte extends Speicherort {
 
 	public Festplatte() {
-		super(SpeicherortArt.Dia);
+		super(SpeicherortArt.Festplatte);
 	}
 
 }

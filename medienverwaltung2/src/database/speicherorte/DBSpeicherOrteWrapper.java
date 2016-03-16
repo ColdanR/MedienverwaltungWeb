@@ -30,7 +30,7 @@ public class DBSpeicherOrteWrapper {
 			errors.addAll(dbKassette.getErrors());
 		}
 		
-		// Sortieren und RÃ¼ckgabe
+		// Sortieren und Rückgabe
 		ret.sort(new Comparator<Speicherort>() {
 			@Override
 			public int compare(Speicherort o1, Speicherort o2) {

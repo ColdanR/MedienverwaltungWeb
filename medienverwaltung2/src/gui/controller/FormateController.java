@@ -72,11 +72,11 @@ public class FormateController extends Controller {
 	private void neuanlage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("parentId") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("mediumTypeId") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
@@ -144,7 +144,7 @@ public class FormateController extends Controller {
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				FehlerDTO dto = new FehlerDTO();
-				dto.addError("Fehlerhafte ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+				dto.addError("Fehlerhafte ID beim Aufruf zum Löschen des Formates gefunden.");
 				forward(request, response, dto, "404.jsp");
 			}
 		}
@@ -153,15 +153,15 @@ public class FormateController extends Controller {
 	private void bearbeiten(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("id") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+			dto.addError("Keine ID beim Aufruf zum Löschen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("parentId") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("mediumTypeId") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
@@ -190,7 +190,7 @@ public class FormateController extends Controller {
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				FehlerDTO dto = new FehlerDTO();
-				dto.addError("Fehlerhafte ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+				dto.addError("Fehlerhafte ID beim Aufruf zum Löschen des Formates gefunden.");
 				forward(request, response, dto, "404.jsp");
 			}
 		}
@@ -199,15 +199,15 @@ public class FormateController extends Controller {
 	private void loeschen(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("id") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+			dto.addError("Keine ID beim Aufruf zum Löschen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("parentId") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("mediumTypeId") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
@@ -235,7 +235,7 @@ public class FormateController extends Controller {
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				FehlerDTO dto = new FehlerDTO();
-				dto.addError("Fehlerhafte ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
+				dto.addError("Fehlerhafte ID beim Aufruf zum Löschen des Formates gefunden.");
 				forward(request, response, dto, "404.jsp");
 			}
 		}

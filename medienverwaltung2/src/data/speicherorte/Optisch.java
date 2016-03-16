@@ -4,17 +4,17 @@ import data.speicherorte.enums.OptischArt;
 import enums.SpeicherortArt;
 
 public class Optisch extends Speicherort {
-	private	int			zustand;
+	private	String		zustand;
 	private	OptischArt	art;
 	
 	public Optisch() {
 		super(SpeicherortArt.Optisch);
 	}
 
-	public int getZustand() {
+	public String getZustand() {
 		return zustand;
 	}
-	public void setZustand(int zustand) {
+	public void setZustand(String zustand) {
 		this.zustand = zustand;
 	}
 	public OptischArt getArt() {
