@@ -9,7 +9,7 @@
         <div id="abschicken">
 	        <div class="form-group">
 	            <div class="col-lg-3 col-md-3 col-sm-3 control-label">
-	                <label for="genre">Genre</label>
+	                <label for="genre">Format</label>
 	            </div>
 	            <div class="col-lg-6 col-md-6 col-sm-3">
 	                <select class="form-control" name="genre" id="genre">
