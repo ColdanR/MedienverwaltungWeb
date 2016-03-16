@@ -29,14 +29,14 @@ and open the template in the editor.
         <nav class="navbar navbar-default">
         <div class="collapse navbar-collapse" id="navbar-collapse-2">
           <ul class="nav navbar-nav navbar-left">
-              <li><a href="index.html">Multimediaverwaltung</a></li>
+              <li><a href="${pageContext.request.contextPath}/index.html">Multimediaverwaltung</a></li>
               <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Musik
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="musik-anlegen.html">Anlegen</a></li>
-                    <li><a href="musik-anzeigen.html">Anzeigen</a></li>
+                    <li><a href="${pageContext.request.contextPath}/medium/musik/anlage.html">Anlegen</a></li>
+                    <li><a href="${pageContext.request.contextPath}/medium/musik/anzeigen.html">Anzeigen</a></li>
                 </ul>   
             </li>
             </ul>
@@ -57,8 +57,8 @@ and open the template in the editor.
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="buch-anlegen.html">Anlegen</a></li>
-                        <li><a href="buch-anzeigen.html">Anzeigen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/buch/anlage.html">Anlegen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/buch/anzeigen.html">Anzeigen</a></li>
                     </ul>
                 </li>
             </ul>
@@ -68,8 +68,8 @@ and open the template in the editor.
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="film-anlegen.html">Anlegen</a></li>
-                        <li><a href="film-anzeigen.html">Anzeigen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/film/anlage.html">Anlegen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/film/anzeigen.html">Anzeigen</a></li>
                     </ul>
                 </li>
             </ul>
@@ -79,8 +79,8 @@ and open the template in the editor.
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="hobuch-anlegen.html">Anlegen</a></li>
-                        <li><a href="hobuch-anzeigen.html">Anzeigen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/hoerbuch/anlage.html">Anlegen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/hoerbuch/anzeigen.html">Anzeigen</a></li>
                     </ul>
                 </li>
             </ul>
@@ -90,8 +90,8 @@ and open the template in the editor.
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="spiel-anlegen.html">Anlegen</a></li>
-                        <li><a href="spiel-anzeigen.html">Anzeigen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/spiel/anlage.html">Anlegen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/spiel/anzeigen.html">Anzeigen</a></li>
                     </ul>
                 </li>
             </ul>
@@ -101,8 +101,8 @@ and open the template in the editor.
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="bild-anlegen.html">Anlegen</a></li>
-                        <li><a href="bild-anzeigen.html">Anzeigen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/bild/anlage.html">Anlegen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/medium/bild/anzeigen.html">Anzeigen</a></li>
                     </ul>
                 </li>
             </ul>
