@@ -24,10 +24,10 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 		
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase, mediabase.titel, mediabase.erscheinungsjahr, mediabase.bemerkung, "
+			stmt = conn.prepareStatement("SELECT mediabase.id, mediabase.titel, mediabase.erscheinungsdatum, mediabase.bemerkung, "
 					+ "hoerbuch.sprache, hoerbuch.art"
-					+ "FROM mediabase INNER JOIN hoerbuch ON mediabase.idMediabase = hoerbuch.mdbase_id "
-					+ "WHERE mediabase.idMediabase = ?");
+					+ "FROM mediabase INNER JOIN hoerbuch ON mediabase.id = hoerbuch.mediabase_id "
+					+ "WHERE mediabase.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
@@ -55,7 +55,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Hï¿½rbuchs!");
+			addError("Fehler beim Laden des Hörbuchs!");
 		} finally {
 			if (result != null) {
 				try {
@@ -94,7 +94,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			conn.setAutoCommit(false);
 			if (medium.getDbId() != 0) {
 				// UPDATE
-				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsjahr = ?, bemerkung = ? WHERE idMediabase = ?");
+				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsdatum = ?, bemerkung = ? WHERE mediabase.id = ?");
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -102,7 +102,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE hoerbuch SET sprache = ?, art = ? WHERE idHoerbuch = ?");
+				stmt = conn.prepareStatement("UPDATE hoerbuch SET sprache = ?, art = ? WHERE hoerbuch.id = ?");
 				stmt.setString(1, medium.getSprache());
 				stmt.setInt(2, medium.getArt().getId());
 				stmt.execute();
@@ -110,7 +110,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 				stmt = null;
 			} else {
 				// INSERT
-				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsjahr, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsdatum, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -122,7 +122,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO hoerbuch (mdbase_id, sprache, art) VALUES(?, ?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO hoerbuch (mediabase_id, sprache, art) VALUES(?, ?, ?)");
 				stmt.setInt(1, medium.getDbId());
 				stmt.setString(2, medium.getSprache());
 				stmt.setInt(3, medium.getArt().getId());
@@ -131,12 +131,12 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 				stmt = null;
 			}
 			if (medium.getGenre() != null) {
-				stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+				stmt = conn.prepareStatement("DELETE FROM mediabaseGenre WHERE mediabase_id = ?");
 				stmt.setInt(1, medium.getDbId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
-				stmt = conn.prepareStatement("INSERT INTO MEDIABASEGENRE (mediabase_id, genre_id) VALUES (?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO mediabaseGenre (mediabase_id, genre_id) VALUES (?, ?)");
 				for (Genre genre : medium.getGenre()) {
 					stmt.setInt(1, medium.getDbId());
 					stmt.setInt(2, genre.getId());
@@ -152,7 +152,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Schreiben des Hï¿½rbuchs!");
+			addError("Fehler beim Schreiben des Hörbuchs!");
 			ret = false;
 		} finally {
 			if (result != null) {
@@ -188,15 +188,15 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
-			stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM mediabaseGenre WHERE mediabase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM hoerbuch WHERE mdbase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM hoerbuch WHERE mediabase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE idMediabase = ?");
+			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE mediabase.id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -207,7 +207,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Lï¿½schen des Hï¿½rbuchs!");
+			addError("Fehler beim Löschen des Hörbuchs!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -237,8 +237,8 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 		try {
 			boolean noError = true;
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
-					+ "FROM mediabase INNER JOIN hoerbuch ON mediabase.idMediabase = hoerbuch.mdbase_id");
+			stmt = conn.prepareStatement("SELECT mediabase.id "
+					+ "FROM mediabase INNER JOIN hoerbuch ON mediabase.id = hoerbuch.mediabase_id");
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
 				int id = result.getInt(1);
@@ -251,7 +251,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Hï¿½rbuchliste!");
+			addError("Fehler beim Laden der Hörbuchliste!");
 			ret = null;
 		} finally {
 			if (result != null) {

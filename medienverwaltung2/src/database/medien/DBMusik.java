@@ -24,10 +24,10 @@ public class DBMusik extends DBMedien<Musik> {
 		
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase, mediabase.titel, mediabase.erscheinungsjahr, mediabase.bemerkung, "
+			stmt = conn.prepareStatement("SELECT mediabase.id, mediabase.titel, mediabase.erscheinungsdatum, mediabase.bemerkung, "
 					+ "musik.live"
-					+ "FROM mediabase INNER JOIN musik ON mediabase.idMediabase = musik.mdbase_id "
-					+ "WHERE mediabase.idMediabase = ?");
+					+ "FROM mediabase INNER JOIN musik ON mediabase.id = musik.mediabase_id "
+					+ "WHERE mediabase.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
@@ -93,7 +93,7 @@ public class DBMusik extends DBMedien<Musik> {
 			conn.setAutoCommit(false);
 			if (medium.getDbId() != 0) {
 				// UPDATE
-				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsjahr = ?, bemerkung = ? WHERE idMediabase = ?");
+				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsdatum = ?, bemerkung = ? WHERE mediabase.id = ?");
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -101,7 +101,7 @@ public class DBMusik extends DBMedien<Musik> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE musik SET live = ? WHERE idMusik = ?");
+				stmt = conn.prepareStatement("UPDATE musik SET live = ? WHERE musik.id = ?");
 				stmt.setBoolean(1, medium.isLive());
 				stmt.execute();
 				stmt.close();

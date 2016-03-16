@@ -25,10 +25,10 @@ public class DBFilm extends DBMedien<Film> {
 		
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase, mediabase.titel, mediabase.erscheinungsjahr, mediabase.bemerkung, "
+			stmt = conn.prepareStatement("SELECT mediabase.id, mediabase.titel, mediabase.erscheinungsdatum, mediabase.bemerkung, "
 					+ "film.sprache, film.art"
-					+ "FROM mediabase INNER JOIN film ON mediabase.idMediabase = film.mdbase_id "
-					+ "WHERE mediabase.idMediabase = ?");
+					+ "FROM mediabase INNER JOIN film ON mediabase.id = film.mediabase_id "
+					+ "WHERE mediabase.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
@@ -95,7 +95,7 @@ public class DBFilm extends DBMedien<Film> {
 			conn.setAutoCommit(false);
 			if (medium.getDbId() != 0) {
 				// UPDATE
-				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsjahr = ?, bemerkung = ? WHERE idMediabase = ?");
+				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsdatum = ?, bemerkung = ? WHERE mediabase.id = ?");
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -103,7 +103,7 @@ public class DBFilm extends DBMedien<Film> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE film SET sprache = ?, art = ? WHERE idFilm = ?");
+				stmt = conn.prepareStatement("UPDATE film SET sprache = ?, art = ? WHERE film.id = ?");
 				stmt.setString(1, medium.getSprache());
 				stmt.setInt(2, medium.getArt().getId());
 				stmt.execute();
@@ -111,7 +111,7 @@ public class DBFilm extends DBMedien<Film> {
 				stmt = null;
 			} else {
 				// INSERT
-				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsjahr, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsdatum, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -123,7 +123,7 @@ public class DBFilm extends DBMedien<Film> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO Film (mdbase_id, sprache, art) VALUES(?, ?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO film (mediabase_id, sprache, art) VALUES(?, ?, ?)");
 				stmt.setInt(1, medium.getDbId());
 				stmt.setString(2, medium.getSprache());
 				stmt.setInt(3, medium.getArt().getId());
@@ -132,12 +132,12 @@ public class DBFilm extends DBMedien<Film> {
 				stmt = null;
 			}
 			if (medium.getGenre() != null) {
-				stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+				stmt = conn.prepareStatement("DELETE FROM mediabaseGenre WHERE mediabase_id = ?");
 				stmt.setInt(1, medium.getDbId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
-				stmt = conn.prepareStatement("INSERT INTO MEDIABASEGENRE (mediabase_id, genre_id) VALUES (?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO mediabaseGenre (mediabase_id, genre_id) VALUES (?, ?)");
 				for (Genre genre : medium.getGenre()) {
 					stmt.setInt(1, medium.getDbId());
 					stmt.setInt(2, genre.getId());
@@ -188,15 +188,15 @@ public class DBFilm extends DBMedien<Film> {
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
-			stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM mediabaseGenre WHERE mediabase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM film WHERE mdbase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM film WHERE mediabase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE idMediabase = ?");
+			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE mediabase.id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -207,7 +207,7 @@ public class DBFilm extends DBMedien<Film> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Lï¿½schen des Filmes!");
+			addError("Fehler beim Löschen des Filmes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -237,8 +237,8 @@ public class DBFilm extends DBMedien<Film> {
 		try {
 			boolean noError = true;
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
-					+ "FROM mediabase INNER JOIN film ON mediabase.idMediabase = film.mdbase_id");
+			stmt = conn.prepareStatement("SELECT mediabase.id "
+					+ "FROM mediabase INNER JOIN film ON mediabase.id = film.mediabase_id");
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
 				int id = result.getInt(1);

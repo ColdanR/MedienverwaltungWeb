@@ -24,10 +24,10 @@ public class DBBuch extends DBMedien<Buch> {
 		
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase, mediabase.titel, mediabase.erscheinungsjahr, mediabase.bemerkung, "
+			stmt = conn.prepareStatement("SELECT mediabase.id, mediabase.titel, mediabase.erscheinungsdatum, mediabase.bemerkung, "
 					+ "buch.sprache, buch.art, buch.auflage"
-					+ "FROM mediabase INNER JOIN buch ON mediabase.idMediabase = buch.mdbase_id "
-					+ "WHERE mediabase.idMediabase = ?");
+					+ "FROM mediabase INNER JOIN buch ON mediabase.id = buch.mediabase_id "
+					+ "WHERE mediabase.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
@@ -95,7 +95,7 @@ public class DBBuch extends DBMedien<Buch> {
 			conn.setAutoCommit(false);
 			if (medium.getDbId() != 0) {
 				// UPDATE
-				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsjahr = ?, bemerkung = ? WHERE idMediabase = ?");
+				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsdatum = ?, bemerkung = ? WHERE mediabase.id = ?");
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -103,7 +103,7 @@ public class DBBuch extends DBMedien<Buch> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE buch SET sprache = ?, art = ?, auflage =? WHERE idBuch = ?");
+				stmt = conn.prepareStatement("UPDATE buch SET sprache = ?, art = ?, auflage =? WHERE buch.id = ?");
 				stmt.setString(1, medium.getSprache());
 				stmt.setInt(2, medium.getArt().getId());
 				stmt.setInt(3, medium.getAuflage());
@@ -112,7 +112,7 @@ public class DBBuch extends DBMedien<Buch> {
 				stmt = null;
 			} else {
 				// INSERT
-				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsjahr, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsdatum, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -124,7 +124,7 @@ public class DBBuch extends DBMedien<Buch> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO buch (mdbase_id, sprache, art, auflage) VALUES(?, ?, ?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO buch (mediabase_id, sprache, art, auflage) VALUES(?, ?, ?, ?)");
 				stmt.setInt(1, medium.getDbId());
 				stmt.setString(2, medium.getSprache());
 				stmt.setInt(3, medium.getArt().getId());
