@@ -131,12 +131,12 @@ public class DBBuch extends DBMedien<Buch> {
 				stmt = null;
 			}
 			if (medium.getGenre() != null) {
-				stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+				stmt = conn.prepareStatement("DELETE FROM mediabaseGenre WHERE mediabase_id = ?");
 				stmt.setInt(1, medium.getDbId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
-				stmt = conn.prepareStatement("INSERT INTO MEDIABASEGENRE (mediabase_id, genre_id) VALUES (?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO mediabaseGenre (mediabase_id, genre_id) VALUES (?, ?)");
 				for (Genre genre : medium.getGenre()) {
 					stmt.setInt(1, medium.getDbId());
 					stmt.setInt(2, genre.getId());
@@ -188,15 +188,15 @@ public class DBBuch extends DBMedien<Buch> {
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
-			stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM mediabaseGenre WHERE mediabase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM buch WHERE mdbase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM buch WHERE mediabase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE idMediabase = ?");
+			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE mediabase.id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -237,8 +237,8 @@ public class DBBuch extends DBMedien<Buch> {
 		try {
 			boolean noError = true;
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
-					+ "FROM mediabase INNER JOIN buch ON mediabase.idMediabase = buch.mdbase_id");
+			stmt = conn.prepareStatement("SELECT mediabase.id "
+					+ "FROM mediabase INNER JOIN buch ON mediabase.id = buch.mediabase_id");
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
 				int id = result.getInt(1);
