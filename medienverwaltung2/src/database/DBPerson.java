@@ -13,7 +13,7 @@ import data.person.Person;
 
 /**
  * Database management Class for Person Object
- * @author <b>Bernd Schmidt</b> Funktionskï¿½pfe angelegt
+ * @author <b>Bernd Schmidt</b> Funktionsköpfe angelegt
  * @author <b>Andreas John</b> Implementierung der Funktionen
  *
  */
@@ -34,7 +34,7 @@ public class DBPerson extends DataBaseManager {
 		PreparedStatement stmt = null;
 		ResultSet result = null;
 		try {
-			String sql = "SELECT A.ID, A.NAME, A.NAME_1, A.KNAME FROM PERSON A WHERE A.ID = ?";
+			String sql = "SELECT person.id, person.nachname, person.vorname, person.kuenstlername FROM person WHERE person.id = ?";
 			
 			conn = getConnection();
 			stmt = conn.prepareStatement(sql);
@@ -88,7 +88,7 @@ public class DBPerson extends DataBaseManager {
 		ResultSet result = null;
 		try {
 			if (person.getId() == 0) {
-				String sql = "INSERT INTO PERSON (`NAME`, `NAME_1`, `KNAME`) VALUES (?, ?, ?)";
+				String sql = "INSERT INTO person (person.nachname, person.vorname, person.kuenstlername) VALUES (?, ?, ?)";
 				conn = getConnection();
 				stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, person.getNachname());
@@ -101,7 +101,7 @@ public class DBPerson extends DataBaseManager {
 					ret = true;
 				}
 			} else {
-				String sql = "UPDATE PERSON SET `NAME` = ?, `NAME_1` = ?, `KNAME` = ? WHERE `ID` = ?";
+				String sql = "UPDATE person SET person.nachname = ?, person.vorname = ?, person.kuenstlername = ? WHERE person.id = ?";
 				conn = getConnection();
 				stmt = conn.prepareStatement(sql);
 				stmt.setString(1, person.getNachname());
@@ -161,7 +161,7 @@ public class DBPerson extends DataBaseManager {
 		PreparedStatement stmt = null;
 		ResultSet result = null;
 		try {
-			String sql = "DELETE FROM PERSON WHERE ID = ?";			
+			String sql = "DELETE FROM person WHERE person.id = ?";			
 			conn = getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1,object.getId());
@@ -203,7 +203,7 @@ public class DBPerson extends DataBaseManager {
 		Statement stmt = null;
 		ResultSet result = null;
 		try {
-			String sql = "SELECT A.ID, A.NAME, A.NAME_1, A.KNAME FROM PERSON A";
+			String sql = "SELECT person.id, person.nachname, person.vorname, person.kuenstlername FROM person";
 			
 			conn = getConnection();
 			stmt = conn.createStatement();

@@ -35,12 +35,12 @@ public class DBFormate extends DataBaseManager {
 		Formate				format	=	null;
 		try {
 			conn	=	getConnection();
-			stmt	=	conn.prepareStatement("SELECT idSpeicherformat, idformat_analog, idformat_digital, "
-					+ "dateiformat, qualitaet "
+			stmt	=	conn.prepareStatement("SELECT speicherformat.id, format_analog.id, format_digital.id, "
+					+ "format_digital.dateiformat, format_digital.qualitaet "
 					+ "FROM speicherformat "
-					+ "LEFT JOIN format_analog ON idSpeicherformat = format_analog.speicherformat_fk "
-					+ "LEFT JOIN format_digital ON idSpeicherformat = format_digital.speicherformat_fk "
-					+ "WHERE idSpeicherformat = ?");
+					+ "LEFT JOIN format_analog ON speicherformat.id = format_analog.speicherformat_id "
+					+ "LEFT JOIN format_digital ON speicherformat.id = format_digital.speicherformat_id "
+					+ "WHERE speicherformat.id = ?");
 			stmt.setInt(1, id);
 			result	=	stmt.executeQuery();
 			if (result.next() && result.isLast()) {
@@ -96,8 +96,8 @@ public class DBFormate extends DataBaseManager {
 		boolean				noError	=	true;
 		try {
 			conn	=	getConnection();
-			stmt	=	conn.prepareStatement("SELECT idSpeicherformat FROM speicherformat "
-					+ "WHERE mediabase_fk = ?");
+			stmt	=	conn.prepareStatement("SELECT speicherformat.id FROM speicherformat "
+					+ "WHERE speicherformat.mediabase_id = ?");
 			stmt.setInt(1, idMedium);
 			result	=	stmt.executeQuery();
 			while (result.next() && noError) {
@@ -150,7 +150,7 @@ public class DBFormate extends DataBaseManager {
 			conn.setAutoCommit(false);
 			if (format.getDbId() == 0) {
 				// INSERT
-				stmt = conn.prepareStatement("INSERT INTO speicherformat (mediabase_fk) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+				stmt = conn.prepareStatement("INSERT INTO speicherformat (speicherformat.mediabase_id) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
 				stmt.setInt(1, idMedium);
 				stmt.execute();
 				result = stmt.getGeneratedKeys();
@@ -167,7 +167,7 @@ public class DBFormate extends DataBaseManager {
 				case Digital:
 					Digital digital = (Digital) format;
 					stmt = conn.prepareStatement("INSERT INTO format_digital "
-							+ "(speicherformat_fk, dateiformat, qualitaet) VALUES (?, ?, ?)");
+							+ "(speicherformat_id, dateiformat, qualitaet) VALUES (?, ?, ?)");
 					stmt.setInt(1, digital.getDbId());
 					stmt.setString(2, digital.getDateiformat());
 					stmt.setString(3, digital.getQualitaet());
@@ -183,7 +183,7 @@ public class DBFormate extends DataBaseManager {
 					break;
 				case Digital:
 					Digital digital = (Digital) format;
-					stmt = conn.prepareStatement("UPDATE format_digital SET dateiformat = ?, qualitaet = ? WHERE speicherformat_fk = ?");
+					stmt = conn.prepareStatement("UPDATE format_digital SET dateiformat = ?, qualitaet = ? WHERE speicherformat_id = ?");
 					stmt.setString(1, digital.getDateiformat());
 					stmt.setString(2, digital.getQualitaet());
 					stmt.setInt(3, digital.getDbId());
@@ -233,12 +233,12 @@ public class DBFormate extends DataBaseManager {
 		boolean				ret		=	true;
 		try {
 			conn	=	getConnection();
-			stmt	=	conn.prepareStatement("DELETE FROM speicherformat WHERE idSpeicherformat = ?");
+			stmt	=	conn.prepareStatement("DELETE FROM speicherformat WHERE speicherformat.id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim LÃ¶schen des Formates mit der ID " + id);
+			addError("Fehler beim Löschen des Formates mit der ID " + id);
 			ret = false;
 		} finally {
 			if (stmt != null) {

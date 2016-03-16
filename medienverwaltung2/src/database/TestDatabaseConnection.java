@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Testklasse, um Verbindungsmöglichkeiten zur Datenbank zu testen
+ * Testklasse, um Verbindungsmoeglichkeiten zur Datenbank zu testen
  * @author Bernd Schmidt
  *
  */
