@@ -6,7 +6,8 @@ public enum Action implements URIPart{
 	Neuanlage("anlage"),
 	Bearbeiten("editieren"),
 	Details("details"),
-	List("anzeigen");
+	List("anzeigen"),
+	Loeschen("loeschen");
 	
 	private	String	uriPart;
 	

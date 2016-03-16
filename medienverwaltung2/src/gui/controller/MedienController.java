@@ -52,7 +52,6 @@ import gui.dto.medien.ListAnzeigeDTO;
 import gui.dto.medien.ListAnzeigeDTO.ListElementDTO;
 import gui.dto.medien.MusikDetailDTO;
 import gui.dto.medien.MusikEingabeDTO;
-import gui.dto.medien.ShowParameterDTO;
 import gui.dto.medien.SpielDetailDTO;
 import gui.dto.medien.SpielEingabeDTO;
 import logic.MediumLogicFactory;
@@ -61,9 +60,14 @@ import logic.medien.MediumLogik;
 
 public class MedienController extends Controller {
 	private static Pattern URI_PATTERN = Pattern.compile("/medium/(" + 
-			Arrays.asList(Mediengruppe.values()).stream().map(Mediengruppe::getURIPart).collect(Collectors.joining("|")) +
+			Arrays.asList(Mediengruppe.values()).stream()
+			.map(Mediengruppe::getURIPart)
+			.collect(Collectors.joining("|")) +
 			")/(" +
-			Arrays.asList(Action.values()).stream().map(Action::getURIPart).collect(Collectors.joining("|")) +
+			Arrays.asList(Action.values()).stream()
+			.filter(action -> {return action != Action.Loeschen;})
+			.map(Action::getURIPart)
+			.collect(Collectors.joining("|")) +
 			").html");
 	private	static	Logger	LOGGER	=	LogManager.getLogger(MedienController.class);
 	
@@ -717,7 +721,11 @@ public class MedienController extends Controller {
 							dto.setBemerkung(musik.getBemerkungen());
 							dto.setBezeichnung(musik.getTitel());
 							dto.setDbId(musik.getDbId());
-							dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							if (musik.getErscheinungsdatum() != null) {
+								dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							} else {
+								dto.setErscheinungsjahr("");
+							}
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(musik.getGenre());
 							dto.setLive(musik.isLive());

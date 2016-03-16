@@ -28,7 +28,7 @@ public class ComboBox extends TagSupport {
 	
 	@Override
 	public int doStartTag() throws JspException {
-		if (selectOptions == null || selectOptions.size() == 0 ||
+		if (selectOptions == null ||
 				parameterName == null || parameterName.length() == 0 ||
 				className == null || className.length() == 0) {
 			throw new JspException("Fehlerhafte Parameter!");

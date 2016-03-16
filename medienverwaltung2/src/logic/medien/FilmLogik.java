@@ -1,12 +1,12 @@
 package logic.medien;
 
 import data.medien.Film;
+import database.medien.DBFilm;
 
 public class FilmLogik extends MediumLogik<Film> {
 
 	public FilmLogik() {
-		super(null);
-		// TODO Auto-generated constructor stub
+		super(new DBFilm());
 	}
 
 	@Override
