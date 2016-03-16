@@ -7,18 +7,21 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+@WebFilter(urlPatterns="/*", dispatcherTypes={DispatcherType.REQUEST, DispatcherType.ERROR})
 public class Dispatcher implements Filter {
 	private	static	ControllerFactory	FACTORY			=	ControllerFactory.getInstance();
 	private	static	String				CONTROLLER_DIR	=	"gui/controller";

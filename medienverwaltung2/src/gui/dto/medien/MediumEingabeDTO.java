@@ -18,6 +18,8 @@ public abstract class MediumEingabeDTO extends BaseDTO {
 	protected MediumEingabeDTO(String titel, Mediengruppe medium) {
 		super(titel);
 		this.medium = medium;
+		addJsFile("bootstrap-datetimepicker.min.js");
+		addCssFile("bootstrap-datetimepicker.min.css");
 	}
 	
 	public String getBezeichnung() {

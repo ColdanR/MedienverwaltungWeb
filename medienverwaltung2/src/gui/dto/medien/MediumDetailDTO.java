@@ -14,6 +14,8 @@ public abstract class MediumDetailDTO extends BaseDTO {
 	protected MediumDetailDTO(String titel, Mediengruppe medium) {
 		super(titel);
 		this.setMedium(medium);
+		addJsFile("transition.js");
+		addJsFile("collapse.js");
 	}
 
 	public int getDbId() {
