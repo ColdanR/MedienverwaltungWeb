@@ -20,10 +20,10 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 		Kassette			ret		=	null;
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT bez, bemerkung, zustand, art "
-					+ "FROM MEDIASTORAGE "
-					+ "INNER JOIN kassette ON mdstorage_id = idMediastorage "
-					+ "WHERE idMediastorage = ?");
+			stmt = conn.prepareStatement("SELECT s.bezeichnung, s.bemerkung, k.zustand, k.art "
+					+ "FROM speicherort s "
+					+ "INNER JOIN kassette k ON s.id = k.speicherort_id "
+					+ "WHERE s.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
@@ -81,7 +81,7 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 			conn = getConnection();
 			conn.setAutoCommit(false);
 			if (medium.getDbId() == 0) {
-				stmt = conn.prepareStatement("INSERT INTO MEDIASTORAGE (bez, bemerkung, speicherformat_fk) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				stmt = conn.prepareStatement("INSERT INTO speicherort (bezeichnung, bemerkung, speicherformat_id) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, medium.getLagerOrt());
 				stmt.setString(2, medium.getBemerkung());
 				stmt.setInt(3, formatId);
@@ -92,7 +92,7 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 				result.close();
 				result = null;
 				stmt.close();
-				stmt = conn.prepareStatement("INSERT INTO KASSETTE (mdstorage_id, zustand, art) VALUES (?, ?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO kassette (speicherort_id, zustand, art) VALUES (?, ?, ?)");
 				stmt.setInt(1, medium.getDbId());
 				stmt.setString(2, medium.getZustand());
 				stmt.setInt(3, medium.getArt().getId());
@@ -100,13 +100,13 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 				stmt.close();
 				stmt = null;
 			} else {
-				stmt = conn.prepareStatement("UPDATE mediastorage SET bez = ?, bemerkung = ? WHERE idMediastorage = ?");
+				stmt = conn.prepareStatement("UPDATE speicherort SET bezeichnung = ?, bemerkung = ? WHERE speicherort.id = ?");
 				stmt.setString(1, medium.getLagerOrt());
 				stmt.setString(2, medium.getBemerkung());
 				stmt.setInt(3, medium.getDbId());
 				stmt.execute();
 				stmt.close();
-				stmt = conn.prepareStatement("UPDATE kassette SET zustand = ?, art = ? WHERE mdstorage_id = ?");
+				stmt = conn.prepareStatement("UPDATE kassette SET zustand = ?, art = ? WHERE speicherort_id = ?");
 				stmt.setString(1, medium.getZustand());
 				stmt.setInt(2, medium.getArt().getId());
 				stmt.setInt(3, medium.getDbId());
@@ -157,9 +157,9 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 		List<Kassette>		ret		=	new ArrayList<>();
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT idMediastorage FROM mediastorage "
-					+ "INNER JOIN kassette ON kassette.mdstorage_id = mediastorage.idMediastorage "
-					+ "WHERE speicherformat_fk = ?");
+			stmt = conn.prepareStatement("SELECT speicherort.id FROM speicherort s"
+					+ "INNER JOIN kassette k ON s.id = k.speicherort_id"
+					+ "WHERE s.speicherformat_id = ?");
 			stmt.setInt(1, formatId);
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
@@ -172,7 +172,7 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste fÃ¼r SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return null;

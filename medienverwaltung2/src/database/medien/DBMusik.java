@@ -108,7 +108,7 @@ public class DBMusik extends DBMedien<Musik> {
 				stmt = null;
 			} else {
 				// INSERT
-				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsjahr, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsdatum, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -120,7 +120,7 @@ public class DBMusik extends DBMedien<Musik> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO musik (mdbase_id, live) VALUES(?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO musik (mediabase_id, live) VALUES(?, ?)");
 				stmt.setInt(1, medium.getDbId());
 				stmt.setBoolean(2, medium.isLive());
 				stmt.execute();
@@ -128,12 +128,12 @@ public class DBMusik extends DBMedien<Musik> {
 				stmt = null;
 			}
 			if (medium.getGenre() != null) {
-				stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+				stmt = conn.prepareStatement("DELETE FROM mediabaseGenre WHERE mediabase_id = ?");
 				stmt.setInt(1, medium.getDbId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
-				stmt = conn.prepareStatement("INSERT INTO MEDIABASEGENRE (mediabase_id, genre_id) VALUES (?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO mediabaseGenre (mediabase_id, genre_id) VALUES (?, ?)");
 				for (Genre genre : medium.getGenre()) {
 					stmt.setInt(1, medium.getDbId());
 					stmt.setInt(2, genre.getId());
@@ -184,15 +184,15 @@ public class DBMusik extends DBMedien<Musik> {
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
-			stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM mediabaseGenre WHERE mediabase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM musik WHERE mdbase_id = ?");
+			stmt = conn.prepareStatement("DELETE FROM musik WHERE mediabase_id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE idMediabase = ?");
+			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE mediabase.id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -203,7 +203,7 @@ public class DBMusik extends DBMedien<Musik> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Lï¿½schen des Musiktitels!");
+			addError("Fehler beim Löschen des Musiktitels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -233,8 +233,8 @@ public class DBMusik extends DBMedien<Musik> {
 		try {
 			boolean noError = true;
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
-					+ "FROM mediabase INNER JOIN musik ON mediabase.idMediabase = musik.mdbase_id");
+			stmt = conn.prepareStatement("SELECT mediabase.id "
+					+ "FROM mediabase INNER JOIN musik ON mediabase.id = musik.mediabase_id");
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
 				int id = result.getInt(1);
