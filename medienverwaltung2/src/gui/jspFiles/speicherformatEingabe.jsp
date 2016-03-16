@@ -2,21 +2,22 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <t:template>
 <form class="form-horizontal" role="form" action="" method="post">
     <div class="form-section">
         <h3>Alle Felder müssen ausgefüllt werden</h3>
-        <input type="hidden" value="${context.dbid}">
+        <input type="hidden" name="dbId" value="${context.dbid}">
+        <input type="hidden" name="idMedium" value="${context.idMedium}">
+        <input type="hidden" name="idMediumType" value="${context.idMediumType}">
+        <input type="hidden" name="dbId" value="${context.dbid}">
         <div id="abschicken">
 	        <div class="form-group">
 	            <div class="col-lg-3 col-md-3 col-sm-3 control-label">
 	                <label for="genre">Format</label>
 	            </div>
 	            <div class="col-lg-6 col-md-6 col-sm-3">
-	                <select class="form-control" name="genre" id="genre">
-	                    <option value="1">Analog</option>
-	                    <option value="2">Digital</option>
-	                </select>
+	           		<cu:comboBox parameterName="genre" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"/>
 	            </div>
 	            <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->
 	            <div class="col-lg-3 col-md-3 col-sm-3">

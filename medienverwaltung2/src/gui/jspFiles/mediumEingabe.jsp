@@ -47,7 +47,7 @@
                     <label for="genre">Genre</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-3">
-                <cu:comboBox multiple="true" parameterName="genre" selectOptions="${context.genreOptions}" className="form-control" title="genre" selected="${context.genreSelected}"/>
+                <cu:comboBox multiple="true" parameterName="genre" selectOptions="${context.genreOptions}" className="form-control" title="genre" selectedList="${context.genreSelected}"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <button class="btn btn-default">Hinzufügen</button>

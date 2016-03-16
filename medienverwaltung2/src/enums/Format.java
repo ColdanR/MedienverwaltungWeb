@@ -34,4 +34,13 @@ public enum Format implements SelectAble {
 	public int getId() {
 		return id;
 	}
+	
+	public static Format getElementFromId(int id) {
+		for (Format element : Format.values()) {
+			if (element.getId() == id) {
+				return element;
+			}
+		}
+		return null;
+	}
 }
