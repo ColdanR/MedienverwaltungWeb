@@ -4,17 +4,17 @@ import data.speicherorte.enums.BuchArt;
 import enums.SpeicherortArt;
 
 public class Buch extends Speicherort {
-	private	int		zustand;
+	private	String	zustand;
 	private	BuchArt	art;
 	
 	public Buch() {
 		super(SpeicherortArt.Buch);
 	}
 
-	public int getZustand() {
+	public String getZustand() {
 		return zustand;
 	}
-	public void setZustand(int zustand) {
+	public void setZustand(String zustand) {
 		this.zustand = zustand;
 	}
 	public BuchArt getArt() {

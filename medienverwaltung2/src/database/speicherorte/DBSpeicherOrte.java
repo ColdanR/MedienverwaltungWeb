@@ -30,7 +30,7 @@ public abstract class DBSpeicherOrte<E extends Speicherort> extends DataBaseMana
 		boolean				ret		=	true;
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("DELETE FROM MEDIASTORAGE WHERE idMediastorage = ?");
+			stmt = conn.prepareStatement("DELETE FROM speicherorte WHERE speicherorte.id  = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -39,7 +39,7 @@ public abstract class DBSpeicherOrte<E extends Speicherort> extends DataBaseMana
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim LÃ¶schen des SpeicherOrtes!");
+			addError("Fehler beim Löschen des Speicherortes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

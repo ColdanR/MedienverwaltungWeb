@@ -4,17 +4,17 @@ import data.speicherorte.enums.SchallplatteArt;
 import enums.SpeicherortArt;
 
 public class Schallplatte extends Speicherort {
-	private	int				zustand;
+	private	String			zustand;
 	private	SchallplatteArt	art;
 	
 	public Schallplatte() {
 		super(SpeicherortArt.Schallplatte);
 	}
 
-	public int getZustand() {
+	public String getZustand() {
 		return zustand;
 	}
-	public void setZustand(int zustand) {
+	public void setZustand(String zustand) {
 		this.zustand = zustand;
 	}
 	public SchallplatteArt getArt() {

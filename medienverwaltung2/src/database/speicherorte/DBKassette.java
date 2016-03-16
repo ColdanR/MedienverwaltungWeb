@@ -175,6 +175,6 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
 			ret = null;
 		}
-		return null;
+		return ret;
 	}
 }

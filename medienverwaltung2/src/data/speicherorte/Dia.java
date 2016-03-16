@@ -3,16 +3,16 @@ package data.speicherorte;
 import enums.SpeicherortArt;
 
 public class Dia extends Speicherort {
-	private	int		zustand;
+	private	String		zustand;
 	
 	public Dia() {
 		super(SpeicherortArt.Dia);
 	}
 
-	public int getZustand() {
+	public String getZustand() {
 		return zustand;
 	}
-	public void setZustand(int zustand) {
+	public void setZustand(String zustand) {
 		this.zustand = zustand;
 	}
 }
