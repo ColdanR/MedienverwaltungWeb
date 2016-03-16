@@ -47,6 +47,9 @@ public class DBMusik extends DBMedien<Musik> {
 					});
 				} else {
 					ret.setGenre(genres);
+					if (!loadFormate(ret)) {
+						ret = null;
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -200,7 +203,7 @@ public class DBMusik extends DBMedien<Musik> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Musiktitels!");
+			addError("Fehler beim Lï¿½schen des Musiktitels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

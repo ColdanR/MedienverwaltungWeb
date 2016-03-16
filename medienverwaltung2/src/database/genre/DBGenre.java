@@ -207,8 +207,8 @@ private	List<String>	errors	=	new ArrayList<>();
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT genre.idGenre, genre.bez FROM genre "
-					+ "INNER JOIN MEDIABASEGENRE ON MEDIABASEGENRE.genre_id = genre.idGenre "
-					+ "WHERE MEDIABASEGENRE.mediabase_id = ?");
+					+ "INNER JOIN mediaBaseGenre ON mediaBaseGenre.genre_id = genre.idGenre "
+					+ "WHERE mediaBaseGenre.mediabase_id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			while (result.next()) {

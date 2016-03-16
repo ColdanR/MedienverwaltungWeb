@@ -1,11 +1,11 @@
 package logic.medien;
 
 import data.medien.Spiel;
+import database.medien.DBSpiel;
 
 public class SpielLogik extends MediumLogik<Spiel> {
 	public SpielLogik() {
-		// TODO
-		super(null);
+		super(new DBSpiel());
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package logic.medien;
 
 import data.medien.Buch;
+import database.medien.DBBuch;
 
 public class BuchLogik extends MediumLogik<Buch> {
 	public BuchLogik() {
-		super(null);
-		// TODO Auto-generated constructor stub
+		super(new DBBuch());
 	}
 
 	@Override

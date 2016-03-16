@@ -1,12 +1,12 @@
 package logic.medien;
 
 import data.medien.Hoerbuch;
+import database.medien.DBHoerbuch;
 
 public class HoerbuchLogik extends MediumLogik<Hoerbuch> {
 
 	public HoerbuchLogik() {
-		super(null);
-		// TODO Auto-generated constructor stub
+		super(new DBHoerbuch());
 	}
 
 	@Override
