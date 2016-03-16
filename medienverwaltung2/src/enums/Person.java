@@ -4,22 +4,23 @@ import interfaces.SelectAble;
 
 
 public enum Person implements SelectAble{
-	Interpret 				("Interpret",				1),
-	MitwirkenderInterpret	("Mitwirkender Interpret",	2),
-	Autor					("Autor",					3),
-	CoAutor					("Co-Autor", 				4),
-	Regisseur				("Regisseur",				5),
-	Schauspieler			("Schauspieler", 			6),
-	Programmierer			("Programmierer", 			7);
-	
-	private String 	bezeichnung;
-	private int 	id;
-	
-	
-	private Person (String bezeichnung, int id){
-		this.bezeichnung 	= bezeichnung;
-		this.id				= id;
+	Interpret 				(1, "Interpret"),
+	MitwirkenderInterpret	(2, "Mitwirkender Interpret"),
+	Autor					(3, "Autor"),
+	CoAutor					(4, "Co-Autor"),
+	Sprecher				(5, "Sprecher"),
+	Regisseur				(6, "Regisseur"),
+	Schauspieler			(7, "Schauspieler"),
+	Programmierer			(8, "Programmierer"),
+	Fotograf				(9, "Fotograf"),
+	Modell					(10,"Modell");
 		
+	private int 	id;
+	private String 	bezeichnung;
+	
+	private Person (int id, String bezeichnung){
+		this.id				= id;
+		this.bezeichnung 	= bezeichnung;
 	}
 
 

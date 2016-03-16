@@ -7,7 +7,7 @@ public enum Mediengruppe implements SelectAble, URIPart {
 	Musik	("Musik",	"musik",	0),
 	Film	("Film",	"film",		1),
 	Buch	("Buch",	"buch",		2),
-	Hoerbuch("HÃ¶rbuch",	"hoerbuch",	3),
+	Hoerbuch("Hörbuch",	"hoerbuch",	3),
 	Spiel	("Spiel",	"spiel",	4),
 	Bild	("Bild",	"bild",		5);
 
