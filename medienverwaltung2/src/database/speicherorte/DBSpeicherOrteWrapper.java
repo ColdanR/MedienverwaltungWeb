@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import data.speicherorte.Buch;
 import data.speicherorte.Kassette;
+import data.speicherorte.Schallplatte;
 import data.speicherorte.Speicherort;
 
 public class DBSpeicherOrteWrapper {
@@ -20,17 +22,38 @@ public class DBSpeicherOrteWrapper {
 	
 	public List<Speicherort> getForId(int formatId) {
 		List<Speicherort>	ret				=	new ArrayList<>();
+		
+		// Kassetten laden
 		DBKassette			dbKassette		=	new DBKassette();
 		List<Kassette>		tempKassette	=	dbKassette.listForFormatId(formatId);
 		
-		// Kassetten laden
-		if (tempKassette == null) {
+		if (tempKassette != null) {
 			ret.addAll(tempKassette);
 		} else {
 			errors.addAll(dbKassette.getErrors());
 		}
 		
-		// Sortieren und Rückgabe
+		// Buchformat laden
+		DBBuchformat	dbBuch		=	new DBBuchformat();
+		List<Buch>		tempBuch	=	dbBuch.listForFormatId(formatId);
+		
+		if (tempBuch != null) {
+			ret.addAll(tempBuch);
+		} else {
+			errors.addAll(dbBuch.getErrors());
+		}
+		
+		// Schallplatten laden
+		DBSchallplatte		dbSchallplatte		=	new DBSchallplatte();
+		List<Schallplatte>	tempSchallplatte	=	dbSchallplatte.listForFormatId(formatId);
+		
+		if (tempSchallplatte != null) {
+			ret.addAll(tempSchallplatte);
+		} else {
+			errors.addAll(dbSchallplatte.getErrors());
+		}
+		
+		// Sortieren und Rï¿½ckgabe
 		ret.sort(new Comparator<Speicherort>() {
 			@Override
 			public int compare(Speicherort o1, Speicherort o2) {
