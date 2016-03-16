@@ -49,6 +49,9 @@ public class DBFilm extends DBMedien<Film> {
 					});
 				} else {
 					ret.setGenre(genres);
+					if (!loadFormate(ret)) {
+						ret = null;
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -204,7 +207,7 @@ public class DBFilm extends DBMedien<Film> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Filmes!");
+			addError("Fehler beim Lï¿½schen des Filmes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

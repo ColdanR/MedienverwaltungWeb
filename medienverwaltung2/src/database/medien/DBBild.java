@@ -43,6 +43,9 @@ public class DBBild extends DBMedien<Bild> {
 					});
 				} else {
 					ret.setGenre(genres);
+					if (!loadFormate(ret)) {
+						ret = null;
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -171,27 +174,16 @@ public class DBBild extends DBMedien<Bild> {
 		boolean				ret		=	true;
 		try {
 			conn = getConnection();
-			conn.setAutoCommit(false);
-			stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
-			stmt.setInt(1, id);
-			stmt.execute();
-			stmt.close();
-			stmt = conn.prepareStatement("DELETE FROM bild WHERE mdbase_id = ?");
-			stmt.setInt(1, id);
-			stmt.execute();
-			stmt.close();
 			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE idMediabase = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
 			stmt = null;
-			conn.commit();
-			conn.setAutoCommit(true);
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Bildes!");
+			addError("Fehler beim Lï¿½schen des Bildes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

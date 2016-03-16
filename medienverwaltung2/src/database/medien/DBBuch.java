@@ -49,6 +49,9 @@ public class DBBuch extends DBMedien<Buch> {
 					});
 				} else {
 					ret.setGenre(genres);
+					if (!loadFormate(ret)) {
+						ret = null;
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -207,7 +210,7 @@ public class DBBuch extends DBMedien<Buch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Buchs!");
+			addError("Fehler beim Lï¿½schen des Buchs!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -251,7 +254,7 @@ public class DBBuch extends DBMedien<Buch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Bücherliste!");
+			addError("Fehler beim Laden der Bï¿½cherliste!");
 			ret = null;
 		} finally {
 			if (result != null) {

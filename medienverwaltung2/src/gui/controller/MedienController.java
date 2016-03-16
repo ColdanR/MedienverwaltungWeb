@@ -100,10 +100,6 @@ public class MedienController extends Controller {
 		default:
 			break;
 		}
-		
-		
-		ShowParameterDTO	dto				=	new ShowParameterDTO(request);
-		forward(request, response, dto, "/showRequest.jsp");
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response, Mediengruppe medium) throws ServletException, IOException {
@@ -233,7 +229,7 @@ public class MedienController extends Controller {
 			errors.stream().forEach(error -> {
 				dto.addError(error);
 			});
-			forward(request, response, dto, "/404.jsp");
+			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
 				int id = Integer.parseInt(idString);
@@ -249,14 +245,14 @@ public class MedienController extends Controller {
 							dto.setDbId(bild.getDbId());
 							dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
 							dto.setGenre(bild.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
-							forward(request, response, dto, "/mediumDetails.jsp");
+							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
 							FehlerDTO dto = new FehlerDTO();
 							errors.stream().forEach(error -> {
 								dto.addError(error);
 							});
-							forward(request, response, dto, "/404.jsp");
+							forward(request, response, dto, "404.jsp");
 						}
 						break;
 					case Buch:
@@ -271,14 +267,14 @@ public class MedienController extends Controller {
 							dto.setArt(buch.getArt().getBezeichnung());
 							dto.setAuflage(buch.getAuflage());
 							dto.setSprache(buch.getSprache());
-							forward(request, response, dto, "/mediumDetails.jsp");
+							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
 							FehlerDTO dto = new FehlerDTO();
 							errors.stream().forEach(error -> {
 								dto.addError(error);
 							});
-							forward(request, response, dto, "/404.jsp");
+							forward(request, response, dto, "404.jsp");
 						}
 						break;
 					case Film:
@@ -292,14 +288,14 @@ public class MedienController extends Controller {
 							dto.setGenre(film.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
 							dto.setArt(film.getArt().getBezeichnung());
 							dto.setSprache(film.getSprache());
-							forward(request, response, dto, "/mediumDetails.jsp");
+							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
 							FehlerDTO dto = new FehlerDTO();
 							errors.stream().forEach(error -> {
 								dto.addError(error);
 							});
-							forward(request, response, dto, "/404.jsp");
+							forward(request, response, dto, "404.jsp");
 						}
 						break;
 					case Hoerbuch:
@@ -313,14 +309,14 @@ public class MedienController extends Controller {
 							dto.setGenre(hoerbuch.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
 							dto.setArt(hoerbuch.getArt().getBezeichnung());
 							dto.setSprache(hoerbuch.getSprache());
-							forward(request, response, dto, "/mediumDetails.jsp");
+							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
 							FehlerDTO dto = new FehlerDTO();
 							errors.stream().forEach(error -> {
 								dto.addError(error);
 							});
-							forward(request, response, dto, "/404.jsp");
+							forward(request, response, dto, "404.jsp");
 						}
 						break;
 					case Musik:
@@ -333,14 +329,14 @@ public class MedienController extends Controller {
 							dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
 							dto.setGenre(musik.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
 							dto.setLive(musik.isLive());
-							forward(request, response, dto, "/mediumDetails.jsp");
+							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
 							FehlerDTO dto = new FehlerDTO();
 							errors.stream().forEach(error -> {
 								dto.addError(error);
 							});
-							forward(request, response, dto, "/404.jsp");
+							forward(request, response, dto, "404.jsp");
 						}
 						break;
 					case Spiel:
@@ -354,14 +350,14 @@ public class MedienController extends Controller {
 							dto.setGenre(spiel.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
 							dto.setBetriebssystem(spiel.getBetriebssystem());
 							dto.setSprache(spiel.getSprache());
-							forward(request, response, dto, "/mediumDetails.jsp");
+							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
 							FehlerDTO dto = new FehlerDTO();
 							errors.stream().forEach(error -> {
 								dto.addError(error);
 							});
-							forward(request, response, dto, "/404.jsp");
+							forward(request, response, dto, "404.jsp");
 						}
 						break;
 					}
@@ -371,7 +367,7 @@ public class MedienController extends Controller {
 					errors.stream().forEach(error -> {
 						dto.addError(error);
 					});
-					forward(request, response, dto, "/404.jsp");
+					forward(request, response, dto, "404.jsp");
 				}
 			} catch (NumberFormatException e) {
 				errors.add("Fehlerhafte ID der Daten");
@@ -379,7 +375,7 @@ public class MedienController extends Controller {
 				errors.stream().forEach(error -> {
 					dto.addError(error);
 				});
-				forward(request, response, dto, "/404.jsp");
+				forward(request, response, dto, "404.jsp");
 			}
 		}
 	}
@@ -459,7 +455,7 @@ public class MedienController extends Controller {
 								dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(bild.getGenre());
-								forward(request, response, dto, "/mediumEingabe.jsp");
+								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
 							// DTO aus Object bestücken
@@ -473,7 +469,7 @@ public class MedienController extends Controller {
 							dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(bild.getGenre());
-							forward(request, response, dto, "/mediumEingabe.jsp");
+							forward(request, response, dto, "mediumEingabe.jsp");
 						}
 					} else {
 						errors.add("Fehlerhaftes Casten der Daten");
@@ -481,7 +477,7 @@ public class MedienController extends Controller {
 						errors.stream().forEach(error -> {
 							dto.addError(error);
 						});
-						forward(request, response, dto, "/404.jsp");
+						forward(request, response, dto, "404.jsp");
 					}
 					break;
 				case Buch:
@@ -529,7 +525,7 @@ public class MedienController extends Controller {
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(buch.getGenre());
 								dto.setSprache(buch.getSprache());
-								forward(request, response, dto, "/mediumEingabe.jsp");
+								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
 							// DTO aus Object bestücken
@@ -544,7 +540,7 @@ public class MedienController extends Controller {
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(buch.getGenre());
 							dto.setSprache(buch.getSprache());
-							forward(request, response, dto, "/mediumEingabe.jsp");
+							forward(request, response, dto, "mediumEingabe.jsp");
 						}
 					} else {
 						errors.add("Fehlerhaftes Casten der Daten");
@@ -552,7 +548,7 @@ public class MedienController extends Controller {
 						errors.stream().forEach(error -> {
 							dto.addError(error);
 						});
-						forward(request, response, dto, "/404.jsp");
+						forward(request, response, dto, "404.jsp");
 					}
 					break;
 				case Film:
@@ -595,7 +591,7 @@ public class MedienController extends Controller {
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(film.getGenre());
 								dto.setSprache(film.getSprache());
-								forward(request, response, dto, "/mediumEingabe.jsp");
+								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
 							// DTO aus Object bestücken
@@ -609,7 +605,7 @@ public class MedienController extends Controller {
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(film.getGenre());
 							dto.setSprache(film.getSprache());
-							forward(request, response, dto, "/mediumEingabe.jsp");
+							forward(request, response, dto, "mediumEingabe.jsp");
 						}
 					} else {
 						errors.add("Fehlerhaftes Casten der Daten");
@@ -617,7 +613,7 @@ public class MedienController extends Controller {
 						errors.stream().forEach(error -> {
 							dto.addError(error);
 						});
-						forward(request, response, dto, "/404.jsp");
+						forward(request, response, dto, "404.jsp");
 					}
 					break;
 				case Hoerbuch:
@@ -660,7 +656,7 @@ public class MedienController extends Controller {
 								dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
 								dto.setHoerbuchartSelected(hoerbuch.getArt());
 								dto.setSprache(hoerbuch.getSprache());
-								forward(request, response, dto, "/mediumEingabe.jsp");
+								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
 							// DTO aus Object bestücken
@@ -674,7 +670,7 @@ public class MedienController extends Controller {
 							dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
 							dto.setHoerbuchartSelected(hoerbuch.getArt());
 							dto.setSprache(hoerbuch.getSprache());
-							forward(request, response, dto, "/mediumEingabe.jsp");
+							forward(request, response, dto, "mediumEingabe.jsp");
 						}
 					} else {
 						errors.add("Fehlerhaftes Casten der Daten");
@@ -682,7 +678,7 @@ public class MedienController extends Controller {
 						errors.stream().forEach(error -> {
 							dto.addError(error);
 						});
-						forward(request, response, dto, "/404.jsp");
+						forward(request, response, dto, "404.jsp");
 					}
 					break;
 				case Musik:
@@ -713,7 +709,7 @@ public class MedienController extends Controller {
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(musik.getGenre());
 								dto.setLive(musik.isLive());
-								forward(request, response, dto, "/mediumEingabe.jsp");
+								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
 							// DTO aus Object bestücken
@@ -725,7 +721,7 @@ public class MedienController extends Controller {
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(musik.getGenre());
 							dto.setLive(musik.isLive());
-							forward(request, response, dto, "/mediumEingabe.jsp");
+							forward(request, response, dto, "mediumEingabe.jsp");
 						}
 					} else {
 						errors.add("Fehlerhaftes Casten der Daten");
@@ -733,7 +729,7 @@ public class MedienController extends Controller {
 						errors.stream().forEach(error -> {
 							dto.addError(error);
 						});
-						forward(request, response, dto, "/404.jsp");
+						forward(request, response, dto, "404.jsp");
 					}
 					break;
 				case Spiel:
@@ -767,7 +763,7 @@ public class MedienController extends Controller {
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(spiel.getGenre());
 								dto.setSprache(spiel.getSprache());
-								forward(request, response, dto, "/mediumEingabe.jsp");
+								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
 							// DTO aus Object bestücken
@@ -780,7 +776,7 @@ public class MedienController extends Controller {
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(spiel.getGenre());
 							dto.setSprache(spiel.getSprache());
-							forward(request, response, dto, "/mediumEingabe.jsp");
+							forward(request, response, dto, "mediumEingabe.jsp");
 						}
 					} else {
 						errors.add("Fehlerhaftes Casten der Daten");
@@ -788,7 +784,7 @@ public class MedienController extends Controller {
 						errors.stream().forEach(error -> {
 							dto.addError(error);
 						});
-						forward(request, response, dto, "/404.jsp");
+						forward(request, response, dto, "404.jsp");
 					}
 					break;
 				}
@@ -801,7 +797,7 @@ public class MedienController extends Controller {
 			errors.stream().forEach(error -> {
 				dto.addError(error);
 			});
-			forward(request, response, dto, "/404.jsp");
+			forward(request, response, dto, "404.jsp");
 		}
 	}
 
@@ -822,7 +818,7 @@ public class MedienController extends Controller {
 			errors.stream().forEach(error -> {
 				dto.addError(error);
 			});
-			forward(request, response, dto, "/404.jsp");
+			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
 				int id = Integer.parseInt(idString);
@@ -891,7 +887,7 @@ public class MedienController extends Controller {
 										dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(bild.getGenre());
-										forward(request, response, dto, "/mediumEingabe.jsp");
+										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
 									// DTO aus Object bestücken
@@ -905,7 +901,7 @@ public class MedienController extends Controller {
 									dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(bild.getGenre());
-									forward(request, response, dto, "/mediumEingabe.jsp");
+									forward(request, response, dto, "mediumEingabe.jsp");
 								}
 							} else {
 								errors.add("Fehlerhaftes Casten der Daten");
@@ -913,7 +909,7 @@ public class MedienController extends Controller {
 								errors.stream().forEach(error -> {
 									dto.addError(error);
 								});
-								forward(request, response, dto, "/404.jsp");
+								forward(request, response, dto, "404.jsp");
 							}
 							break;
 						case Buch:
@@ -961,7 +957,7 @@ public class MedienController extends Controller {
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(buch.getGenre());
 										dto.setSprache(buch.getSprache());
-										forward(request, response, dto, "/mediumEingabe.jsp");
+										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
 									// DTO aus Object bestücken
@@ -976,7 +972,7 @@ public class MedienController extends Controller {
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(buch.getGenre());
 									dto.setSprache(buch.getSprache());
-									forward(request, response, dto, "/mediumEingabe.jsp");
+									forward(request, response, dto, "mediumEingabe.jsp");
 								}
 							} else {
 								errors.add("Fehlerhaftes Casten der Daten");
@@ -984,7 +980,7 @@ public class MedienController extends Controller {
 								errors.stream().forEach(error -> {
 									dto.addError(error);
 								});
-								forward(request, response, dto, "/404.jsp");
+								forward(request, response, dto, "404.jsp");
 							}
 							break;
 						case Film:
@@ -1027,7 +1023,7 @@ public class MedienController extends Controller {
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(film.getGenre());
 										dto.setSprache(film.getSprache());
-										forward(request, response, dto, "/mediumEingabe.jsp");
+										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
 									// DTO aus Object bestücken
@@ -1041,7 +1037,7 @@ public class MedienController extends Controller {
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(film.getGenre());
 									dto.setSprache(film.getSprache());
-									forward(request, response, dto, "/mediumEingabe.jsp");
+									forward(request, response, dto, "mediumEingabe.jsp");
 								}
 							} else {
 								errors.add("Fehlerhaftes Casten der Daten");
@@ -1049,7 +1045,7 @@ public class MedienController extends Controller {
 								errors.stream().forEach(error -> {
 									dto.addError(error);
 								});
-								forward(request, response, dto, "/404.jsp");
+								forward(request, response, dto, "404.jsp");
 							}
 							break;
 						case Hoerbuch:
@@ -1092,7 +1088,7 @@ public class MedienController extends Controller {
 										dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
 										dto.setHoerbuchartSelected(hoerbuch.getArt());
 										dto.setSprache(hoerbuch.getSprache());
-										forward(request, response, dto, "/mediumEingabe.jsp");
+										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
 									// DTO aus Object bestücken
@@ -1106,7 +1102,7 @@ public class MedienController extends Controller {
 									dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
 									dto.setHoerbuchartSelected(hoerbuch.getArt());
 									dto.setSprache(hoerbuch.getSprache());
-									forward(request, response, dto, "/mediumEingabe.jsp");
+									forward(request, response, dto, "mediumEingabe.jsp");
 								}
 							} else {
 								errors.add("Fehlerhaftes Casten der Daten");
@@ -1114,7 +1110,7 @@ public class MedienController extends Controller {
 								errors.stream().forEach(error -> {
 									dto.addError(error);
 								});
-								forward(request, response, dto, "/404.jsp");
+								forward(request, response, dto, "404.jsp");
 							}
 							break;
 						case Musik:
@@ -1145,7 +1141,7 @@ public class MedienController extends Controller {
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(musik.getGenre());
 										dto.setLive(musik.isLive());
-										forward(request, response, dto, "/mediumEingabe.jsp");
+										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
 									// DTO aus Object bestücken
@@ -1157,7 +1153,7 @@ public class MedienController extends Controller {
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(musik.getGenre());
 									dto.setLive(musik.isLive());
-									forward(request, response, dto, "/mediumEingabe.jsp");
+									forward(request, response, dto, "mediumEingabe.jsp");
 								}
 							} else {
 								errors.add("Fehlerhaftes Casten der Daten");
@@ -1165,7 +1161,7 @@ public class MedienController extends Controller {
 								errors.stream().forEach(error -> {
 									dto.addError(error);
 								});
-								forward(request, response, dto, "/404.jsp");
+								forward(request, response, dto, "404.jsp");
 							}
 							break;
 						case Spiel:
@@ -1199,7 +1195,7 @@ public class MedienController extends Controller {
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(spiel.getGenre());
 										dto.setSprache(spiel.getSprache());
-										forward(request, response, dto, "/mediumEingabe.jsp");
+										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
 									// DTO aus Object bestücken
@@ -1212,7 +1208,7 @@ public class MedienController extends Controller {
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(spiel.getGenre());
 									dto.setSprache(spiel.getSprache());
-									forward(request, response, dto, "/mediumEingabe.jsp");
+									forward(request, response, dto, "mediumEingabe.jsp");
 								}
 							} else {
 								errors.add("Fehlerhaftes Casten der Daten");
@@ -1220,7 +1216,7 @@ public class MedienController extends Controller {
 								errors.stream().forEach(error -> {
 									dto.addError(error);
 								});
-								forward(request, response, dto, "/404.jsp");
+								forward(request, response, dto, "404.jsp");
 							}
 							break;
 						}
@@ -1231,7 +1227,7 @@ public class MedienController extends Controller {
 					errors.stream().forEach(error -> {
 						dto.addError(error);
 					});
-					forward(request, response, dto, "/404.jsp");
+					forward(request, response, dto, "404.jsp");
 				}
 			} catch (NumberFormatException e) {
 				errors.add("Fehlerhafte ID");
@@ -1239,7 +1235,7 @@ public class MedienController extends Controller {
 				errors.stream().forEach(error -> {
 					dto.addError(error);
 				});
-				forward(request, response, dto, "/404.jsp");
+				forward(request, response, dto, "404.jsp");
 			}
 		}
 	}

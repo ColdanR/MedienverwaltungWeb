@@ -29,7 +29,7 @@ public abstract class Controller {
 	
 	protected void forward(HttpServletRequest request, HttpServletResponse response, BaseDTO dto, String filePath) throws ServletException, IOException {
 		request.setAttribute("context", dto);
-		request.getRequestDispatcher("/WEB-INF/classes/gui/jspFiles" + filePath).forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/classes/gui/jspFiles/" + filePath).forward(request, response);
 	}
 	
 	protected void redirect (HttpServletRequest request, HttpServletResponse response, String uri) {

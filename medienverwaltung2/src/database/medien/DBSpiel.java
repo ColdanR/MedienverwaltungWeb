@@ -47,6 +47,9 @@ public class DBSpiel extends DBMedien<Spiel>{
 					});
 				} else {
 					ret.setGenre(genres);
+					if (!loadFormate(ret)) {
+						ret = null;
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -202,7 +205,7 @@ public class DBSpiel extends DBMedien<Spiel>{
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Spieltitels!");
+			addError("Fehler beim Lï¿½schen des Spieltitels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

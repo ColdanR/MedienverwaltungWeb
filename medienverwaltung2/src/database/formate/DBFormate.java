@@ -11,7 +11,9 @@ import java.util.List;
 import data.formate.Analog;
 import data.formate.Digital;
 import data.formate.Formate;
+import data.speicherorte.Speicherort;
 import database.DataBaseManager;
+import database.speicherorte.DBSpeicherOrteWrapper;
 
 public class DBFormate extends DataBaseManager {
 	private	List<String>	errors	=	new ArrayList<>();
@@ -55,6 +57,15 @@ public class DBFormate extends DataBaseManager {
 					element.setQualitaet(result.getString(5));
 				} else {
 					addError("Unbekanntes Format!");
+				}
+				DBSpeicherOrteWrapper dbSpeicherOrte = new DBSpeicherOrteWrapper();
+				List<Speicherort> speicherOrte = dbSpeicherOrte.getForId(id);
+				if (speicherOrte != null) {
+					format.setSpeicherOrt(speicherOrte);
+				} else {
+					dbSpeicherOrte.getErrors().stream().forEach(error -> {
+						addError(error);
+					});
 				}
 			} else {
 				addError("Format wurde nicht gefunden.");

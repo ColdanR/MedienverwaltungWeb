@@ -27,6 +27,9 @@ public abstract class Formate {
 	public void addSpeicherOrt(Speicherort speicherort) {
 		this.speicherOrte.add(speicherort);
 	}
+	public void setSpeicherOrt(List<Speicherort> list) {
+		this.speicherOrte.addAll(list);
+	}
 	public Format getType() {
 		return type;
 	}
