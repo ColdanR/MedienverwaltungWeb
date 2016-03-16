@@ -6,6 +6,7 @@
 <form class="form-horizontal" role="form" action="" method="post">
     <div class="form-section">
         <h3>Alle Felder müssen ausgefüllt werden</h3>
+        <input type="hidden" value="${context.dbid}">
         <div id="abschicken">
 	        <div class="form-group">
 	            <div class="col-lg-3 col-md-3 col-sm-3 control-label">

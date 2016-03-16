@@ -22,9 +22,9 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="${context.baseURI}details.html?id=${data.id}">Details</a></li>
-                        <li><a href="${context.baseURI}editieren.html?id=${data.id}">Bearbeiten</a></li>
-                        <li><a href="${context.baseURI}anzeigen.html?action=delete&id=${data.id}">Löschen</a></li>
+                        <li><a href="${context.baseURI}details.html?id=${data.dbid}">Details</a></li>
+                        <li><a href="${context.baseURI}editieren.html?id=${data.dbid}">Bearbeiten</a></li>
+                        <li><a href="${context.baseURI}anzeigen.html?action=delete&id=${data.dbid}">Löschen</a></li>
                     </ul>
                 </div></td>
                 <td>${data.bezeichnung}</td>

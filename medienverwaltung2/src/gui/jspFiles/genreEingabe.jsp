@@ -7,6 +7,7 @@
 <form class="form-horizontal" role="form" action="" method="post">
                 <div class="form-section">
                     <h3>Alle Felder müssen ausgefüllt werden</h3>
+                    <input type="hidden" value="${context.dbid}">
                     <div class="form-group">
                         <div class="col-sm-3 col-lg-3 control-label">
                             <label for="bez"> Bezeichnung</label>

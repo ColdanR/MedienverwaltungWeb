@@ -6,6 +6,7 @@
 <t:template>
 <form class="form-horizontal" role="form" action="" method="post">
                 <div class="form-section">
+                <input type="hidden" value="${context.dbid}">
                     <h3>Alle Felder müssen ausgefüllt werden</h3>
                     <div class="form-group">
                         <div class="col-sm-3 col-lg-3 control-label">

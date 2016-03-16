@@ -7,9 +7,10 @@
 <form class="form-horizontal" role="form" action="" method="post">
         <div class="form-section">
             <h3>Alle Felder müssen ausgefüllt werden</h3>
+            <input type="hidden" value="${context.dbid}">
             <div class="form-group">
                 <div class="col-lg-3 col-md-3 col-sm-3 control-label">
-                    <label for="speichermedium">Medium</label>
+                    <label for="speichermedium">Speicherortart</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-3">
                      <cu:comboBox multiple="false" parameterName="speichermedium" selectOptions="${context.speichermediumOptions}" className="form-control" title="speichermedium" selected="${context.speichermediumSelected}"/>                    
@@ -28,24 +29,6 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-4">
                         <input class="form-control" name="bemerkung" id="bemerkung" required="required">
-                    </div>
-                </div>
-                <!--Wenn nicht Festplatte zusätzlich!!! -->
-                <div class="form-group">
-                    <div class="col-sm-3 col-lg-3 control-label">
-                        <label for="zustand">Zustand</label>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-4">
-                        <input class="form-control" name="zustand" id="zustand" required="required">
-                    </div>
-                </div>
-                <!--Wenn nicht Festplatte,Kassette,DIa zusätzlich!!! -->
-                <div class="form-group">
-                    <div class="col-sm-3 col-lg-3 control-label">
-                        <label for="art">Art</label>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-3">
-                        <cu:comboBox multiple="false" parameterName="art" selectOptions="${context.artOptions}" className="form-control" title="art" selected="${context.artSelected}"/>
                     </div>
                 </div>
             </div>
