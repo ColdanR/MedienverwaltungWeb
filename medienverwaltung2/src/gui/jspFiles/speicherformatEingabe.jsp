@@ -6,20 +6,22 @@
 <form class="form-horizontal" role="form" action="" method="post">
     <div class="form-section">
         <h3>Alle Felder müssen ausgefüllt werden</h3>
-        <div class="form-group">
-            <div class="col-lg-3 col-md-3 col-sm-3 control-label">
-                <label for="genre">Genre</label>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-3">
-                <select class="form-control" name="genre" id="genre">
-                    <option value="1">Analog</option>
-                    <option value="2">Digital</option>
-                </select>
-            </div>
-            <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->
-            <div class="col-lg-3 col-md-3 col-sm-3">
-                <button class="btn btn-default">Hinzufügen</button>
-            </div>
+        <div id="abschicken">
+	        <div class="form-group">
+	            <div class="col-lg-3 col-md-3 col-sm-3 control-label">
+	                <label for="genre">Genre</label>
+	            </div>
+	            <div class="col-lg-6 col-md-6 col-sm-3">
+	                <select class="form-control" name="genre" id="genre">
+	                    <option value="1">Analog</option>
+	                    <option value="2">Digital</option>
+	                </select>
+	            </div>
+	            <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->
+	            <div class="col-lg-3 col-md-3 col-sm-3">
+	                <button class="btn btn-default">Hinzufügen</button>
+	            </div>
+	        </div>
         </div>
     </div>
     <div class="form-section">
