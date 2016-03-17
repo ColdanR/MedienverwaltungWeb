@@ -55,3 +55,9 @@ form.form-inline button[type=submit] {
 #button button {
 	margin-top: 7px;
 }
+#footer {
+	height: 54px;
+}
+#footer div{
+	height: 40px;
+}
