@@ -9,6 +9,7 @@ $(document).ready(function(){
             //var divform = new Element('div', {class: 'form-group'});
             var divform = document.createElement("div");
             divform.className = "form-group";
+            divform.id = "dat";
             //var contLabel = new Element('div', {class: 'col-lg-3 col-md-3 col-sm-3 control-label'});
             var contLable = document.createElement("div");
             contLable.className ="col-lg-3 col-md-3 col-sm-3 control-label";
@@ -32,6 +33,7 @@ $(document).ready(function(){
 
             var divform2 = document.createElement("div");
             divform2.className = "form-group";
+            divform2.id = "qua";
             var contLable2 = document.createElement("div");
             contLable2.className ="col-lg-3 col-md-3 col-sm-3 control-label";
             var lableDat2 = document.createElement("label");
@@ -53,6 +55,11 @@ $(document).ready(function(){
             $("#abschicken").append(jqDivForm);
             $("#abschicken").append(jqDivForm2);
 
+        }
+        else
+        {
+            document.getElementById("abschicken").removeChild(document.getElementById("qua"));
+            document.getElementById("abschicken").removeChild(document.getElementById("dat"));
         }
     });
 
