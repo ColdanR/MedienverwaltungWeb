@@ -10,7 +10,7 @@ public abstract class MediumEingabeDTO extends BaseDTO {
 	private	int					dbId				=	0;
 	private	Mediengruppe		medium				=	null;
 	private	String				bezeichnung			=	"";
-	private	String				erscheinungsjahr	=	"";
+	private	String				datum				=	"";
 	private	String				bemerkung			=	"";
 	private	List<Genre>			genreOptions		=	null;
 	private	List<Genre>			genreSelected		=	null;
@@ -28,14 +28,6 @@ public abstract class MediumEingabeDTO extends BaseDTO {
 
 	public void setBezeichnung(String bezeichnung) {
 		this.bezeichnung = bezeichnung;
-	}
-
-	public String getErscheinungsjahr() {
-		return erscheinungsjahr;
-	}
-
-	public void setErscheinungsjahr(String erscheinungsjahr) {
-		this.erscheinungsjahr = erscheinungsjahr;
 	}
 
 	public String getBemerkung() {
@@ -72,5 +64,13 @@ public abstract class MediumEingabeDTO extends BaseDTO {
 
 	public Mediengruppe getMedium() {
 		return medium;
+	}
+
+	public String getDatum() {
+		return datum;
+	}
+
+	public void setDatum(String datum) {
+		this.datum = datum;
 	}
 }

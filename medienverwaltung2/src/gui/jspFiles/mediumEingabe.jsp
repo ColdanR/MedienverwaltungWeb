@@ -44,10 +44,10 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-3 clo-lg-3 control-label">
-                    <label for="erscheinungsjahr"> Erscheinungsjahr</label>
+                    <label for="erscheinungsjahr"> Datum</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-4">
-                    <input  type="text" class="form-control" name="erscheinungsjahr" id="erscheinungsjahr" required="required" value="${context.erscheinungsjahr}">
+                    <input  type="text" class="form-control" name="erscheinungsjahr" id="erscheinungsjahr" required="required" value="${context.datum}">
                 </div>
             </div>
             <c:if test="${context.medium.id == 0}">

@@ -9,14 +9,14 @@ public class ListAnzeigeDTO extends BaseDTO {
 	public static class ListElementDTO {
 		private int		id;
 		private	String	bezeichnung;
-		private	String	ersterscheinung;
+		private	String	datum;
 		private	String	genre;
 		
-		public ListElementDTO(int id, String bezeichnung, String ersterscheinung, String genre) {
+		public ListElementDTO(int id, String bezeichnung, String datum, String genre) {
 			super();
 			this.id = id;
 			this.bezeichnung = bezeichnung;
-			this.ersterscheinung = ersterscheinung;
+			this.datum = datum;
 			this.genre = genre;
 		}
 
@@ -28,8 +28,8 @@ public class ListAnzeigeDTO extends BaseDTO {
 			return bezeichnung;
 		}
 
-		public String getErsterscheinung() {
-			return ersterscheinung;
+		public String getDatum() {
+			return datum;
 		}
 
 		public String getGenre() {

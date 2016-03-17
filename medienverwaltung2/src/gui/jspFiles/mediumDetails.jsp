@@ -18,10 +18,10 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-3 clo-lg-3 control-label">
-                    <label> Erscheinungsjahr</label>
+                    <label> Datum</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-4">
-                    <p> ${context.erscheinungsjahr}</p>
+                    <p> ${context.datum}</p>
                 </div>
             </div>
             <c:if test="${context.medium.id == 0}">
