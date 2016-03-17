@@ -4,6 +4,32 @@
 <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template>
+	<div id="genreDialog" class="modal" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Genre anlegen</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<div class="col-sm-3 col-lg-3 control-label">
+						<label for"bez">Bezeichnung</label>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-4">
+						<input type="text" class="form-control" name="bez" >
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" id="sendGenre">Abschicken</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+			</div>
+    </div>
+
+  </div>
+	</div>
 	<form class="form-horizontal" role="form" action="" method="post">
         <div class="form-section">
             <h3>Alle Felder müssen ausgefüllt werden</h3>
@@ -50,7 +76,7 @@
                 <cu:comboBox multiple="true" parameterName="genre" selectOptions="${context.genreOptions}" className="form-control" title="genre" selectedList="${context.genreSelected}"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <button class="btn btn-default">Hinzufügen</button>
+                    <button data-toggle="modal" data-target="#genreDialog" class="btn btn-default" type="button">Hinzufügen</button>
                 </div>
             </div>
             <c:if test="${context.medium.id != 0 && context.medium.id != 5}">
@@ -66,7 +92,7 @@
             <c:if test="${context.medium.id != 0 && context.medium.id != 5}">
             <div>
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
-                    <label for="genre">Sprache</label>
+                    <label for="sprache">Sprache</label>
                 </div>
             	<div class="col-lg-6 col-md-6 col-sm-4">
                     <input  type="text" class="form-control" name="sprache" id="sprache" value="${context.sprache}">
