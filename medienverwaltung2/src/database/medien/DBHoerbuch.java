@@ -25,7 +25,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung, "
-					+ "hoerbuch.sprache, hoerbuch.art"
+					+ "hoerbuch.sprache, hoerbuch.art "
 					+ "FROM mediabase mb "
 					+ "INNER JOIN hoerbuch hb ON mb.id = hb.mediabase_id "
 					+ "WHERE mb.id = ?");

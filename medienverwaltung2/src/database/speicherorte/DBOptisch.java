@@ -35,7 +35,7 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 				ret.setZustand(result.getString(3));
 				ret.setArt(OptischArt.getElementFromId(result.getInt(4)));
 			} else {
-				addError("Optischer Datenträger  mit der ID " + id + " nicht gefunden");
+				addError("Optischer Datentrï¿½ger  mit der ID " + id + " nicht gefunden");
 			}
 			result.close();
 			result = null;
@@ -45,7 +45,7 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Optischen Datenträgers");
+			addError("Fehler beim Laden des Optischen Datentrï¿½gers");
 		} finally {
 			if (result != null) {
 				try {
@@ -121,7 +121,7 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Schreiben des optischen Datenträgers");
+			addError("Fehler beim Schreiben des optischen Datentrï¿½gers");
 			ret = false;
 		} finally {
 			if (result != null) {
@@ -158,8 +158,8 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 		List<Optisch>		ret		=	new ArrayList<>();
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT speicherort.id FROM speicherort s"
-					+ "INNER JOIN optisch o ON s.id = o.speicherort_id"
+			stmt = conn.prepareStatement("SELECT speicherort.id FROM speicherort s "
+					+ "INNER JOIN optisch o ON s.id = o.speicherort_id "
 					+ "WHERE s.speicherformat_id = ?");
 			stmt.setInt(1, formatId);
 			result = stmt.executeQuery();
@@ -173,7 +173,7 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste fï¿½r SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return ret;

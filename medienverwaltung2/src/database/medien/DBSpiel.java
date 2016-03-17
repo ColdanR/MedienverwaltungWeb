@@ -24,7 +24,7 @@ public class DBSpiel extends DBMedien<Spiel>{
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung, "
-					+ "spiel.sprache, spiel.betriebssystem"
+					+ "spiel.sprache, spiel.betriebssystem "
 					+ "FROM mediabase mb " 
 					+ "INNER JOIN spiel ON mb.id = spiel.mediabase_id "
 					+ "WHERE mb.id = ?");
@@ -206,7 +206,7 @@ public class DBSpiel extends DBMedien<Spiel>{
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Spiels!");
+			addError("Fehler beim Lï¿½schen des Spiels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

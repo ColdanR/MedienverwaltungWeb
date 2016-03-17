@@ -147,8 +147,8 @@ public class DBFestplatte extends DBSpeicherOrte<Festplatte> {
 		List<Festplatte>			ret		=	new ArrayList<>();
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT s.id FROM speicherort s"
-					+ "INNER JOIN festplatte f ON s.id = f.speicherort_id"
+			stmt = conn.prepareStatement("SELECT s.id FROM speicherort s "
+					+ "INNER JOIN festplatte f ON s.id = f.speicherort_id "
 					+ "WHERE s.speicherformat_id = ?");
 			stmt.setInt(1, formatId);
 			result = stmt.executeQuery();
@@ -162,7 +162,7 @@ public class DBFestplatte extends DBSpeicherOrte<Festplatte> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste fï¿½r SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return ret;

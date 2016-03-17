@@ -25,8 +25,8 @@ public class DBMusik extends DBMedien<Musik> {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung, "
-					+ "musik.live"
-					+ "FROM mediabase mb "
+					+ "musik.live "
+					+ "FROM mediabase AS mb "
 					+ "INNER JOIN musik ON mb.id = musik.mediabase_id "
 					+ "WHERE mb.id = ?");
 			stmt.setInt(1, id);
@@ -204,7 +204,7 @@ public class DBMusik extends DBMedien<Musik> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Musiktitels!");
+			addError("Fehler beim Lï¿½schen des Musiktitels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

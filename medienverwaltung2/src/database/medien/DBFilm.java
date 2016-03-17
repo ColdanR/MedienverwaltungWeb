@@ -26,7 +26,7 @@ public class DBFilm extends DBMedien<Film> {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung, "
-					+ "film.sprache, film.art"
+					+ "film.sprache, film.art "
 					+ "FROM mediabase mb "
 					+ "INNER JOIN film ON mb.id = film.mediabase_id "
 					+ "WHERE mb.id = ?");
