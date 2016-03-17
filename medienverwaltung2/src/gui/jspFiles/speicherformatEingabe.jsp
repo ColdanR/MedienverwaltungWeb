@@ -7,10 +7,10 @@
 <form class="form-horizontal" role="form" action="" method="post">
     <div class="form-section">
         <h3>Alle Felder müssen ausgefüllt werden</h3>
-        <input type="hidden" name="dbId" value="${context.dbid}">
+        <input type="hidden" name="dbId" value="${context.dbId}">
         <input type="hidden" name="idMedium" value="${context.idMedium}">
         <input type="hidden" name="idMediumType" value="${context.idMediumType}">
-        <input type="hidden" name="dbId" value="${context.dbid}">
+        <input type="hidden" name="dbId" value="${context.dbId}">
         <div id="abschicken">
 	        <div class="form-group">
 	            <div class="col-lg-3 col-md-3 col-sm-3 control-label">
