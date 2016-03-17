@@ -6,9 +6,9 @@ $(document).ready(function(){
 	    data.data = {
 	    		"bez": bez
 	    };
-	    data.url = "/ajax/addGenre";
+	    data.url = "/medienverwaltung2/ajax/addGenre";
 	    $.ajax(data).done(function(data) {
-	    	var ret = $.parseJSON(data);
+	    	var ret = data;
 	    	var status = ret.status;
 	    	if (status == 0) {
 	    		var id = ret.id;

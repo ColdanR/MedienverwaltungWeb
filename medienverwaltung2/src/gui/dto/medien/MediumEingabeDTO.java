@@ -20,6 +20,7 @@ public abstract class MediumEingabeDTO extends BaseDTO {
 		this.medium = medium;
 		addJsFile("bootstrap-datetimepicker.min.js");
 		addCssFile("bootstrap-datetimepicker.min.css");
+		addJsFile("genreAjax.js");
 	}
 	
 	public String getBezeichnung() {
