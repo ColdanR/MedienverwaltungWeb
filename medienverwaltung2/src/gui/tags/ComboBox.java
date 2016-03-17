@@ -24,7 +24,9 @@ public class ComboBox extends TagSupport {
 	private	String				parameterName;
 	private	String				title;
 	private	String				className;
-	private	boolean				multiple;
+	private	boolean				multiple		=	false;
+	
+	private	boolean				readonly		=	false;
 	
 	@Override
 	public int doStartTag() throws JspException {
@@ -35,12 +37,18 @@ public class ComboBox extends TagSupport {
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("<select name=\"").append(parameterName).append("\" id=\"").append(parameterName)
-		.append("\" class=\"").append(className).append("\"");
+		.append("\"");
+		if (className != null) {
+			sb.append(" class=\"").append(className).append("\"");
+		}
 		if (title != null) {
 			sb.append(" title=\"").append(title).append("\"");
 		}
 		if (multiple) {
 			sb.append(" multiple");
+		}
+		if (readonly) {
+			sb.append(" readonly");
 		}
 		sb.append(">").append(System.lineSeparator());
 		sb.append("<option value=\"-1\">Keine Auswahl</option>").append(System.lineSeparator());
@@ -109,5 +117,13 @@ public class ComboBox extends TagSupport {
 
 	public void setSelectedList(List<SelectAble> selectedList) {
 		this.selectedList = selectedList;
+	}
+
+	public boolean isReadonly() {
+		return readonly;
+	}
+
+	public void setReadonly(boolean readonly) {
+		this.readonly = readonly;
 	}
 }

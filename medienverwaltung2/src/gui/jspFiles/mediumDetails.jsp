@@ -7,7 +7,7 @@
 <div class="form-horizontal">
     <div class="form-section" id="detail">
 		<h3 class="panel-title">Detailsseite</h3>
-		<input type="hidden" value="${context.dbid}">
+		<input type="hidden" name="id" value="${context.dbid}">
             <div class="form-group">
                 <div class="col-sm-3 col-lg-3 control-label">
                     <label> Titel</label>

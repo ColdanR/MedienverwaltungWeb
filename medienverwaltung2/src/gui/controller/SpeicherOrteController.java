@@ -24,11 +24,13 @@ import data.formate.validator.DigitalValidator;
 import enums.Action;
 import enums.Format;
 import enums.Mediengruppe;
+import enums.SpeicherortArt;
 import gui.Controller;
 import gui.dto.FehlerDTO;
 import gui.dto.formate.AnalogFormateDTO;
 import gui.dto.formate.DigitalFormateDTO;
 import gui.dto.formate.FormateDTO;
+import gui.dto.speicherorte.SpeicherorteDTO;
 import logic.formate.FormateLogik;
 
 public class SpeicherOrteController extends Controller {
@@ -71,25 +73,48 @@ public class SpeicherOrteController extends Controller {
 	}
 
 	private void neuanlage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getParameter("idMedium") == null) {
+		if (request.getParameter("idFormat") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine Medium ID beim Aufruf zum L�schen des Formates gefunden.");
+			dto.addError("Keine Format ID beim Aufruf zum L�schen des Formates gefunden.");
+			forward(request, response, dto, "404.jsp");
+		} else if (request.getParameter("idMedium") == null) {
+			FehlerDTO dto = new FehlerDTO();
+			dto.addError("Kein Medium Type beim Aufruf zum L�schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMediumType") == null) {
 			FehlerDTO dto = new FehlerDTO();
 			dto.addError("Kein Medium Type beim Aufruf zum L�schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
-		} else if (request.getParameter("idFormat") == null) {
+		} else if (request.getParameter("idFormatType") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Kein Format ID beim Aufruf zum L�schen des Formates gefunden.");
+			dto.addError("Kein Format Type beim Aufruf zum L�schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
-				int				mediumId	=	Integer.parseInt(request.getParameter("idMedium"));
-				int				idFormat	=	Integer.parseInt(request.getParameter("idFormat"));
-				Mediengruppe	type		=	Mediengruppe.getElementFromId(Integer.parseInt(request.getParameter("idMediumType")));
-				FormateLogik	logik		=	new FormateLogik(mediumId);
+				int						idSpeicherFormat	=	Integer.parseInt(request.getParameter("idFormat"));
+				int						idMedium			=	Integer.parseInt(request.getParameter("idMedium"));
+				int						idMediumType		=	Integer.parseInt(request.getParameter("idMediumType"));
+				int						idFormatType		=	Integer.parseInt(request.getParameter("idFormatType"));
+				Mediengruppe			typeMedium			=	Mediengruppe.getElementFromId(idMediumType);
+				Format					typeFormat			=	Format.getElementFromId(idFormatType);
+				if (typeMedium == null) {
+					FehlerDTO dto = new FehlerDTO();
+					dto.addError("Medium Type konnte nicht bestimmt werden.");
+					forward(request, response, dto, "404.jsp");
+				} else if (typeFormat == null) {
+					FehlerDTO dto = new FehlerDTO();
+					dto.addError("Format Type konnte nicht bestimmt werden.");
+					forward(request, response, dto, "404.jsp");
+				} else {
+					if (request.getParameter("send") != null) {
+						String	selectedArtString	=	request.getParameter("speicherortArt");
+					} else {
+						SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
+						forward(request, response, dto, "speicherortEingabe.jsp");
+					}
+				}
 				if (request.getParameter("send") != null) {
+					String	selectedArtString	=	request.getParameter("speicherortArt");
 					// Parameter übernehmen
 					String	formatTypeString	=	request.getParameter("format");
 					if (formatTypeString == null) {
