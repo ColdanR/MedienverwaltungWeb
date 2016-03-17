@@ -127,7 +127,7 @@ public class MedienController extends Controller {
 			String idString = request.getParameter("id");
 			if (idString == null || idString.trim().length() == 0) {
 				// Fehler: ID fehlt
-				dto.addError("Löschen konnte nicht durchgeführt werden: Fehlernde ID beim Aufruf.");
+				dto.addError("Löschen konnte nicht durchgeführt werden: Fehlende ID beim Aufruf.");
 			} else {
 				try {
 					int id = Integer.parseInt(idString);
@@ -151,7 +151,7 @@ public class MedienController extends Controller {
 					}
 				} catch (NumberFormatException e) {
 					// Fehler: Falsche ID
-					dto.addError("Löschen konnte nicht durchgeführt werden: Fehlernde ID beim Aufruf.");
+					dto.addError("Löschen konnte nicht durchgeführt werden: Fehlende ID beim Aufruf.");
 				}
 			}
 		}
@@ -914,7 +914,7 @@ public class MedienController extends Controller {
 											});
 										}
 									} catch (NumberFormatException e) {
-										errors.add("Ausgewählte Genre konnte nicht ermittelt werden.");
+										errors.add("Ausgewähltes Genre konnte nicht ermittelt werden.");
 									}
 								}
 							}
