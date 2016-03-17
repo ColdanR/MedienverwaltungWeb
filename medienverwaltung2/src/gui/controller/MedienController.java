@@ -122,25 +122,25 @@ public class MedienController extends Controller {
 		MediumLogik<?>	logic	=	MediumLogicFactory.create(medium);
 		dto.setMedium(medium);
 		dto.setBaseURI(request.getContextPath() + "/medium/" + medium.getURIPart() + "/");
-		// Medium lÃ¶schen?
+		// Medium löschen?
 		if (request.getParameter("act") != null && request.getParameter("act").equals("delete")) {
 			String idString = request.getParameter("id");
 			if (idString == null || idString.trim().length() == 0) {
 				// Fehler: ID fehlt
-				dto.addError("LÃ¶schen konnte nicht durchgefÃ¼hrt werden: Fehlernde ID beim Aufruf.");
+				dto.addError("Löschen konnte nicht durchgeführt werden: Fehlende ID beim Aufruf.");
 			} else {
 				try {
 					int id = Integer.parseInt(idString);
 					if (logic.load(id)) {
 						if (!logic.delete()) {
 							// Fehler DTO
-							dto.addError("Fehler beim LÃ¶schen.");
+							dto.addError("Fehler beim Löschen.");
 							logic.getErrors().stream().forEach(data -> {
 								dto.addError(data);
 							});
 						} else {
 							// Mitteilung DTO
-							dto.addError(medium.getBezeichnung() + " mit der ID " + id + " wurde gelÃ¶scht.");
+							dto.addError(medium.getBezeichnung() + " mit der ID " + id + " wurde gelöscht.");
 						}
 					} else {
 						// Fehler DTO
@@ -151,7 +151,7 @@ public class MedienController extends Controller {
 					}
 				} catch (NumberFormatException e) {
 					// Fehler: Falsche ID
-					dto.addError("LÃ¶schen konnte nicht durchgefÃ¼hrt werden: Fehlernde ID beim Aufruf.");
+					dto.addError("Löschen konnte nicht durchgeführt werden: Fehlende ID beim Aufruf.");
 				}
 			}
 		}
@@ -170,7 +170,7 @@ public class MedienController extends Controller {
 				try {
 					listDTO.add(listElementToDTO(data, medium));
 				} catch (IllegalArgumentException e) {
-					LOGGER.error("Fehlerhafte Klasse fÃ¼r DTO Umwandlung! Medium: {} - Klasse: {}", medium.getBezeichnung(), data.getClass().getCanonicalName());
+					LOGGER.error("Fehlerhafte Klasse für DTO Umwandlung! Medium: {} - Klasse: {}", medium.getBezeichnung(), data.getClass().getCanonicalName());
 				}
 			});
 			dto.setList(listDTO);
@@ -319,7 +319,7 @@ public class MedienController extends Controller {
 					case Hoerbuch:
 						if (item instanceof Hoerbuch) {
 							Hoerbuch hoerbuch = (Hoerbuch) item;
-							HoerbuchDetailDTO dto = new HoerbuchDetailDTO("HÃ¶rbuch betrachten");
+							HoerbuchDetailDTO dto = new HoerbuchDetailDTO("Hörbuch betrachten");
 							dto.setBemerkung(hoerbuch.getBemerkungen());
 							dto.setBezeichnung(hoerbuch.getTitel());
 							dto.setDbId(hoerbuch.getDbId());
@@ -434,7 +434,7 @@ public class MedienController extends Controller {
 									});
 								}
 							} catch (NumberFormatException e) {
-								errors.add("AusgewÃ¤hlte Genre konnte nicht ermittelt werden.");
+								errors.add("Ausgewählte Genre konnte nicht ermittelt werden.");
 							}
 						}
 					}
@@ -465,7 +465,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt bestÃ¼cken
+								// DTO aus Objekt bestücken
 								BildEingabeDTO	dto	=	new BildEingabeDTO("Bild anlegen");
 								errors.stream().forEach(error -> {
 									dto.addError(error);
@@ -483,7 +483,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object bestÃ¼cken
+							// DTO aus Object bestücken
 							BildEingabeDTO	dto	=	new BildEingabeDTO("Bild anlegen");
 							errors.stream().forEach(error -> {
 								dto.addError(error);
@@ -542,7 +542,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt bestÃ¼cken
+								// DTO aus Objekt bestücken
 								BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch anlegen");
 								dto.setAuflage(buch.getAuflage());
 								dto.setBemerkung(buch.getBemerkungen());
@@ -561,7 +561,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object bestÃ¼cken
+							// DTO aus Object bestücken
 							BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch anlegen");
 							dto.setAuflage(buch.getAuflage());
 							dto.setBemerkung(buch.getBemerkungen());
@@ -617,7 +617,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt bestÃ¼cken
+								// DTO aus Objekt bestücken
 								FilmEingabeDTO dto = new FilmEingabeDTO("Film anlegen");
 								dto.setBemerkung(film.getBemerkungen());
 								dto.setBezeichnung(film.getTitel());
@@ -635,7 +635,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object bestÃ¼cken
+							// DTO aus Object bestücken
 							FilmEingabeDTO dto = new FilmEingabeDTO("Film anlegen");
 							dto.setBemerkung(film.getBemerkungen());
 							dto.setBezeichnung(film.getTitel());
@@ -674,7 +674,7 @@ public class MedienController extends Controller {
 								int artId = Integer.parseInt(art);
 								hoerbuchArt = HoerbuchArt.getFromId(artId);
 							} catch (NumberFormatException e) {
-								errors.add("Fehlerhafte HÃ¶rbuchart");
+								errors.add("Fehlerhafte Hörbuchart");
 							}
 							// Parameter binden
 							hoerbuch.setSprache(sprache);
@@ -690,8 +690,8 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt bestÃ¼cken
-								HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("HÃ¶rbuch anlegen");
+								// DTO aus Objekt bestücken
+								HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch anlegen");
 								dto.setBemerkung(hoerbuch.getBemerkungen());
 								dto.setBezeichnung(hoerbuch.getTitel());
 								dto.setDbId(hoerbuch.getDbId());
@@ -708,8 +708,8 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object bestÃ¼cken
-							HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("HÃ¶rbuch anlegen");
+							// DTO aus Object bestücken
+							HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch anlegen");
 							dto.setBemerkung(hoerbuch.getBemerkungen());
 							dto.setBezeichnung(hoerbuch.getTitel());
 							dto.setDbId(hoerbuch.getDbId());
@@ -753,7 +753,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt bestÃ¼cken
+								// DTO aus Objekt bestücken
 								MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel anlegen");
 								dto.setBemerkung(musik.getBemerkungen());
 								dto.setBezeichnung(musik.getTitel());
@@ -769,7 +769,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object bestÃ¼cken
+							// DTO aus Object bestücken
 							MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel anlegen");
 							dto.setBemerkung(musik.getBemerkungen());
 							dto.setBezeichnung(musik.getTitel());
@@ -814,7 +814,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt bestÃ¼cken
+								// DTO aus Objekt bestücken
 								SpielEingabeDTO dto = new SpielEingabeDTO("Spiel anlegen");
 								dto.setBemerkung(spiel.getBemerkungen());
 								dto.setBetriebssystem(spiel.getBetriebssystem());
@@ -831,7 +831,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object bestÃ¼cken
+							// DTO aus Object bestücken
 							SpielEingabeDTO dto = new SpielEingabeDTO("Spiel anlegen");
 							dto.setBemerkung(spiel.getBemerkungen());
 							dto.setBetriebssystem(spiel.getBetriebssystem());
@@ -914,7 +914,7 @@ public class MedienController extends Controller {
 											});
 										}
 									} catch (NumberFormatException e) {
-										errors.add("AusgewÃ¤hlte Genre konnte nicht ermittelt werden.");
+										errors.add("Ausgewähltes Genre konnte nicht ermittelt werden.");
 									}
 								}
 							}
@@ -945,7 +945,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt bestÃ¼cken
+										// DTO aus Objekt bestücken
 										BildEingabeDTO	dto	=	new BildEingabeDTO("Bild editieren");
 										errors.stream().forEach(error -> {
 											dto.addError(error);
@@ -963,7 +963,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object bestÃ¼cken
+									// DTO aus Object bestücken
 									BildEingabeDTO	dto	=	new BildEingabeDTO("Bild editieren");
 									errors.stream().forEach(error -> {
 										dto.addError(error);
@@ -1022,7 +1022,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt bestÃ¼cken
+										// DTO aus Objekt bestücken
 										BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch editieren");
 										dto.setAuflage(buch.getAuflage());
 										dto.setBemerkung(buch.getBemerkungen());
@@ -1041,7 +1041,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object bestÃ¼cken
+									// DTO aus Object bestücken
 									BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch editieren");
 									dto.setAuflage(buch.getAuflage());
 									dto.setBemerkung(buch.getBemerkungen());
@@ -1097,7 +1097,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt bestÃ¼cken
+										// DTO aus Objekt bestücken
 										FilmEingabeDTO dto = new FilmEingabeDTO("Film editieren");
 										dto.setBemerkung(film.getBemerkungen());
 										dto.setBezeichnung(film.getTitel());
@@ -1115,7 +1115,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object bestÃ¼cken
+									// DTO aus Object bestücken
 									FilmEingabeDTO dto = new FilmEingabeDTO("Film editieren");
 									dto.setBemerkung(film.getBemerkungen());
 									dto.setBezeichnung(film.getTitel());
@@ -1154,7 +1154,7 @@ public class MedienController extends Controller {
 										int artId = Integer.parseInt(art);
 										hoerbuchArt = HoerbuchArt.getFromId(artId);
 									} catch (NumberFormatException e) {
-										errors.add("Fehlerhafte HÃ¶rbuchart");
+										errors.add("Fehlerhafte Hörbuchart");
 									}
 									// Parameter binden
 									hoerbuch.setSprache(sprache);
@@ -1170,8 +1170,8 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt bestÃ¼cken
-										HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("HÃ¶rbuch editieren");
+										// DTO aus Objekt bestücken
+										HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch editieren");
 										dto.setBemerkung(hoerbuch.getBemerkungen());
 										dto.setBezeichnung(hoerbuch.getTitel());
 										dto.setDbId(hoerbuch.getDbId());
@@ -1188,8 +1188,8 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object bestÃ¼cken
-									HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("HÃ¶rbuch editieren");
+									// DTO aus Object bestücken
+									HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch editieren");
 									dto.setBemerkung(hoerbuch.getBemerkungen());
 									dto.setBezeichnung(hoerbuch.getTitel());
 									dto.setDbId(hoerbuch.getDbId());
@@ -1233,7 +1233,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt bestÃ¼cken
+										// DTO aus Objekt bestücken
 										MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel editieren");
 										dto.setBemerkung(musik.getBemerkungen());
 										dto.setBezeichnung(musik.getTitel());
@@ -1249,7 +1249,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object bestÃ¼cken
+									// DTO aus Object bestücken
 									MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel editieren");
 									dto.setBemerkung(musik.getBemerkungen());
 									dto.setBezeichnung(musik.getTitel());
@@ -1294,7 +1294,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt bestÃ¼cken
+										// DTO aus Objekt bestücken
 										SpielEingabeDTO dto = new SpielEingabeDTO("Spiel editieren");
 										dto.setBemerkung(spiel.getBemerkungen());
 										dto.setBetriebssystem(spiel.getBetriebssystem());
@@ -1311,7 +1311,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object bestÃ¼cken
+									// DTO aus Object bestücken
 									SpielEingabeDTO dto = new SpielEingabeDTO("Spiel editieren");
 									dto.setBemerkung(spiel.getBemerkungen());
 									dto.setBetriebssystem(spiel.getBetriebssystem());
