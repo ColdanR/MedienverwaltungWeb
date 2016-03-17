@@ -133,7 +133,7 @@ private	List<String>	errors	=	new ArrayList<>();
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Genre!");
+			addError("Fehler beim Lï¿½schen des Genre!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -207,7 +207,7 @@ private	List<String>	errors	=	new ArrayList<>();
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT genre.id, genre.bezeichnung FROM genre "
-					+ "INNER JOIN mediabaseGenre mbg ON genre.id = mbg.genre_id"
+					+ "INNER JOIN mediabaseGenre mbg ON genre.id = mbg.genre_id "
 					+ "WHERE mbg.mediabase_id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
