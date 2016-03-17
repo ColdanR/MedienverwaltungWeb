@@ -11,7 +11,8 @@ public class HoerbuchLogik extends MediumLogik<Hoerbuch> {
 
 	@Override
 	public Hoerbuch create() {
-		return new Hoerbuch();
+		object = new Hoerbuch();
+		return object;
 	}
 
 }

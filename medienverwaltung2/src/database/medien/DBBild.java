@@ -9,8 +9,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import data.formate.Formate;
 import data.medien.Bild;
 import data.medien.Genre;
+import database.formate.DBFormate;
 import logic.genre.GenreLogik;
 
 public class DBBild extends DBMedien<Bild> {
@@ -46,6 +48,20 @@ public class DBBild extends DBMedien<Bild> {
 				} else {
 					ret.setGenre(genres);
 					if (!loadFormate(ret)) {
+						ret = null;
+					}
+				}
+				if (ret != null) {
+					DBFormate		dbFormate	=	new DBFormate();
+					List<Formate>	listFormate	=	dbFormate.loadForMedium(ret.getDbId());
+					if (listFormate != null) {
+						for(Formate format : listFormate) {
+							ret.addFormat(format);
+						}
+					} else {
+						for (String error : dbFormate.getErrors()) {
+							addError(error);
+						}
 						ret = null;
 					}
 				}
@@ -98,7 +114,7 @@ public class DBBild extends DBMedien<Bild> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				// nicht notwendig hier, da keine Ausprägungen
+				// nicht notwendig hier, da keine Ausprï¿½gungen
 				stmt = null;
 			} else {
 				// INSERT
@@ -185,7 +201,7 @@ public class DBBild extends DBMedien<Bild> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Bildes!");
+			addError("Fehler beim Lï¿½schen des Bildes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

@@ -10,6 +10,7 @@ public class BuchLogik extends MediumLogik<Buch> {
 
 	@Override
 	public Buch create() {
-		return new Buch();
+		object = new Buch();
+		return object;
 	}
 }

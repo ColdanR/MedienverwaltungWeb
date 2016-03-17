@@ -11,7 +11,8 @@ public class MusikLogik extends MediumLogik<Musik> {
 
 	@Override
 	public Musik create() {
-		return new Musik();
+		object = new Musik();
+		return object;
 	}
 
 }

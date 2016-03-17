@@ -11,6 +11,7 @@ public class FilmLogik extends MediumLogik<Film> {
 
 	@Override
 	public Film create() {
-		return new Film();
+		object = new Film();
+		return object;
 	}
 }

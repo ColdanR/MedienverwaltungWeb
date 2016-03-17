@@ -10,6 +10,7 @@ public class BildLogik extends MediumLogik<Bild> {
 
 	@Override
 	public Bild create() {
-		return new Bild();
+		object = new Bild();
+		return object;
 	}
 }

@@ -10,6 +10,7 @@ public class SpielLogik extends MediumLogik<Spiel> {
 
 	@Override
 	public Spiel create() {
-		return new Spiel();
+		object = new Spiel();
+		return object;
 	}
 }
