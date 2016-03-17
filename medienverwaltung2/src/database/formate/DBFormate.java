@@ -30,19 +30,18 @@ public class DBFormate extends DataBaseManager {
 		return ret;
 	}
 	
-	public	Formate			load(int id) {
+	public	Formate	load(int id) {
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
 		Formate				format	=	null;
 		try {
 			conn	=	getConnection();
-			stmt	=	conn.prepareStatement("SELECT speicherformat.id, format_analog.id, format_digital.id, "
-					+ "format_digital.dateiformat, format_digital.qualitaet "
-					+ "FROM speicherformat "
-					+ "LEFT JOIN format_analog ON speicherformat.id = format_analog.speicherformat_id "
-					+ "LEFT JOIN format_digital ON speicherformat.id = format_digital.speicherformat_id "
-					+ "WHERE speicherformat.id = ?");
+			stmt	=	conn.prepareStatement("SELECT s.id, fa.id, fd.id, fd.dateiformat, fd.qualitaet "
+					+ "FROM speicherformat s "
+					+ "LEFT JOIN format_analog fa ON s.id = fa.speicherformat_id "
+					+ "LEFT JOIN format_digital fd ON s.id = fd.speicherformat_id "
+					+ "WHERE s.id = ?");
 			stmt.setInt(1, id);
 			result	=	stmt.executeQuery();
 			if (result.next() && result.isLast()) {
@@ -108,7 +107,7 @@ public class DBFormate extends DataBaseManager {
 		try {
 			conn	=	getConnection();
 			stmt	=	conn.prepareStatement("SELECT speicherformat.id FROM speicherformat "
-					+ "WHERE speicherformat.mediabase_id = ?");
+					+ "WHERE mediabase_id = ?");
 			stmt.setInt(1, idMedium);
 			result	=	stmt.executeQuery();
 			while (result.next() && noError) {
@@ -161,7 +160,7 @@ public class DBFormate extends DataBaseManager {
 			conn.setAutoCommit(false);
 			if (format.getDbId() == 0) {
 				// INSERT
-				stmt = conn.prepareStatement("INSERT INTO speicherformat (speicherformat.mediabase_id) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+				stmt = conn.prepareStatement("INSERT INTO speicherformat (mediabase_id) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
 				stmt.setInt(1, idMedium);
 				stmt.execute();
 				result = stmt.getGeneratedKeys();

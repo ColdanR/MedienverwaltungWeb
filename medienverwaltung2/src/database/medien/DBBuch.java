@@ -39,7 +39,7 @@ public class DBBuch extends DBMedien<Buch> {
 				ret.setSprache(result.getString(5));
 				ret.setArt(BuchArt.getFromId(result.getInt(6)));
 				ret.setAuflage(result.getInt(7));
-								
+				
 				GenreLogik genreLogik = new GenreLogik();
 				List<Genre> genres = genreLogik.getForMedium(id);
 				if (genres == null) {
@@ -54,6 +54,7 @@ public class DBBuch extends DBMedien<Buch> {
 					}
 				}
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			addError("Fehler beim Laden des Buchs!");
@@ -210,7 +211,7 @@ public class DBBuch extends DBMedien<Buch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Lï¿½schen des Buchs!");
+			addError("Fehler beim Löschen des Buchs!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -254,7 +255,7 @@ public class DBBuch extends DBMedien<Buch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Bï¿½cherliste!");
+			addError("Fehler beim Laden der Bücherliste!");
 			ret = null;
 		} finally {
 			if (result != null) {

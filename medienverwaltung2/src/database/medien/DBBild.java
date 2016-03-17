@@ -23,9 +23,9 @@ public class DBBild extends DBMedien<Bild> {
 		Bild				ret		=	null;
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase, mediabase.titel, mediabase.erscheinungsjahr, mediabase.bemerkung "
-					+ "FROM mediabase INNER JOIN bild ON mediabase.idMediabase = bild.mdbase_id "
-					+ "WHERE mediabase.idMediabase = ?");
+			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung "
+					+ "FROM mediabase mb INNER JOIN bild ON mb.id = bild.mediabase_id "
+					+ "WHERE mb.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
@@ -34,6 +34,7 @@ public class DBBild extends DBMedien<Bild> {
 				ret.setTitel(result.getString(2));
 				ret.setErscheinungsdatum(result.getDate(3).toLocalDate());
 				ret.setBemerkungen(result.getString(4));
+				
 				GenreLogik genreLogik = new GenreLogik();
 				List<Genre> genres = genreLogik.getForMedium(id);
 				if (genres == null) {
@@ -88,7 +89,7 @@ public class DBBild extends DBMedien<Bild> {
 			conn.setAutoCommit(false);
 			if (medium.getDbId() != 0) {
 				// UPDATE
-				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsjahr = ?, bemerkung = ? WHERE idMediabase = ?");
+				stmt = conn.prepareStatement("UPDATE mediabase SET titel = ?, erscheinungsdatum = ?, bemerkung = ? WHERE mediabase.id = ?");
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -96,11 +97,11 @@ public class DBBild extends DBMedien<Bild> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				// nicht notwendig hier, da keine AusprÃ¤gungen
+				// nicht notwendig hier, da keine Ausprägungen
 				stmt = null;
 			} else {
 				// INSERT
-				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsjahr, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				stmt = conn.prepareStatement("INSERT INTO mediabase (titel, erscheinungsdatum, bemerkung) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, medium.getTitel());
 				stmt.setDate(2, Date.valueOf(medium.getErscheinungsdatum()));
 				stmt.setString(3, medium.getBemerkungen());
@@ -112,19 +113,19 @@ public class DBBild extends DBMedien<Bild> {
 				result = null;
 				stmt.close();
 				// Zusatztabelle setzen
-				stmt = conn.prepareStatement("INSERT INTO bild (mdbase_id) VALUES(?)");
+				stmt = conn.prepareStatement("INSERT INTO bild (mediabase_id) VALUES(?)");
 				stmt.setInt(1, medium.getDbId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
 			}
 			if (medium.getGenre() != null) {
-				stmt = conn.prepareStatement("DELETE FROM MEDIABASEGENRE WHERE mediabase_id = ?");
+				stmt = conn.prepareStatement("DELETE FROM mediabaseGenre WHERE mediabase_id = ?");
 				stmt.setInt(1, medium.getDbId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
-				stmt = conn.prepareStatement("INSERT INTO MEDIABASEGENRE (mediabase_id, genre_id) VALUES (?, ?)");
+				stmt = conn.prepareStatement("INSERT INTO mediabaseGenre (mediabase_id, genre_id) VALUES (?, ?)");
 				for (Genre genre : medium.getGenre()) {
 					stmt.setInt(1, medium.getDbId());
 					stmt.setInt(2, genre.getId());
@@ -174,7 +175,7 @@ public class DBBild extends DBMedien<Bild> {
 		boolean				ret		=	true;
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE idMediabase = ?");
+			stmt = conn.prepareStatement("DELETE FROM mediabase WHERE mediabase.id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 			stmt.close();
@@ -183,7 +184,7 @@ public class DBBild extends DBMedien<Bild> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Lï¿½schen des Bildes!");
+			addError("Fehler beim Löschen des Bildes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -213,8 +214,8 @@ public class DBBild extends DBMedien<Bild> {
 		try {
 			boolean noError = true;
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.idMediabase "
-					+ "FROM mediabase INNER JOIN bild ON mediabase.idMediabase = bild.mdbase_id");
+			stmt = conn.prepareStatement("SELECT mediabase.id "
+					+ "FROM mediabase INNER JOIN bild ON mediabase.id = bild.mediabase_id");
 			result = stmt.executeQuery();
 			while (result.next() && noError) {
 				int id = result.getInt(1);

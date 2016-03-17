@@ -36,12 +36,12 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 			} else {
 				addError("Kassette mit der ID " + id + " nicht gefunden");
 			}
-			result.close();
+			/*result.close();
 			result = null;
 			stmt.close();
 			stmt = null;
 			conn.close();
-			conn = null;
+			conn = null;*/
 		} catch (SQLException e) {
 			e.printStackTrace();
 			addError("Fehler beim Laden der Kassette");

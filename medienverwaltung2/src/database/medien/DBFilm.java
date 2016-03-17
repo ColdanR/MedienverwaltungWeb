@@ -39,7 +39,7 @@ public class DBFilm extends DBMedien<Film> {
 				ret.setBemerkungen(result.getString(4));
 				ret.setSprache(result.getString(5));
 				ret.setArt(FilmArt.getFromId(result.getInt(6)));
-				
+							
 				GenreLogik genreLogik = new GenreLogik();
 				List<Genre> genres = genreLogik.getForMedium(id);
 				if (genres == null) {

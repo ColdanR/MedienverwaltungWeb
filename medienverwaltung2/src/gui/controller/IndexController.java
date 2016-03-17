@@ -18,6 +18,6 @@ public class IndexController extends Controller {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		IndexDTO dto = new IndexDTO();
 		forward(request, response, dto, "index.jsp"); 
-		// jsp Datei vielleicht von Controller bestimmen lassen. Ggf. 2 forward methoden: eine mit und eine ohne jsp angabe. (Jens)
+		
 	}
 }

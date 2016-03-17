@@ -29,12 +29,12 @@ public class DBPerson extends DataBaseManager {
 	 * @return Person Object containing the data or null if not found or an exception has been thrown.
 	 */
 	public Person getPerson(int id) {
-		Person ret = null;
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet result = null;
+		Person 				ret 	= null;
+		Connection 			conn 	= null;
+		PreparedStatement 	stmt 	= null;
+		ResultSet 			result 	= null;
 		try {
-			String sql = "SELECT person.id, person.nachname, person.vorname, person.kuenstlername FROM person WHERE person.id = ?";
+			String sql = "SELECT p.id, p.nachname, p.vorname, p.kuenstlername FROM person p WHERE p.id = ?";
 			
 			conn = getConnection();
 			stmt = conn.prepareStatement(sql);
@@ -88,7 +88,7 @@ public class DBPerson extends DataBaseManager {
 		ResultSet result = null;
 		try {
 			if (person.getId() == 0) {
-				String sql = "INSERT INTO person (person.nachname, person.vorname, person.kuenstlername) VALUES (?, ?, ?)";
+				String sql = "INSERT INTO person (nachname, vorname, kuenstlername) VALUES (?, ?, ?)";
 				conn = getConnection();
 				stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, person.getNachname());
@@ -101,7 +101,7 @@ public class DBPerson extends DataBaseManager {
 					ret = true;
 				}
 			} else {
-				String sql = "UPDATE person SET person.nachname = ?, person.vorname = ?, person.kuenstlername = ? WHERE person.id = ?";
+				String sql = "UPDATE person p SET p.nachname = ?, p.vorname = ?, p.kuenstlername = ? WHERE p.id = ?";
 				conn = getConnection();
 				stmt = conn.prepareStatement(sql);
 				stmt.setString(1, person.getNachname());
@@ -203,7 +203,7 @@ public class DBPerson extends DataBaseManager {
 		Statement stmt = null;
 		ResultSet result = null;
 		try {
-			String sql = "SELECT person.id, person.nachname, person.vorname, person.kuenstlername FROM person";
+			String sql = "SELECT p.id, p.nachname, p.vorname, p.kuenstlername FROM person p";
 			
 			conn = getConnection();
 			stmt = conn.createStatement();
