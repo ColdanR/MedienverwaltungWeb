@@ -33,7 +33,7 @@
 	<form class="form-horizontal" role="form" action="" method="post">
         <div class="form-section">
             <h3>Alle Felder müssen ausgefüllt werden</h3>
-            <input type="hidden" value="${context.dbId}">
+            <input type="hidden" name="id" value="${context.dbId}">
             <div class="form-group">
                 <div class="col-sm-3 col-lg-3 control-label">
                     <label for="bezeichnung"> Titel</label>
@@ -90,7 +90,7 @@
             </div>
             </c:if>
             <c:if test="${context.medium.id != 0 && context.medium.id != 5}">
-            <div>
+            <div class="form-group">
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label for="sprache">Sprache</label>
                 </div>
@@ -100,7 +100,7 @@
             </div>    
             </c:if>
             <c:if test="${context.medium.id == 2}">
-            <div>
+            <div class="form-group">
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label for="auflage">Auflage</label>
                 </div>
