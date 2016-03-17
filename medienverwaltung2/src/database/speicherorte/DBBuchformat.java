@@ -37,15 +37,15 @@ public class DBBuchformat extends DBSpeicherOrte<Buch> {
 			} else {
 				addError("Buchformat mit der ID " + id + " nicht gefunden");
 			}
-			result.close();
+			/*result.close();
 			result = null;
 			stmt.close();
 			stmt = null;
 			conn.close();
-			conn = null;
+			conn = null;*/
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Buchformats");
+			addError("Fehler beim Laden des Buchformats");
 		} finally {
 			if (result != null) {
 				try {
