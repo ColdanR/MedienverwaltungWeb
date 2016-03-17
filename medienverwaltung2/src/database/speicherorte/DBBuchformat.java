@@ -173,7 +173,7 @@ public class DBBuchformat extends DBSpeicherOrte<Buch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste fï¿½r SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return ret;
