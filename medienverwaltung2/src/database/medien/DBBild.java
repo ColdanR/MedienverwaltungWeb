@@ -24,7 +24,8 @@ public class DBBild extends DBMedien<Bild> {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung "
-					+ "FROM mediabase mb INNER JOIN bild ON mb.id = bild.mediabase_id "
+					+ "FROM mediabase mb "
+					+ "INNER JOIN bild ON mb.id = bild.mediabase_id "
 					+ "WHERE mb.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();

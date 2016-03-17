@@ -37,12 +37,12 @@ public class DBSchallplatte extends DBSpeicherOrte<Schallplatte> {
 			} else {
 				addError("Schallplatte mit der ID " + id + " nicht gefunden");
 			}
-			/*result.close();
+			result.close();
 			result = null;
 			stmt.close();
 			stmt = null;
 			conn.close();
-			conn = null;*/
+			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			addError("Fehler beim Laden der Schallplatte");

@@ -37,12 +37,12 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 			} else {
 				addError("Optischer Datenträger  mit der ID " + id + " nicht gefunden");
 			}
-			/*result.close();
+			result.close();
 			result = null;
 			stmt.close();
 			stmt = null;
 			conn.close();
-			conn = null;*/
+			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			addError("Fehler beim Laden des Optischen Datenträgers");

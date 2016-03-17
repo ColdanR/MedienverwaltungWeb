@@ -35,12 +35,12 @@ public class DBDia extends DBSpeicherOrte<Dia> {
 			} else {
 				addError("Diaformat mit der ID " + id + " nicht gefunden");
 			}
-			/*result.close();
+			result.close();
 			result = null;
 			stmt.close();
 			stmt = null;
 			conn.close();
-			conn = null;*/
+			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			addError("Fehler beim Laden des Diaformats");
@@ -104,7 +104,7 @@ public class DBDia extends DBSpeicherOrte<Dia> {
 				stmt.setInt(3, medium.getDbId());
 				stmt.execute();
 				stmt.close();
-				stmt = conn.prepareStatement("UPDATE buchformat SET zustand = ? WHERE speicherort_id = ?");
+				stmt = conn.prepareStatement("UPDATE dia SET zustand = ? WHERE speicherort_id = ?");
 				stmt.setString(1, medium.getZustand());
 				stmt.setInt(2, medium.getDbId());
 				stmt.execute();
