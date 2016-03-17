@@ -23,13 +23,13 @@ public class SpeicherorteDTO extends BaseDTO {
 	public SpeicherorteDTO(String titel, int dbId, SpeicherortArt selected, List<SpeicherortArt> selectOptions,
 			int idSpeicherFormat, int idMedium, int idMediumType, int idFormatType) {
 		super(titel);
-		this.dbId = dbId;
-		this.selected = selected;
-		this.selectOptions = selectOptions;
-		this.idSpeicherFormat = idSpeicherFormat;
-		this.idMedium = idMedium;
-		this.idMediumType = idMediumType;
-		this.idFormatType = idFormatType;
+		this.dbId				=	dbId;
+		this.selected			=	selected;
+		this.selectOptions		=	selectOptions;
+		this.idSpeicherFormat	=	idSpeicherFormat;
+		this.idMedium			=	idMedium;
+		this.idMediumType		=	idMediumType;
+		this.idFormatType		=	idFormatType;
 	}
 
 	public int getDbId() {
