@@ -90,7 +90,7 @@
             </div>
             </c:if>
             <c:if test="${context.medium.id != 0 && context.medium.id != 5}">
-            <div>
+            <div class="form-group">
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label for="sprache">Sprache</label>
                 </div>
@@ -100,7 +100,7 @@
             </div>    
             </c:if>
             <c:if test="${context.medium.id == 2}">
-            <div>
+            <div class="form-group">
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label for="auflage">Auflage</label>
                 </div>
