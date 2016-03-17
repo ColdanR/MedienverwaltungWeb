@@ -17,7 +17,7 @@ public abstract class MediumValidator<E extends Medium> implements Validator<E> 
 		}
 		if (object.getGenre() == null || object.getGenre().size() == 0) {
 			ret = false;
-			addError("Kein Genre ausgew√§hlt!");
+			addError("Kein Genre ausgew‰hlt!");
 		}
 		if (object.getErscheinungsdatum() == null) {
 			ret = false;
