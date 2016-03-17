@@ -107,8 +107,8 @@
 	                                    <p> ${data.bezeichnung }</p>
 	                                </div>
 	                                <div class="col-lg-4">
-	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/editieren.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Bearbeiten</a>
-	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/loeschen.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Löschen</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/editieren.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Bearbeiten</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/loeschen.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Löschen</a>
 	                                </div>
 	                            </a>
 	                        </h4>
@@ -141,8 +141,8 @@
 	                       									<span class="caret"></span>
 	                    								</button>
 	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									                        <li><a href="/speicherorte/editieren.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Bearbeiten</a></li>
-									                        <li><a href="/speicherorte/loeschen.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Löschen</a></li>
+									                        <li><a href="/speicherorte/editieren.html?id=${dat.id}&idFormat=${data.id}&idFormatType=${data.idFormatType}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Bearbeiten</a></li>
+									                        <li><a href="/speicherorte/loeschen.html?id=${dat.id}&idFormat=${data.id}&idFormatType=${data.idFormatType}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Löschen</a></li>
 	                    								</ul>
 	                								</div>
                 								</td>
