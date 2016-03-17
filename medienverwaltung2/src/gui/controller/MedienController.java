@@ -456,7 +456,11 @@ public class MedienController extends Controller {
 								dto.setBemerkung(bild.getBemerkungen());
 								dto.setBezeichnung(bild.getTitel());
 								dto.setDbId(bild.getDbId());
-								dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								if (bild.getErscheinungsdatum() == null) {
+									dto.setErscheinungsjahr("");
+								} else {
+									dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								}
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(bild.getGenre());
 								forward(request, response, dto, "mediumEingabe.jsp");
@@ -470,7 +474,11 @@ public class MedienController extends Controller {
 							dto.setBemerkung(bild.getBemerkungen());
 							dto.setBezeichnung(bild.getTitel());
 							dto.setDbId(bild.getDbId());
-							dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							if (bild.getErscheinungsdatum() == null) {
+								dto.setErscheinungsjahr("");
+							} else {
+								dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							}
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(bild.getGenre());
 							forward(request, response, dto, "mediumEingabe.jsp");
@@ -522,10 +530,14 @@ public class MedienController extends Controller {
 								dto.setAuflage(buch.getAuflage());
 								dto.setBemerkung(buch.getBemerkungen());
 								dto.setBezeichnung(buch.getTitel());
-								dto.setBuchartOptions(Arrays.asList(BuchArt.values()));
-								dto.setBuchartSelected(buch.getArt());
+								dto.setArtOptions(Arrays.asList(BuchArt.values()));
+								dto.setArtSelected(buch.getArt());
 								dto.setDbId(buch.getDbId());
-								dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								if (buch.getErscheinungsdatum() == null) {
+									dto.setErscheinungsjahr("");
+								} else {
+									dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								}
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(buch.getGenre());
 								dto.setSprache(buch.getSprache());
@@ -537,10 +549,14 @@ public class MedienController extends Controller {
 							dto.setAuflage(buch.getAuflage());
 							dto.setBemerkung(buch.getBemerkungen());
 							dto.setBezeichnung(buch.getTitel());
-							dto.setBuchartOptions(Arrays.asList(BuchArt.values()));
-							dto.setBuchartSelected(buch.getArt());
+							dto.setArtOptions(Arrays.asList(BuchArt.values()));
+							dto.setArtSelected(buch.getArt());
 							dto.setDbId(buch.getDbId());
-							dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							if (buch.getErscheinungsdatum() == null) {
+								dto.setErscheinungsjahr("");
+							} else {
+								dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							}
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(buch.getGenre());
 							dto.setSprache(buch.getSprache());
@@ -589,9 +605,13 @@ public class MedienController extends Controller {
 								dto.setBemerkung(film.getBemerkungen());
 								dto.setBezeichnung(film.getTitel());
 								dto.setDbId(film.getDbId());
-								dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
-								dto.setFilmartOptions(Arrays.asList(FilmArt.values()));
-								dto.setFilmartSelected(film.getArt());
+								if (film.getErscheinungsdatum() == null) {
+									dto.setErscheinungsjahr("");
+								} else {
+									dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								}
+								dto.setArtOptions(Arrays.asList(FilmArt.values()));
+								dto.setArtSelected(film.getArt());
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(film.getGenre());
 								dto.setSprache(film.getSprache());
@@ -603,9 +623,13 @@ public class MedienController extends Controller {
 							dto.setBemerkung(film.getBemerkungen());
 							dto.setBezeichnung(film.getTitel());
 							dto.setDbId(film.getDbId());
-							dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
-							dto.setFilmartOptions(Arrays.asList(FilmArt.values()));
-							dto.setFilmartSelected(film.getArt());
+							if (film.getErscheinungsdatum() == null) {
+								dto.setErscheinungsjahr("");
+							} else {
+								dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							}
+							dto.setArtOptions(Arrays.asList(FilmArt.values()));
+							dto.setArtSelected(film.getArt());
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(film.getGenre());
 							dto.setSprache(film.getSprache());
@@ -654,11 +678,15 @@ public class MedienController extends Controller {
 								dto.setBemerkung(hoerbuch.getBemerkungen());
 								dto.setBezeichnung(hoerbuch.getTitel());
 								dto.setDbId(hoerbuch.getDbId());
-								dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								if (hoerbuch.getErscheinungsdatum() == null) {
+									dto.setErscheinungsjahr("");
+								} else {
+									dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								}
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(hoerbuch.getGenre());
-								dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
-								dto.setHoerbuchartSelected(hoerbuch.getArt());
+								dto.setArtOptions(Arrays.asList(HoerbuchArt.values()));
+								dto.setArtSelected(hoerbuch.getArt());
 								dto.setSprache(hoerbuch.getSprache());
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
@@ -668,11 +696,15 @@ public class MedienController extends Controller {
 							dto.setBemerkung(hoerbuch.getBemerkungen());
 							dto.setBezeichnung(hoerbuch.getTitel());
 							dto.setDbId(hoerbuch.getDbId());
-							dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							if (hoerbuch.getErscheinungsdatum() == null) {
+								dto.setErscheinungsjahr("");
+							} else {
+								dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							}
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(hoerbuch.getGenre());
-							dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
-							dto.setHoerbuchartSelected(hoerbuch.getArt());
+							dto.setArtOptions(Arrays.asList(HoerbuchArt.values()));
+							dto.setArtSelected(hoerbuch.getArt());
 							dto.setSprache(hoerbuch.getSprache());
 							forward(request, response, dto, "mediumEingabe.jsp");
 						}
@@ -709,7 +741,11 @@ public class MedienController extends Controller {
 								dto.setBemerkung(musik.getBemerkungen());
 								dto.setBezeichnung(musik.getTitel());
 								dto.setDbId(musik.getDbId());
-								dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								if (musik.getErscheinungsdatum() == null) {
+									dto.setErscheinungsjahr("");
+								} else {
+									dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								}
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(musik.getGenre());
 								dto.setLive(musik.isLive());
@@ -767,7 +803,11 @@ public class MedienController extends Controller {
 								dto.setBetriebssystem(spiel.getBetriebssystem());
 								dto.setBezeichnung(spiel.getTitel());
 								dto.setDbId(spiel.getDbId());
-								dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								if (spiel.getErscheinungsdatum() == null) {
+									dto.setErscheinungsjahr("");
+								} else {
+									dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+								}
 								dto.setGenreOptions(genreList);
 								dto.setGenreSelected(spiel.getGenre());
 								dto.setSprache(spiel.getSprache());
@@ -780,7 +820,11 @@ public class MedienController extends Controller {
 							dto.setBetriebssystem(spiel.getBetriebssystem());
 							dto.setBezeichnung(spiel.getTitel());
 							dto.setDbId(spiel.getDbId());
-							dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							if (spiel.getErscheinungsdatum() == null) {
+								dto.setErscheinungsjahr("");
+							} else {
+								dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+							}
 							dto.setGenreOptions(genreList);
 							dto.setGenreSelected(spiel.getGenre());
 							dto.setSprache(spiel.getSprache());
@@ -892,7 +936,11 @@ public class MedienController extends Controller {
 										dto.setBemerkung(bild.getBemerkungen());
 										dto.setBezeichnung(bild.getTitel());
 										dto.setDbId(bild.getDbId());
-										dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										if (bild.getErscheinungsdatum() == null) {
+											dto.setErscheinungsjahr("");
+										} else {
+											dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										}
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(bild.getGenre());
 										forward(request, response, dto, "mediumEingabe.jsp");
@@ -906,7 +954,11 @@ public class MedienController extends Controller {
 									dto.setBemerkung(bild.getBemerkungen());
 									dto.setBezeichnung(bild.getTitel());
 									dto.setDbId(bild.getDbId());
-									dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									if (bild.getErscheinungsdatum() == null) {
+										dto.setErscheinungsjahr("");
+									} else {
+										dto.setErscheinungsjahr(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									}
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(bild.getGenre());
 									forward(request, response, dto, "mediumEingabe.jsp");
@@ -958,10 +1010,14 @@ public class MedienController extends Controller {
 										dto.setAuflage(buch.getAuflage());
 										dto.setBemerkung(buch.getBemerkungen());
 										dto.setBezeichnung(buch.getTitel());
-										dto.setBuchartOptions(Arrays.asList(BuchArt.values()));
-										dto.setBuchartSelected(buch.getArt());
+										dto.setArtOptions(Arrays.asList(BuchArt.values()));
+										dto.setArtSelected(buch.getArt());
 										dto.setDbId(buch.getDbId());
-										dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										if (buch.getErscheinungsdatum() == null) {
+											dto.setErscheinungsjahr("");
+										} else {
+											dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										}
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(buch.getGenre());
 										dto.setSprache(buch.getSprache());
@@ -973,10 +1029,14 @@ public class MedienController extends Controller {
 									dto.setAuflage(buch.getAuflage());
 									dto.setBemerkung(buch.getBemerkungen());
 									dto.setBezeichnung(buch.getTitel());
-									dto.setBuchartOptions(Arrays.asList(BuchArt.values()));
-									dto.setBuchartSelected(buch.getArt());
+									dto.setArtOptions(Arrays.asList(BuchArt.values()));
+									dto.setArtSelected(buch.getArt());
 									dto.setDbId(buch.getDbId());
-									dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									if (buch.getErscheinungsdatum() == null) {
+										dto.setErscheinungsjahr("");
+									} else {
+										dto.setErscheinungsjahr(buch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									}
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(buch.getGenre());
 									dto.setSprache(buch.getSprache());
@@ -1025,9 +1085,13 @@ public class MedienController extends Controller {
 										dto.setBemerkung(film.getBemerkungen());
 										dto.setBezeichnung(film.getTitel());
 										dto.setDbId(film.getDbId());
-										dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
-										dto.setFilmartOptions(Arrays.asList(FilmArt.values()));
-										dto.setFilmartSelected(film.getArt());
+										if (film.getErscheinungsdatum() == null) {
+											dto.setErscheinungsjahr("");
+										} else {
+											dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										}
+										dto.setArtOptions(Arrays.asList(FilmArt.values()));
+										dto.setArtSelected(film.getArt());
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(film.getGenre());
 										dto.setSprache(film.getSprache());
@@ -1039,9 +1103,13 @@ public class MedienController extends Controller {
 									dto.setBemerkung(film.getBemerkungen());
 									dto.setBezeichnung(film.getTitel());
 									dto.setDbId(film.getDbId());
-									dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
-									dto.setFilmartOptions(Arrays.asList(FilmArt.values()));
-									dto.setFilmartSelected(film.getArt());
+									if (film.getErscheinungsdatum() == null) {
+										dto.setErscheinungsjahr("");
+									} else {
+										dto.setErscheinungsjahr(film.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									}
+									dto.setArtOptions(Arrays.asList(FilmArt.values()));
+									dto.setArtSelected(film.getArt());
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(film.getGenre());
 									dto.setSprache(film.getSprache());
@@ -1090,11 +1158,15 @@ public class MedienController extends Controller {
 										dto.setBemerkung(hoerbuch.getBemerkungen());
 										dto.setBezeichnung(hoerbuch.getTitel());
 										dto.setDbId(hoerbuch.getDbId());
-										dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										if (hoerbuch.getErscheinungsdatum() == null) {
+											dto.setErscheinungsjahr("");
+										} else {
+											dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										}
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(hoerbuch.getGenre());
-										dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
-										dto.setHoerbuchartSelected(hoerbuch.getArt());
+										dto.setArtOptions(Arrays.asList(HoerbuchArt.values()));
+										dto.setArtSelected(hoerbuch.getArt());
 										dto.setSprache(hoerbuch.getSprache());
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
@@ -1104,11 +1176,15 @@ public class MedienController extends Controller {
 									dto.setBemerkung(hoerbuch.getBemerkungen());
 									dto.setBezeichnung(hoerbuch.getTitel());
 									dto.setDbId(hoerbuch.getDbId());
-									dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									if (hoerbuch.getErscheinungsdatum() == null) {
+										dto.setErscheinungsjahr("");
+									} else {
+										dto.setErscheinungsjahr(hoerbuch.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									}
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(hoerbuch.getGenre());
-									dto.setHoerbuchartOptions(Arrays.asList(HoerbuchArt.values()));
-									dto.setHoerbuchartSelected(hoerbuch.getArt());
+									dto.setArtOptions(Arrays.asList(HoerbuchArt.values()));
+									dto.setArtSelected(hoerbuch.getArt());
 									dto.setSprache(hoerbuch.getSprache());
 									forward(request, response, dto, "mediumEingabe.jsp");
 								}
@@ -1145,7 +1221,11 @@ public class MedienController extends Controller {
 										dto.setBemerkung(musik.getBemerkungen());
 										dto.setBezeichnung(musik.getTitel());
 										dto.setDbId(musik.getDbId());
-										dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										if (musik.getErscheinungsdatum() == null) {
+											dto.setErscheinungsjahr("");
+										} else {
+											dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										}
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(musik.getGenre());
 										dto.setLive(musik.isLive());
@@ -1157,7 +1237,11 @@ public class MedienController extends Controller {
 									dto.setBemerkung(musik.getBemerkungen());
 									dto.setBezeichnung(musik.getTitel());
 									dto.setDbId(musik.getDbId());
-									dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									if (musik.getErscheinungsdatum() == null) {
+										dto.setErscheinungsjahr("");
+									} else {
+										dto.setErscheinungsjahr(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									}
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(musik.getGenre());
 									dto.setLive(musik.isLive());
@@ -1199,7 +1283,11 @@ public class MedienController extends Controller {
 										dto.setBetriebssystem(spiel.getBetriebssystem());
 										dto.setBezeichnung(spiel.getTitel());
 										dto.setDbId(spiel.getDbId());
-										dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										if (spiel.getErscheinungsdatum() == null) {
+											dto.setErscheinungsjahr("");
+										} else {
+											dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+										}
 										dto.setGenreOptions(genreList);
 										dto.setGenreSelected(spiel.getGenre());
 										dto.setSprache(spiel.getSprache());
@@ -1212,7 +1300,11 @@ public class MedienController extends Controller {
 									dto.setBetriebssystem(spiel.getBetriebssystem());
 									dto.setBezeichnung(spiel.getTitel());
 									dto.setDbId(spiel.getDbId());
-									dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									if (spiel.getErscheinungsdatum() == null) {
+										dto.setErscheinungsjahr("");
+									} else {
+										dto.setErscheinungsjahr(spiel.getErscheinungsdatum().format(StaticElements.FORMATTER));
+									}
 									dto.setGenreOptions(genreList);
 									dto.setGenreSelected(spiel.getGenre());
 									dto.setSprache(spiel.getSprache());

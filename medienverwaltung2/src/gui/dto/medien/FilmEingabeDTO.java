@@ -7,9 +7,9 @@ import data.medien.enums.FilmArt;
 import enums.Mediengruppe;
 
 public class FilmEingabeDTO extends MediumEingabeDTO {
-	private	String				sprache				=	"";
-	private	List<FilmArt>		filmartOptions		=	Arrays.asList(FilmArt.values());
-	private	FilmArt				filmartSelected		=	null;
+	private	String				sprache			=	"";
+	private	List<FilmArt>		artOptions		=	Arrays.asList(FilmArt.values());
+	private	FilmArt				artSelected		=	null;
 	
 	public FilmEingabeDTO(String titel) {
 		super(titel, Mediengruppe.Film);
@@ -24,19 +24,19 @@ public class FilmEingabeDTO extends MediumEingabeDTO {
 		this.sprache = sprache;
 	}
 
-	public List<FilmArt> getFilmartOptions() {
-		return filmartOptions;
+	public List<FilmArt> getArtOptions() {
+		return artOptions;
 	}
 
-	public void setFilmartOptions(List<FilmArt> filmartOptions) {
-		this.filmartOptions = filmartOptions;
+	public void setArtOptions(List<FilmArt> artOptions) {
+		this.artOptions = artOptions;
 	}
 
-	public FilmArt getFilmartSelected() {
-		return filmartSelected;
+	public FilmArt getArtSelected() {
+		return artSelected;
 	}
 
-	public void setFilmartSelected(FilmArt filmartSelected) {
-		this.filmartSelected = filmartSelected;
+	public void setArtSelected(FilmArt artSelected) {
+		this.artSelected = artSelected;
 	}
 }

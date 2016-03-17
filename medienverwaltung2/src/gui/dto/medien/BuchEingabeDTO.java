@@ -7,10 +7,10 @@ import data.medien.enums.BuchArt;
 import enums.Mediengruppe;
 
 public class BuchEingabeDTO extends MediumEingabeDTO {
-	private	String				sprache				=	"";
-	private	List<BuchArt>		buchartOptions		=	Arrays.asList(BuchArt.values());
-	private BuchArt				buchartSelected		=	null;
-	private	int					auflage				=	0;
+	private	String				sprache			=	"";
+	private	List<BuchArt>		artOptions		=	Arrays.asList(BuchArt.values());
+	private BuchArt				artSelected		=	null;
+	private	int					auflage			=	0;
 	
 	public BuchEingabeDTO(String titel) {
 		super(titel, Mediengruppe.Buch);
@@ -24,20 +24,20 @@ public class BuchEingabeDTO extends MediumEingabeDTO {
 		this.sprache = sprache;
 	}
 
-	public List<BuchArt> getBuchartOptions() {
-		return buchartOptions;
+	public List<BuchArt> getArtOptions() {
+		return artOptions;
 	}
 
-	public void setBuchartOptions(List<BuchArt> buchartOptions) {
-		this.buchartOptions = buchartOptions;
+	public void setArtOptions(List<BuchArt> artOptions) {
+		this.artOptions = artOptions;
 	}
 
-	public BuchArt getBuchartSelected() {
-		return buchartSelected;
+	public BuchArt getArtSelected() {
+		return artSelected;
 	}
 
-	public void setBuchartSelected(BuchArt buchartSelected) {
-		this.buchartSelected = buchartSelected;
+	public void setArtSelected(BuchArt artSelected) {
+		this.artSelected = artSelected;
 	}
 
 	public int getAuflage() {

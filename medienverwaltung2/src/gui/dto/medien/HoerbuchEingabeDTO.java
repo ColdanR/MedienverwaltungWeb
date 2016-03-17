@@ -7,9 +7,9 @@ import data.medien.enums.HoerbuchArt;
 import enums.Mediengruppe;
 
 public class HoerbuchEingabeDTO extends MediumEingabeDTO {
-	private	String				sprache				=	"";
-	private	List<HoerbuchArt>	hoerbuchartOptions	=	Arrays.asList(HoerbuchArt.values());
-	private HoerbuchArt			hoerbuchartSelected	=	null;
+	private	String				sprache		=	"";
+	private	List<HoerbuchArt>	artOptions	=	Arrays.asList(HoerbuchArt.values());
+	private HoerbuchArt			artSelected	=	null;
 	
 	public HoerbuchEingabeDTO(String titel) {
 		super(titel, Mediengruppe.Hoerbuch);
@@ -23,20 +23,19 @@ public class HoerbuchEingabeDTO extends MediumEingabeDTO {
 		this.sprache = sprache;
 	}
 
-	public List<HoerbuchArt> getHoerbuchartOptions() {
-		return hoerbuchartOptions;
+	public List<HoerbuchArt> getArtOptions() {
+		return artOptions;
 	}
 
-	public void setHoerbuchartOptions(List<HoerbuchArt> hoerbuchartOptions) {
-		this.hoerbuchartOptions = hoerbuchartOptions;
+	public void setArtOptions(List<HoerbuchArt> artOptions) {
+		this.artOptions = artOptions;
 	}
 
-	public HoerbuchArt getHoerbuchartSelected() {
-		return hoerbuchartSelected;
+	public HoerbuchArt getArtSelected() {
+		return artSelected;
 	}
 
-	public void setHoerbuchartSelected(HoerbuchArt hoerbuchartSelected) {
-		this.hoerbuchartSelected = hoerbuchartSelected;
+	public void setArtSelected(HoerbuchArt artSelected) {
+		this.artSelected = artSelected;
 	}
-
 }
