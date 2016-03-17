@@ -5,7 +5,7 @@
  <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <t:template>
 <h1>
-<p>${context.titel}</p>
+${context.titel}<
 </h1>
 <form class="form-horizontal" role="form" action="" method="post">
     <div class="form-section">
