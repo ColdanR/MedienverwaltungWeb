@@ -33,7 +33,7 @@ private	List<String>	errors	=	new ArrayList<>();
 		Genre				ret		=	null;
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT bez FROM genre WHERE idGenre = ?");
+			stmt = conn.prepareStatement("SELECT bezeichnung FROM genre WHERE genre.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
@@ -43,7 +43,7 @@ private	List<String>	errors	=	new ArrayList<>();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Genre!");
+			addError("Fehler beim Laden des Genres!");
 		} finally {
 			if (result != null) {
 				try {
@@ -79,13 +79,13 @@ private	List<String>	errors	=	new ArrayList<>();
 			conn = getConnection();
 			if (genre.getId() != 0) {
 				// UPDATE
-				stmt = conn.prepareStatement("UPDATE genre SET bez = ? WHERE idGenre = ?");
+				stmt = conn.prepareStatement("UPDATE genre SET bezeichnung = ? WHERE genre.id = ?");
 				stmt.setString(1, genre.getBezeichnung());
 				stmt.setInt(2, genre.getId());
 				stmt.execute();
 			} else {
 				// INSERT
-				stmt = conn.prepareStatement("INSERT INTO genre (bez) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+				stmt = conn.prepareStatement("INSERT INTO genre (bezeichnung) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, genre.getBezeichnung());
 				stmt.execute();
 				result = stmt.getGeneratedKeys();
@@ -94,7 +94,7 @@ private	List<String>	errors	=	new ArrayList<>();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Schreiben des Genre!");
+			addError("Fehler beim Schreiben des Genres!");
 			ret = false;
 		} finally {
 			if (result != null) {
@@ -128,12 +128,12 @@ private	List<String>	errors	=	new ArrayList<>();
 		boolean				ret		=	true;
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("DELETE FROM genre WHERE idGenre = ?");
+			stmt = conn.prepareStatement("DELETE FROM genre WHERE genre.id = ?");
 			stmt.setInt(1, id);
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim LÃ¶schen des Genre!");
+			addError("Fehler beim Löschen des Genre!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -161,7 +161,7 @@ private	List<String>	errors	=	new ArrayList<>();
 		List<Genre>			ret		=	new ArrayList<>();
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT genre.idGenre, genre.bez FROM genre");
+			stmt = conn.prepareStatement("SELECT genre.id, bezeichnung FROM genre");
 			result = stmt.executeQuery();
 			while (result.next()) {
 				Genre element = new Genre();
@@ -171,7 +171,7 @@ private	List<String>	errors	=	new ArrayList<>();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Genre!");
+			addError("Fehler beim Laden der Genres!");
 			ret = null;
 		} finally {
 			if (result != null) {
@@ -206,9 +206,9 @@ private	List<String>	errors	=	new ArrayList<>();
 		List<Genre>			ret		=	new ArrayList<>();
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT genre.idGenre, genre.bez FROM genre "
-					+ "INNER JOIN mediaBaseGenre ON mediaBaseGenre.genre_id = genre.idGenre "
-					+ "WHERE mediaBaseGenre.mediabase_id = ?");
+			stmt = conn.prepareStatement("SELECT genre.id, genre.bezeichnung FROM genre "
+					+ "INNER JOIN mediabaseGenre mbg ON genre.id = mbg.genre_id"
+					+ "WHERE mbg.mediabase_id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			while (result.next()) {
@@ -219,7 +219,7 @@ private	List<String>	errors	=	new ArrayList<>();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Genre!");
+			addError("Fehler beim Laden der Genres!");
 			ret = null;
 		} finally {
 			if (result != null) {
