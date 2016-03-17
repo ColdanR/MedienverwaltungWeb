@@ -4,6 +4,9 @@
 <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template>
+<h1>
+<p>${context.titel}</p>
+</h1>
 	<div id="genreDialog" class="modal" role="dialog">
 		<div class="modal-dialog">
 			<!-- Modal content-->

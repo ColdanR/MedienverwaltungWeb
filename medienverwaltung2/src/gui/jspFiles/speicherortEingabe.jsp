@@ -4,6 +4,9 @@
 <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template>
+<h1>
+<p>${context.titel}</p>
+</h1>
 <form class="form-horizontal" role="form" action="" method="post">
         <div class="form-section">
             <h3>Alle Felder müssen ausgefüllt werden</h3>

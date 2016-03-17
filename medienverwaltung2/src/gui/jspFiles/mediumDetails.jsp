@@ -4,6 +4,9 @@
 <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template>
+<h1>
+<p>${context.titel}</p>
+</h1>
 <div class="form-horizontal">
     <div class="form-section" id="detail">
 		<h3 class="panel-title">Detailsseite</h3>
@@ -104,8 +107,8 @@
 	                                    <p> ${data.bezeichnung }</p>
 	                                </div>
 	                                <div class="col-lg-4">
-	                                    <button id="collapse" class="btn btn-default pull-right">Bearbeiten</button>
-	                                    <button id="collapse" class="btn btn-default pull-right">Löschen</button>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/editieren.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Bearbeiten</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/loeschen.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Löschen</a>
 	                                </div>
 	                            </a>
 	                        </h4>
@@ -138,18 +141,35 @@
 	                       									<span class="caret"></span>
 	                    								</button>
 	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									                        <li><a href="${context.baseURI}editieren.html?id=${data.dbId}">Bearbeiten</a></li>
-									                        <li><a href="${context.baseURI}anzeigen.html?action=delete&id=${data.dbId}">Löschen</a></li>
+									                        <li><a href="/speicherorte/editieren.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Bearbeiten</a></li>
+									                        <li><a href="/speicherorte/loeschen.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Löschen</a></li>
 	                    								</ul>
 	                								</div>
                 								</td>
 		                        			</tr>
 		                        			</c:forEach>			
 		                        	</table>
+		                        	<div class="col-lg-12 col-md-6 col-sm-3" id="button">
+                                    	<div class="col-lg-4 col-md-2 col-sm-1">
+                                    	</div>
+                                    	<div class="col-lg-4 col-md-2 col-sm-1">
+		                        			<a class="btn btn-default center-block" href="/speicherorte/anlage.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Neuanlage Speicherort</a>
+		                        	 	</div>
+                                    	<div class="col-lg-4 col-md-2 col-sm-1">
+                                    	</div>
+                                	</div>
 		                        </div>
 	                        </div>
-	                        <div class="panel-footer">
-	                            <button class="btn btn-default center-block">Neuanlage</button>
+	                        <div class="panel-footer" id="footer">
+	                        <div class="col-lg-12 col-md-6 col-sm-3" id="button">
+	                        	 <div class="col-lg-4 col-md-2 col-sm-1">
+                                </div>
+                                <div class="col-lg-4 col-md-2 col-sm-1">
+	                            <a class="btn btn-default center-block" href="/formate/anlage.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Neuanlage</a>
+	                        	</div>
+                                <div class="col-lg-4 col-md-2 col-sm-1">
+                                </div>
+	                        </div>
 	                        </div>
 						  </div>
                		</div>
