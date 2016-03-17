@@ -95,53 +95,65 @@
          	</c:if>
          	<!--Akkordion Anfang  -->
          	 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingOne">
-                        <h4 class="panel-title">
-                            <a id="test" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                <div class="col-lg-8">
-                                    <p> Format</p>
-                                </div>
-                                <div class="col-lg-4">
-                                    <button id="collapse" class="btn btn-default pull-right">Bearbeiten</button>
-                                    <button id="collapse" class="btn btn-default pull-right">Löschen</button>
-                                </div>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="panel-body">
-                        <c:forEach items="${context}" var="data">
-                        ${data.format}<br>
-                        </c:forEach>
-                        </div>
-                        <div class="panel-footer">
-                            <button class="btn btn-default center-block">Neuanlage</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingTwo">
-                                <h4 class="panel-title">
-                                    <a id="test" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <div class="col-lg-8">
-                                            <p>Speicherort</p>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <button id="collapse" class="btn btn-default pull-right">Bearbeiten</button>
-                                            <button id="collapse" class="btn btn-default pull-right">Löschen</button>
-                                        </div>
-                                    </a>
-                                </h4>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="panel-body">
-                            <c:forEach items="${context}" var="data">
-                        		${data.speicherort}<br>
-                        	</c:forEach>
-                        </div>
-                    </div>
-                </div>
+         	 	<c:forEach items="${context.formate}" var="data">
+         	 		<div class="panel panel-default">
+	                    <div class="panel-heading" role="tab" id="headingOne">
+	                        <h4 class="panel-title">
+	                            <a id="test" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	                                <div class="col-lg-8">
+	                                    <p> ${data.bezeichnung }</p>
+	                                </div>
+	                                <div class="col-lg-4">
+	                                    <button id="collapse" class="btn btn-default pull-right">Bearbeiten</button>
+	                                    <button id="collapse" class="btn btn-default pull-right">Löschen</button>
+	                                </div>
+	                            </a>
+	                        </h4>
+	                     </div>
+	                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+	                        <div class="panel-body">
+		                        <div class="table-responsive">
+		        					<table class="table table-striped">
+		                        			<thead>
+				                       			<tr>
+				                       				<th>Type</th>	
+				                       				<th>Art</th>	
+				                       				<th>Bezeichnung</th>	
+				                       				<th>Bemerkung</th>	
+				                       				<th>Zustand}</th>	
+				                       				<th></th>
+				                       			</tr>
+		                        			</thead>
+		                        		<c:forEach items="${data.speicherorte}" var="dat">
+		                        			<tr>
+		                        				<td>${dat.type}</td>	
+		                        				<td>${dat.art}</td>	
+		                        				<td>${dat.bez}</td>	
+		                        				<td>${dat.bemerkung}</td>	
+		                        				<td>${dat.zustand}</td>	
+		                        				<td>
+			                        				<div class="dropdown">
+	                    								<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                        								Action
+	                       									<span class="caret"></span>
+	                    								</button>
+	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									                        <li><a href="${context.baseURI}editieren.html?id=${data.dbId}">Bearbeiten</a></li>
+									                        <li><a href="${context.baseURI}anzeigen.html?action=delete&id=${data.dbId}">Löschen</a></li>
+	                    								</ul>
+	                								</div>
+                								</td>
+		                        			</tr>
+		                        			</c:forEach>			
+		                        	</table>
+		                        </div>
+	                        </div>
+	                        <div class="panel-footer">
+	                            <button class="btn btn-default center-block">Neuanlage</button>
+	                        </div>
+						  </div>
+               		</div>
+         	 	</c:forEach>
             </div><!--Akkordion Ende  -->
 	 </div>
    	 <div class="form-section">
