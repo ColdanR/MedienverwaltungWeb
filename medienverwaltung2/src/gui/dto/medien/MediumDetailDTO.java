@@ -7,7 +7,7 @@ public abstract class MediumDetailDTO extends BaseDTO {
 	private	int					dbId				=	0;
 	private	Mediengruppe		medium				=	null;
 	private	String				bezeichnung			=	"";
-	private	String				erscheinungsjahr	=	"";
+	private	String				datum				=	"";
 	private	String				bemerkung			=	"";
 	private	String				genre				=	"";
 
@@ -42,14 +42,6 @@ public abstract class MediumDetailDTO extends BaseDTO {
 		this.bezeichnung = bezeichnung;
 	}
 
-	public String getErscheinungsjahr() {
-		return erscheinungsjahr;
-	}
-
-	public void setErscheinungsjahr(String erscheinungsjahr) {
-		this.erscheinungsjahr = erscheinungsjahr;
-	}
-
 	public String getBemerkung() {
 		return bemerkung;
 	}
@@ -64,6 +56,14 @@ public abstract class MediumDetailDTO extends BaseDTO {
 
 	public void setGenre(String genre) {
 		this.genre = genre;
+	}
+
+	public String getDatum() {
+		return datum;
+	}
+
+	public void setDatum(String datum) {
+		this.datum = datum;
 	}
 
 

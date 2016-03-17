@@ -9,7 +9,7 @@
             <th></th>
             <th>Titel</th>
             <th>Genre</th>
-            <th>Erscheinungsjahr</th>
+            <th>Datum</th>
             </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
                 </div></td>
                 <td>${data.bezeichnung}</td>
                 <td>${data.genre}</td>
-                <td>${data.erscheinungsjahr}</td>
+                <td>${data.datum}</td>
             </tr>
             </c:forEach>
             </tbody>
