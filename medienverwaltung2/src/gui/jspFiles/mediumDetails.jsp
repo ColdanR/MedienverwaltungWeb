@@ -96,7 +96,9 @@
                 </div>
             </div>
          	</c:if>
-         	<!--Akkordion Anfang  -->
+         	<c:choose>
+         		<c:when test="${context.formate }">
+         		<!--Akkordion Anfang  -->
          	 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
          	 	<c:forEach items="${context.formate}" var="data">
          	 		<div class="panel panel-default">
@@ -107,8 +109,8 @@
 	                                    <p> ${data.bezeichnung }</p>
 	                                </div>
 	                                <div class="col-lg-4">
-	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/editieren.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Bearbeiten</a>
-	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/loeschen.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Löschen</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/editieren.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Bearbeiten</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/loeschen.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Löschen</a>
 	                                </div>
 	                            </a>
 	                        </h4>
@@ -141,8 +143,8 @@
 	                       									<span class="caret"></span>
 	                    								</button>
 	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									                        <li><a href="/speicherorte/editieren.html?id=${dat.id}&idFormat=${data.id}&idFormatType=${data.idFormatType}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Bearbeiten</a></li>
-									                        <li><a href="/speicherorte/loeschen.html?id=${dat.id}&idFormat=${data.id}&idFormatType=${data.idFormatType}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Löschen</a></li>
+									                        <li><a href="/speicherorte/editieren.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Bearbeiten</a></li>
+									                        <li><a href="/speicherorte/loeschen.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Löschen</a></li>
 	                    								</ul>
 	                								</div>
                 								</td>
@@ -175,6 +177,19 @@
                		</div>
          	 	</c:forEach>
             </div><!--Akkordion Ende  -->
+         		</c:when>
+         		<c:otherwise>
+         		<div class="col-lg-12 col-md-6 col-sm-3" id="button">
+               	 	<div class="col-lg-4 col-md-2 col-sm-1">
+                   	</div>
+                   	<div class="col-lg-4 col-md-2 col-sm-1">
+                   		<a class="btn btn-default center-block" href="/formate/anlage.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Neuanlage</a>
+           			</div>
+                    <div class="col-lg-4 col-md-2 col-sm-1">
+                    </div>
+                </div>
+         		</c:otherwise>
+         	</c:choose>
 	 </div>
    	 <div class="form-section">
         <div class="form-group">
