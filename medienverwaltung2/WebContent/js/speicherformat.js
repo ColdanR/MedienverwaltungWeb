@@ -4,7 +4,7 @@
 $(document).ready(function(){
     var sel = document.getElementById("genre");
     $("#genre").on("change", function() {
-        if(sel.value == 2)
+        if(sel.value == 0)
         {
             //var divform = new Element('div', {class: 'form-group'});
             var divform = document.createElement("div");
@@ -58,9 +58,12 @@ $(document).ready(function(){
         }
         else
         {
-            document.getElementById("abschicken").removeChild(document.getElementById("qua"));
-            document.getElementById("abschicken").removeChild(document.getElementById("dat"));
+        	if (document.getElementById("qua") != null) {
+        		document.getElementById("abschicken").removeChild(document.getElementById("qua"));
+        	}
+        	if (document.getElementById("dat") != null) {
+        		document.getElementById("abschicken").removeChild(document.getElementById("dat"));
+        	}
         }
     });
-
 });

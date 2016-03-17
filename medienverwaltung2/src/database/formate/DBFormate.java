@@ -173,6 +173,13 @@ public class DBFormate extends DataBaseManager {
 				stmt = null;
 				switch (format.getType()) {
 				case Analog:
+					Analog analog = (Analog) format;
+					stmt = conn.prepareStatement("INSERT INTO format_analog "
+							+ "(speicherformat_id) VALUES (?)");
+					stmt.setInt(1, analog.getDbId());
+					stmt.execute();
+					stmt.close();
+					stmt = null;
 					break;
 				case Digital:
 					Digital digital = (Digital) format;
@@ -248,7 +255,7 @@ public class DBFormate extends DataBaseManager {
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Formates mit der ID " + id);
+			addError("Fehler beim Lï¿½schen des Formates mit der ID " + id);
 			ret = false;
 		} finally {
 			if (stmt != null) {

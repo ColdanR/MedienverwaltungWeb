@@ -157,7 +157,7 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 		List<Kassette>		ret		=	new ArrayList<>();
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT speicherort.id FROM speicherort s "
+			stmt = conn.prepareStatement("SELECT s.id FROM speicherort s "
 					+ "INNER JOIN kassette k ON s.id = k.speicherort_id "
 					+ "WHERE s.speicherformat_id = ?");
 			stmt.setInt(1, formatId);

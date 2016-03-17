@@ -10,17 +10,16 @@
 <form class="form-horizontal" role="form" action="" method="post">
     <div class="form-section">
         <h3>Alle Felder müssen ausgefüllt werden</h3>
-        <input type="hidden" name="dbId" value="${context.dbId}">
+        <input type="hidden" name="id" value="${context.dbId}">
         <input type="hidden" name="idMedium" value="${context.idMedium}">
         <input type="hidden" name="idMediumType" value="${context.idMediumType}">
-        <input type="hidden" name="dbId" value="${context.dbId}">
         <div id="abschicken">
 	        <div class="form-group">
 	            <div class="col-lg-3 col-md-3 col-sm-3 control-label">
 	                <label for="genre">Format</label>
 	            </div>
 	            <div class="col-lg-6 col-md-6 col-sm-3">
-	           		<cu:comboBox parameterName="genre" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"/>
+	           		<cu:comboBox parameterName="format" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"/>
 	            </div>
 	            <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->
 	            <div class="col-lg-3 col-md-3 col-sm-3">
