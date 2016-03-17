@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import data.formate.Digital;
+import data.formate.Formate;
 import data.medien.Bild;
 import data.medien.Buch;
 import data.medien.Film;
@@ -35,8 +37,14 @@ import data.medien.validator.FilmValidator;
 import data.medien.validator.HoerbuchValidator;
 import data.medien.validator.MusikValidator;
 import data.medien.validator.SpielValidator;
+import data.speicherorte.Dia;
+import data.speicherorte.Kassette;
+import data.speicherorte.Optisch;
+import data.speicherorte.Schallplatte;
+import data.speicherorte.Speicherort;
 import enums.Action;
 import enums.Mediengruppe;
+import enums.SpeicherortArt;
 import gui.Controller;
 import gui.StaticElements;
 import gui.dto.FehlerDTO;
@@ -46,12 +54,15 @@ import gui.dto.medien.BuchDetailDTO;
 import gui.dto.medien.BuchEingabeDTO;
 import gui.dto.medien.FilmDetailDTO;
 import gui.dto.medien.FilmEingabeDTO;
+import gui.dto.medien.FormatDTO;
 import gui.dto.medien.HoerbuchDetailDTO;
 import gui.dto.medien.HoerbuchEingabeDTO;
 import gui.dto.medien.ListAnzeigeDTO;
 import gui.dto.medien.ListAnzeigeDTO.ListElementDTO;
+import gui.dto.medien.MediumDetailDTO;
 import gui.dto.medien.MusikDetailDTO;
 import gui.dto.medien.MusikEingabeDTO;
+import gui.dto.medien.SpeicherortDTO;
 import gui.dto.medien.SpielDetailDTO;
 import gui.dto.medien.SpielEingabeDTO;
 import logic.MediumLogicFactory;
@@ -249,6 +260,7 @@ public class MedienController extends Controller {
 							dto.setDbId(bild.getDbId());
 							dto.setDatum(bild.getErscheinungsdatum().format(StaticElements.FORMATTER));
 							dto.setGenre(bild.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
+							setFormate(dto, bild);
 							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -271,6 +283,7 @@ public class MedienController extends Controller {
 							dto.setArt(buch.getArt().getBezeichnung());
 							dto.setAuflage(buch.getAuflage());
 							dto.setSprache(buch.getSprache());
+							setFormate(dto, buch);
 							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -292,6 +305,7 @@ public class MedienController extends Controller {
 							dto.setGenre(film.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
 							dto.setArt(film.getArt().getBezeichnung());
 							dto.setSprache(film.getSprache());
+							setFormate(dto, film);
 							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -313,6 +327,7 @@ public class MedienController extends Controller {
 							dto.setGenre(hoerbuch.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
 							dto.setArt(hoerbuch.getArt().getBezeichnung());
 							dto.setSprache(hoerbuch.getSprache());
+							setFormate(dto, hoerbuch);
 							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -333,6 +348,7 @@ public class MedienController extends Controller {
 							dto.setDatum(musik.getErscheinungsdatum().format(StaticElements.FORMATTER));
 							dto.setGenre(musik.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
 							dto.setLive(musik.isLive());
+							setFormate(dto, musik);
 							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -354,6 +370,7 @@ public class MedienController extends Controller {
 							dto.setGenre(spiel.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", ")));
 							dto.setBetriebssystem(spiel.getBetriebssystem());
 							dto.setSprache(spiel.getSprache());
+							setFormate(dto, spiel);
 							forward(request, response, dto, "mediumDetails.jsp");
 						} else {
 							errors.add("Medium wurde nicht gefunden");
@@ -1338,5 +1355,61 @@ public class MedienController extends Controller {
 				forward(request, response, dto, "404.jsp");
 			}
 		}
+	}
+	
+	private void setFormate(MediumDetailDTO dto, Medium object) {
+		List<FormatDTO>	list	=	new ArrayList<>();
+		for (Formate format : object.getFormate()) {
+			String					bezeichnung		=	format.getType().getBezeichnung();
+			List<SpeicherortDTO>	speicherorte	=	new ArrayList<>();
+			switch (format.getType()) {
+			case Digital:
+				Digital digital = (Digital) format;
+				bezeichnung = bezeichnung + ": Dateiformat: " + digital.getDateiformat() + " Qualitaet: " + digital.getQualitaet();
+				break;
+			default:
+				break;
+			}
+			for (Speicherort speicherort : format.getSpeicherOrte()) {
+				int				id			=	speicherort.getDbId();
+				SpeicherortArt	type		=	speicherort.getType();
+				String			art			=	"";
+				String			bez			=	speicherort.getLagerOrt();
+				String			bemerkung	=	speicherort.getBemerkung();
+				String			zustand		=	"";
+				switch (type) {
+				case Buch:
+					data.speicherorte.Buch	buch	=	(data.speicherorte.Buch) speicherort;
+					art		=	buch.getArt().getBezeichnung();
+					zustand	=	buch.getZustand();
+					break;
+				case Dia:
+					Dia	dia	=	(Dia) speicherort;
+					zustand	=	dia.getZustand();
+					break;
+				case Kassette:
+					Kassette	kassette	=	(Kassette) speicherort;
+					art		=	kassette.getArt().getBezeichnung();
+					zustand	=	kassette.getZustand();
+					break;
+				case Optisch:
+					Optisch	optisch	=	(Optisch) speicherort;
+					art		=	optisch.getArt().getBezeichnung();
+					zustand	=	optisch.getZustand();
+					break;
+				case Schallplatte:
+					Schallplatte	schallplatte	=	(Schallplatte) speicherort;
+					art		=	schallplatte.getArt().getBezeichnung();
+					zustand	=	schallplatte.getZustand();
+					break;
+				default:
+					break;
+				}
+				speicherorte.add(new SpeicherortDTO(id, type, art, bez, bemerkung, zustand));
+			}
+			FormatDTO formatDto = new FormatDTO(format.getDbId(), format.getType().getId(), bezeichnung, speicherorte);
+			list.add(formatDto);
+		}
+		dto.setFormate(list);
 	}
 }

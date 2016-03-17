@@ -50,7 +50,7 @@
                 	<p>${context.genre}</p>
                 </div>
             </div>
-            <c:if test="${context.medium.id != 0 || context.medium.id != 5}">
+            <c:if test="${context.medium.id != 0 && context.medium.id != 4 && context.medium.id != 5}">
             <div class="form-group">
                 <div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label for="art">Art</label>
@@ -63,7 +63,7 @@
                 </div>
             </div>
             </c:if>
-            <c:if test="${context.medium.id != 0 || context.medium.id != 5}">
+            <c:if test="${context.medium.id != 0 && context.medium.id != 4}">
             <div>
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label>Sprache</label>
@@ -83,7 +83,7 @@
                 </div>
             </div>    
             </c:if>
-            <c:if test="${context.medium.id == 5}">
+            <c:if test="${context.medium.id == 4}">
             <div class="form-group">
                 <div class="col-sm-3 col-lg-3 control-label">
                     <label>Betriebssystem</label>

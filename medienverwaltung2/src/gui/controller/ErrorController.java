@@ -33,10 +33,12 @@ public class ErrorController extends Controller {
 		matcher.matches();
 		String fehlerSeite = matcher.group(1);
 		Throwable e = (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
-		StringWriter sw = new StringWriter();
-		e.printStackTrace(new PrintWriter(sw));
-		String exceptionAsString = sw.toString();
-		dto.addError(exceptionAsString);
+		if (e != null) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exceptionAsString = sw.toString();
+			dto.addError(exceptionAsString);
+		}
 		forward(request, response, dto, fehlerSeite + ".jsp");
 	}
 }

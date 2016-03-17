@@ -23,7 +23,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li><a href="${context.baseURI}details.html?id=${data.dbId}">Details</a></li>
                         <li><a href="${context.baseURI}editieren.html?id=${data.dbId}">Bearbeiten</a></li>
-                        <li><a href="${context.baseURI}anzeigen.html?action=delete&id=${data.dbId}">Löschen</a></li>
+                        <li><a href="${context.baseURI}anzeigen.html?act=delete&id=${data.dbId}">Löschen</a></li>
                     </ul>
                 </div></td>
                 <td>${data.bezeichnung}</td>

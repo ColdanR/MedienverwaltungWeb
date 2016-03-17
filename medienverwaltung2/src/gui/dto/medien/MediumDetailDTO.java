@@ -1,5 +1,8 @@
 package gui.dto.medien;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import enums.Mediengruppe;
 import gui.dto.BaseDTO;
 
@@ -10,6 +13,7 @@ public abstract class MediumDetailDTO extends BaseDTO {
 	private	String				datum				=	"";
 	private	String				bemerkung			=	"";
 	private	String				genre				=	"";
+	private	List<FormatDTO>		formate				=	new ArrayList<>();
 
 	protected MediumDetailDTO(String titel, Mediengruppe medium) {
 		super(titel);
@@ -64,6 +68,14 @@ public abstract class MediumDetailDTO extends BaseDTO {
 
 	public void setDatum(String datum) {
 		this.datum = datum;
+	}
+
+	public List<FormatDTO> getFormate() {
+		return formate;
+	}
+
+	public void setFormate(List<FormatDTO> formate) {
+		this.formate = formate;
 	}
 
 

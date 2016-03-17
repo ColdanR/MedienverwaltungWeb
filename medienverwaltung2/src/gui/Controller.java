@@ -33,7 +33,11 @@ public abstract class Controller {
 	}
 	
 	protected void redirect (HttpServletRequest request, HttpServletResponse response, String uri) {
-		String server = request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + uri;
+		String server = request.getScheme() + "://" + request.getServerName();
+		if (request.getLocalPort() != 80) {
+			server = server + ":" + request.getLocalPort();
+		}
+		server = server + request.getContextPath() + "/" + uri;
 		response.setStatus(HttpServletResponse.SC_SEE_OTHER);
 		response.setHeader("location", server);
 	}

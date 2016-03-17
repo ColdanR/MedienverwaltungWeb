@@ -7,21 +7,21 @@ import gui.dto.BaseDTO;
 
 public class ListAnzeigeDTO extends BaseDTO {
 	public static class ListElementDTO {
-		private int		id;
+		private int		dbId;
 		private	String	bezeichnung;
 		private	String	datum;
 		private	String	genre;
 		
 		public ListElementDTO(int id, String bezeichnung, String datum, String genre) {
 			super();
-			this.id = id;
+			this.dbId = id;
 			this.bezeichnung = bezeichnung;
 			this.datum = datum;
 			this.genre = genre;
 		}
 
-		public int getId() {
-			return id;
+		public int getDbId() {
+			return dbId;
 		}
 
 		public String getBezeichnung() {
