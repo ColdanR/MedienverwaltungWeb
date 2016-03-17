@@ -24,10 +24,11 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 		
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.id, mediabase.titel, mediabase.erscheinungsdatum, mediabase.bemerkung, "
+			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung, "
 					+ "hoerbuch.sprache, hoerbuch.art"
-					+ "FROM mediabase INNER JOIN hoerbuch ON mediabase.id = hoerbuch.mediabase_id "
-					+ "WHERE mediabase.id = ?");
+					+ "FROM mediabase mb "
+					+ "INNER JOIN hoerbuch hb ON mb.id = hb.mediabase_id "
+					+ "WHERE mb.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {

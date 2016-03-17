@@ -24,10 +24,11 @@ public class DBMusik extends DBMedien<Musik> {
 		
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.id, mediabase.titel, mediabase.erscheinungsdatum, mediabase.bemerkung, "
+			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung, "
 					+ "musik.live"
-					+ "FROM mediabase INNER JOIN musik ON mediabase.id = musik.mediabase_id "
-					+ "WHERE mediabase.id = ?");
+					+ "FROM mediabase mb "
+					+ "INNER JOIN musik ON mb.id = musik.mediabase_id "
+					+ "WHERE mb.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
