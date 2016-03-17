@@ -34,7 +34,7 @@ public class DBPerson extends DataBaseManager {
 		PreparedStatement 	stmt 	= null;
 		ResultSet 			result 	= null;
 		try {
-			String sql = "SELECT p.id, p.nachname, p.vorname, p.kuenstlername FROM person p WHERE p.id = ?";
+			String sql = "SELECT person.id, nachname, vorname, kuenstlername FROM person WHERE person.id = ?";
 			
 			conn = getConnection();
 			stmt = conn.prepareStatement(sql);
@@ -101,7 +101,7 @@ public class DBPerson extends DataBaseManager {
 					ret = true;
 				}
 			} else {
-				String sql = "UPDATE person p SET p.nachname = ?, p.vorname = ?, p.kuenstlername = ? WHERE p.id = ?";
+				String sql = "UPDATE person SET nachname = ?, vorname = ?, kuenstlername = ? WHERE peson.id = ?";
 				conn = getConnection();
 				stmt = conn.prepareStatement(sql);
 				stmt.setString(1, person.getNachname());
@@ -199,11 +199,12 @@ public class DBPerson extends DataBaseManager {
 		Person ret = null;
 		List<Person> personlist = new ArrayList<Person>();
 				
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet result = null;
+		Connection 	conn 	= null;
+		Statement	stmt 	= null;
+		ResultSet 	result 	= null;
+		
 		try {
-			String sql = "SELECT p.id, p.nachname, p.vorname, p.kuenstlername FROM person p";
+			String sql = "SELECT person.id, nachname, vorname, kuenstlername FROM person";
 			
 			conn = getConnection();
 			stmt = conn.createStatement();

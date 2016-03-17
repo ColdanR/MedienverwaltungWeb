@@ -24,10 +24,10 @@ public class DBBuch extends DBMedien<Buch> {
 		
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT mediabase.id, mediabase.titel, mediabase.erscheinungsdatum, mediabase.bemerkung, "
-					+ "buch.sprache, buch.art, buch.auflage"
-					+ "FROM mediabase INNER JOIN buch ON mediabase.id = buch.mediabase_id "
-					+ "WHERE mediabase.id = ?");
+			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung, "
+					+ "b.sprache, b.art, b.auflage"
+					+ "FROM mediabase mb INNER JOIN buch b ON mb.id = b.mediabase_id "
+					+ "WHERE mb.id = ?");
 			stmt.setInt(1, id);
 			result = stmt.executeQuery();
 			if (result.next() && result.isLast()) {
