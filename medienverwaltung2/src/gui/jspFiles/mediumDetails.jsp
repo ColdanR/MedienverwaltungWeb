@@ -4,6 +4,9 @@
 <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template>
+<h1>
+<p>${context.titel}</p>
+</h1>
 <div class="form-horizontal">
     <div class="form-section" id="detail">
 		<h3 class="panel-title">Detailsseite</h3>
