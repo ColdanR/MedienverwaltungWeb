@@ -16,7 +16,7 @@
                     <label for="speichermedium">Speicherortart</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-3">
-                     <cu:comboBox multiple="false" parameterName="speichermedium" selectOptions="${context.speichermediumOptions}" className="form-control" title="speichermedium" selected="${context.speichermediumSelected}"/>                    
+                     <cu:comboBox multiple="false" parameterName="speicherortArt" selectOptions="${context.selectOptions}" className="form-control" title="speichermedium" selected="${context.selected}"/>                    
                 </div>
                 <div class="form-group">
                     <div class="col-sm-3 col-lg-3 control-label">

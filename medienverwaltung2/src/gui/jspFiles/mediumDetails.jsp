@@ -106,8 +106,8 @@
 	                                    <p> ${data.bezeichnung }</p>
 	                                </div>
 	                                <div class="col-lg-4">
-	                                    <a id="collapse" class="btn btn-default pull-right" href="${pageContext.request.contextPath}/formate/editieren.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Bearbeiten</a>
-	                                    <a id="collapse" class="btn btn-default pull-right" href="${pageContext.request.contextPath}/formate/loeschen.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Löschen</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="${pageContext.request.contextPath}/formate/editieren.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Bearbeiten</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="${pageContext.request.contextPath}/formate/loeschen.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Löschen</a>
 	                                </div>
 	                            </a>
 	                        </h4>
@@ -140,9 +140,9 @@
 	                       									<span class="caret"></span>
 	                    								</button>
 	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									                        <li><a href="${pageContext.request.contextPath}/speicherorte/editieren.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Bearbeiten</a></li>
-									                        <li><a href="${pageContext.request.contextPath}/speicherorte/loeschen.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Löschen</a></li>
-	                    								</ul>
+									                        <li><a href="${pageContext.request.contextPath}/speicherorte/editieren.html?id=${dat.id}&idSpeicherortArt=${dat.type.id}&idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Bearbeiten</a></li>
+									                        <li><a href="${pageContext.request.contextPath}/speicherorte/loeschen.html?id=${dat.id}&idSpeicherortArt=${dat.type.id}&idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Löschen</a></li>
+	                    								</ul>idFormatType
 	                								</div>
                 								</td>
 		                        			</tr>
@@ -152,7 +152,7 @@
                                     	<div class="col-lg-4 col-md-2 col-sm-1">
                                     	</div>
                                     	<div class="col-lg-4 col-md-2 col-sm-1">
-		                        			<a class="btn btn-default center-block" href="${pageContext.request.contextPath}/speicherorte/anlage.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Neuanlage Speicherort</a>
+		                        			<a class="btn btn-default center-block" href="${pageContext.request.contextPath}/speicherorte/anlage.html?idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Neuanlage Speicherort</a>
 		                        	 	</div>
                                     	<div class="col-lg-4 col-md-2 col-sm-1">
                                     	</div>

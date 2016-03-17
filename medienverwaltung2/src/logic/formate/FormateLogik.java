@@ -74,7 +74,8 @@ public class FormateLogik extends DatenLogik<Formate> {
 	@Override
 	public boolean load(int id) {
 		if (object == null) {
-			if (dbAccess.write(object, mediumId)) {
+			object = dbAccess.load(id);
+			if (object != null) {
 				return true;
 			} else {
 				addErrors(dbAccess.getErrors());
