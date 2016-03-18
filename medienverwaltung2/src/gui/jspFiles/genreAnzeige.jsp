@@ -20,8 +20,8 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="${context.baseURI}?action=editMedium&id=${data.dbId}">Bearbeiten</a></li>
-                        <li><a href="${context.baseURI}?action=delete&id=${data.dbId}">Löschen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/genre/editieren.html?id=${data.id}">Bearbeiten</a></li>
+                        <li><a href="${pageContext.request.contextPath}/genre/loeschen.html?id=${data.id}">Löschen</a></li>
                     </ul>
                 </div></td>
                 <td>${data.bezeichnung}</td>
