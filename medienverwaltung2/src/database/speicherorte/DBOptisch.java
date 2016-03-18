@@ -35,7 +35,7 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 				ret.setZustand(result.getString(3));
 				ret.setArt(OptischArt.getElementFromId(result.getInt(4)));
 			} else {
-				addError("Optischer Datentrï¿½ger  mit der ID " + id + " nicht gefunden");
+				addError("Optischer Datenträger  mit der ID " + id + " nicht gefunden");
 			}
 			result.close();
 			result = null;
@@ -45,7 +45,7 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Optischen Datentrï¿½gers");
+			addError("Fehler beim Laden des Optischen Datenträgers");
 		} finally {
 			if (result != null) {
 				try {
@@ -121,7 +121,7 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Schreiben des optischen Datentrï¿½gers");
+			addError("Fehler beim Schreiben des optischen Datenträgers");
 			ret = false;
 		} finally {
 			if (result != null) {
@@ -173,7 +173,7 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste fï¿½r SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return ret;

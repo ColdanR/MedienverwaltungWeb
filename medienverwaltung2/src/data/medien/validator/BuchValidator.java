@@ -7,7 +7,7 @@ public class BuchValidator extends MediumValidator<Buch> {
 	public boolean validate(Buch object) {
 		boolean ret = super.validate(object);
 		if (object.getArt() == null) {
-			addError("Keine Buchart ausgew√§hlt.");
+			addError("Keine Buchart ausgew‰hlt.");
 			ret = false;
 		}
 		if (object.getSprache() == null || object.getSprache().length() == 0) {

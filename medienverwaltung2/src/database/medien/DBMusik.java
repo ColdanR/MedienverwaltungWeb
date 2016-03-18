@@ -205,7 +205,7 @@ public class DBMusik extends DBMedien<Musik> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Lï¿½schen des Musiktitels!");
+			addError("Fehler beim Löschen des Musiktitels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

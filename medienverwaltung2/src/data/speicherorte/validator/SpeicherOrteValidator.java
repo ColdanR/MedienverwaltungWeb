@@ -32,21 +32,21 @@ public class SpeicherOrteValidator implements Validator<Speicherort> {
 			Kassette kassette = (Kassette) object;
 			if (kassette.getArt() == null) {
 				ret = false;
-				errors.add("Keine Art ausgew√§hlt!");
+				errors.add("Keine Art ausgew‰hlt!");
 			}
 			break;
 		case Optisch:
 			Optisch optisch = (Optisch) object;
 			if (optisch.getArt() == null) {
 				ret = false;
-				errors.add("Keine Art ausgew√§hlt!");
+				errors.add("Keine Art ausgew‰hlt!");
 			}
 			break;
 		case Schallplatte:
 			Schallplatte schallplatte = (Schallplatte) object;
 			if (schallplatte.getArt() == null) {
 				ret = false;
-				errors.add("Keine Art ausgew√§hlt!");
+				errors.add("Keine Art ausgew‰hlt!");
 			}
 			break;
 		default:

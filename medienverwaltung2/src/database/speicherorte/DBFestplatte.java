@@ -162,7 +162,7 @@ public class DBFestplatte extends DBSpeicherOrte<Festplatte> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste fï¿½r SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return ret;
