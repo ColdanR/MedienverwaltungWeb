@@ -17,8 +17,8 @@ public class SpeicherorteDTO extends BaseDTO {
 	private	String					bezeichnung;
 	private	String					bemerkung;
 	private	String					zustand;
-	private	SelectAble				selectedArt;
-	private	List<SelectAble>		selectOptionArt;
+	private	SelectAble				artSelected;
+	private	List<SelectAble>		artOptions;
 
 	public SpeicherorteDTO(String titel, int dbId, SpeicherortArt selected, List<SpeicherortArt> selectOptions,
 			int idSpeicherFormat, int idMedium, int idMediumType, int idFormatType) {
@@ -85,20 +85,20 @@ public class SpeicherorteDTO extends BaseDTO {
 		this.zustand = zustand;
 	}
 
-	public SelectAble getSelectedArt() {
-		return selectedArt;
+	public SelectAble getArtSelected() {
+		return artSelected;
 	}
 
-	public void setSelectedArt(SelectAble selectedArt) {
-		this.selectedArt = selectedArt;
+	public void setArtSelected(SelectAble selectedArt) {
+		this.artSelected = selectedArt;
 	}
 
-	public List<SelectAble> getSelectOptionArt() {
-		return selectOptionArt;
+	public List<SelectAble> getArtOptions() {
+		return artOptions;
 	}
 
-	public void setSelectOptionArt(List<SelectAble> selectOptionArt) {
-		this.selectOptionArt = selectOptionArt;
+	public void setArtOptions(List<SelectAble> selectOptionArt) {
+		this.artOptions = selectOptionArt;
 	}
 	
 }

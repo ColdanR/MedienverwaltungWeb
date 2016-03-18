@@ -122,7 +122,7 @@ public class SpeicherOrteController extends Controller {
 							try {
 								SpeicherortArt	speicherOrtArt = SpeicherortArt.getElementFromId(Integer.parseInt(request.getParameter("speicherortArt")));
 								if (speicherOrtArt != null) {
-									if (request.getParameter("bez") == null || request.getParameter("bez").trim().length() == 0) {
+									if (request.getParameter("lagerort") == null || request.getParameter("lagerort").trim().length() == 0) {
 										SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 										dto.addError("Keine Bezeichnung f�r den Speicherort angegeben.");
 										forward(request, response, dto, "speicherortEingabe.jsp");
@@ -338,7 +338,7 @@ public class SpeicherOrteController extends Controller {
 	}
 
 	private void bearbeiten(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getParameter("idSpeicherortArt") == null || request.getParameter("speicherortArt").trim().length() == 0) {
+		if (request.getParameter("idSpeicherortArt") == null || request.getParameter("idSpeicherortArt").trim().length() == 0) {
 			FehlerDTO	dto	=	new FehlerDTO();
 			dto.addError("Keine Art f�r den Speicherort angegeben.");
 			forward(request, response, dto, "404.jsp");
@@ -387,7 +387,7 @@ public class SpeicherOrteController extends Controller {
 				} else {
 					if (request.getParameter("send") != null) {
 						try {
-							if (request.getParameter("bez") == null || request.getParameter("bez").trim().length() == 0) {
+							if (request.getParameter("lagerort") == null || request.getParameter("lagerort").trim().length() == 0) {
 								SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 								dto.addError("Keine Bezeichnung f�r den Speicherort angegeben.");
 								forward(request, response, dto, "speicherortEingabe.jsp");
@@ -628,8 +628,8 @@ public class SpeicherOrteController extends Controller {
 								Buch buch = logikBuch.getObject();
 								dto.setBemerkung(buch.getBemerkung());
 								dto.setBezeichnung(buch.getLagerOrt());
-								dto.setSelectedArt(buch.getArt());
-								dto.setSelectOptionArt(Arrays.asList(BuchArt.values()));
+								dto.setArtSelected(buch.getArt());
+								dto.setArtOptions(Arrays.asList(BuchArt.values()));
 								dto.setZustand(buch.getZustand());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
@@ -680,8 +680,8 @@ public class SpeicherOrteController extends Controller {
 								Kassette item = logikKassette.getObject();
 								dto.setBemerkung(item.getBemerkung());
 								dto.setBezeichnung(item.getLagerOrt());
-								dto.setSelectedArt(item.getArt());
-								dto.setSelectOptionArt(Arrays.asList(KassettenArt.values()));
+								dto.setArtSelected(item.getArt());
+								dto.setArtOptions(Arrays.asList(KassettenArt.values()));
 								dto.setZustand(item.getZustand());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
@@ -699,8 +699,8 @@ public class SpeicherOrteController extends Controller {
 								Optisch item = logikOptisch.getObject();
 								dto.setBemerkung(item.getBemerkung());
 								dto.setBezeichnung(item.getLagerOrt());
-								dto.setSelectedArt(item.getArt());
-								dto.setSelectOptionArt(Arrays.asList(OptischArt.values()));
+								dto.setArtSelected(item.getArt());
+								dto.setArtOptions(Arrays.asList(OptischArt.values()));
 								dto.setZustand(item.getZustand());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
@@ -717,8 +717,8 @@ public class SpeicherOrteController extends Controller {
 								Schallplatte item = logikSchallplatte.getObject();
 								dto.setBemerkung(item.getBemerkung());
 								dto.setBezeichnung(item.getLagerOrt());
-								dto.setSelectedArt(item.getArt());
-								dto.setSelectOptionArt(Arrays.asList(SchallplatteArt.values()));
+								dto.setArtSelected(item.getArt());
+								dto.setArtOptions(Arrays.asList(SchallplatteArt.values()));
 								dto.setZustand(item.getZustand());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
@@ -743,7 +743,7 @@ public class SpeicherOrteController extends Controller {
 	}
 
 	private void loeschen(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getParameter("idSpeicherortArt") == null || request.getParameter("speicherortArt").trim().length() == 0) {
+		if (request.getParameter("idSpeicherortArt") == null || request.getParameter("idSpeicherortArt").trim().length() == 0) {
 			FehlerDTO	dto	=	new FehlerDTO();
 			dto.addError("Keine Art f�r den Speicherort angegeben.");
 			forward(request, response, dto, "404.jsp");

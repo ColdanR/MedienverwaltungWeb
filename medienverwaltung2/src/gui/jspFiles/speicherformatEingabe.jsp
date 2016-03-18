@@ -19,7 +19,7 @@
 	                <label for="genre">Format</label>
 	            </div>
 	            <div class="col-lg-6 col-md-6 col-sm-3">
-	           		<cu:comboBox parameterName="format" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"/>
+	           		<cu:comboBox parameterName="format" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"  readonly="${context.dbId != 0}" />
 	            </div>
 	        </div>
 	        <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->
