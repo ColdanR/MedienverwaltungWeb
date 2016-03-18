@@ -98,7 +98,7 @@
          	 		<div class="panel panel-default">
 	                    <div class="panel-heading" role="tab" id="heading${dataCounter.count}">
 	                        <h4 class="panel-title">
-	                            <a id="test" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${dataCounter.count}" aria-expanded="false" aria-controls="collapse${dataCounter.count}">
+	                            <a class="test" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${dataCounter.count}" aria-expanded="false" aria-controls="collapse${dataCounter.count}">
 	                                <div class="col-lg-8">
 	                                    <p> ${data.bezeichnung }</p>
 	                                </div>
