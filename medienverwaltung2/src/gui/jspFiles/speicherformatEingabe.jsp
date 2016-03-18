@@ -5,7 +5,7 @@
  <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <t:template>
 <h1>
-<p>${context.titel}</p>
+${context.titel}
 </h1>
 <form class="form-horizontal" role="form" action="" method="post">
     <div class="form-section">
@@ -20,6 +20,9 @@
 	            </div>
 	            <div class="col-lg-6 col-md-6 col-sm-3">
 	           		<cu:comboBox parameterName="format" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"  readonly="${context.dbId != 0}" />
+	           		<c:if test="${context.dbId != 0}">
+                     <input type="hidden" name="speicherortArt" value="${context.selectedFormat.id}">
+                     </c:if>
 	            </div>
 	        </div>
 	        <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->

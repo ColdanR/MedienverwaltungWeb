@@ -16,7 +16,10 @@
                     <label for="speichermedium">Speicherortart</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-3">
-                     <cu:comboBox multiple="false" parameterName="speicherortArt" selectOptions="${context.selectOptions}" className="form-control" title="speichermedium" selected="${context.selected}" readonly="${context.dbId != 0}"/>                    
+                     <cu:comboBox multiple="false" parameterName="speicherortArt" selectOptions="${context.selectOptions}" className="form-control" title="speichermedium" selected="${context.selected}" readonly="${context.dbId != 0}"/>
+                     <c:if test="${context.dbId != 0}">
+                     <input type="hidden" name="speicherortArt" value="${context.selected.id}">
+                     </c:if>
                 </div>
             </div>    
             <div class="form-group">

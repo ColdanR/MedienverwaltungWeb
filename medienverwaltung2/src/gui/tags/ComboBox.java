@@ -49,7 +49,7 @@ public class ComboBox extends TagSupport {
 			sb.append(" multiple");
 		}
 		if (readonly) {
-			sb.append(" readonly");
+			sb.append(" disabled");
 		}
 		sb.append(">").append(System.lineSeparator());
 		if (!(selected instanceof Format) && !(selected instanceof Genre)) {
