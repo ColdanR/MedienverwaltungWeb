@@ -36,56 +36,28 @@ public class SpeicherorteDTO extends BaseDTO {
 		return dbId;
 	}
 
-	public void setDbId(int dbId) {
-		this.dbId = dbId;
-	}
-
 	public SpeicherortArt getSelected() {
 		return selected;
-	}
-
-	public void setSelected(SpeicherortArt selected) {
-		this.selected = selected;
 	}
 
 	public List<SpeicherortArt> getSelectOptions() {
 		return selectOptions;
 	}
 
-	public void setSelectOptions(List<SpeicherortArt> selectOptions) {
-		this.selectOptions = selectOptions;
-	}
-
 	public int getIdSpeicherFormat() {
 		return idSpeicherFormat;
-	}
-
-	public void setIdSpeicherFormat(int idSpeicherFormat) {
-		this.idSpeicherFormat = idSpeicherFormat;
 	}
 
 	public int getIdMedium() {
 		return idMedium;
 	}
 
-	public void setIdMedium(int idMedium) {
-		this.idMedium = idMedium;
-	}
-
 	public int getIdMediumType() {
 		return idMediumType;
 	}
 
-	public void setIdMediumType(int idMediumType) {
-		this.idMediumType = idMediumType;
-	}
-
 	public int getIdFormatType() {
 		return idFormatType;
-	}
-
-	public void setIdFormatType(int idFormatType) {
-		this.idFormatType = idFormatType;
 	}
 
 	public String getBezeichnung() {

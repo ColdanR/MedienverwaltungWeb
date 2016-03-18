@@ -88,7 +88,7 @@ public class DBSpeicherOrteWrapper {
 		if (errors.size() > 0) {
 			return null;
 		}
-		// Sortieren und Rï¿½ckgabe
+		// Sortieren und Rückgabe
 		ret.sort(new Comparator<Speicherort>() {
 			@Override
 			public int compare(Speicherort o1, Speicherort o2) {

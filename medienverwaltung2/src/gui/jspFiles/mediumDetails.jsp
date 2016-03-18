@@ -9,8 +9,7 @@
 </h1>
 <div class="form-horizontal">
     <div class="form-section" id="detail">
-		<h3 class="panel-title">Detailsseite</h3>
-		<input type="hidden" name="id" value="${context.dbId}">
+		<h3 class="panel-title">Detailsseite ${context.medium.bezeichnung}</h3>
             <div class="form-group">
                 <div class="col-sm-3 col-lg-3 control-label">
                     <label> Titel</label>
@@ -21,7 +20,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-3 clo-lg-3 control-label">
-                    <label> Datum</label>
+                    <label> Erscheinungsdatum</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-4">
                     <p> ${context.datum}</p>
@@ -66,7 +65,7 @@
                 </div>
             </div>
             </c:if>
-            <c:if test="${context.medium.id != 0 && context.medium.id != 4}">
+            <c:if test="${context.medium.id != 0 && context.medium.id != 5}">
             <div>
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label>Sprache</label>
@@ -96,8 +95,6 @@
                 </div>
             </div>
          	</c:if>
-         	<c:choose>
-         		<c:when test="${context.formate}">
          		<!--Akkordion Anfang  -->
          	 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
          	 	<c:forEach items="${context.formate}" var="data">
@@ -109,8 +106,8 @@
 	                                    <p> ${data.bezeichnung }</p>
 	                                </div>
 	                                <div class="col-lg-4">
-	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/editieren.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Bearbeiten</a>
-	                                    <a id="collapse" class="btn btn-default pull-right" href="/formate/loeschen.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Löschen</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="${pageContext.request.contextPath}/formate/editieren.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Bearbeiten</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="${pageContext.request.contextPath}/formate/loeschen.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Löschen</a>
 	                                </div>
 	                            </a>
 	                        </h4>
@@ -143,9 +140,9 @@
 	                       									<span class="caret"></span>
 	                    								</button>
 	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									                        <li><a href="/speicherorte/editieren.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Bearbeiten</a></li>
-									                        <li><a href="/speicherorte/loeschen.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Löschen</a></li>
-	                    								</ul>
+									                        <li><a href="${pageContext.request.contextPath}/speicherorte/editieren.html?id=${dat.id}&idSpeicherortArt=${dat.type.id}&idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Bearbeiten</a></li>
+									                        <li><a href="${pageContext.request.contextPath}/speicherorte/loeschen.html?id=${dat.id}&idSpeicherortArt=${dat.type.id}&idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Löschen</a></li>
+	                    								</ul>idFormatType
 	                								</div>
                 								</td>
 		                        			</tr>
@@ -155,48 +152,26 @@
                                     	<div class="col-lg-4 col-md-2 col-sm-1">
                                     	</div>
                                     	<div class="col-lg-4 col-md-2 col-sm-1">
-		                        			<a class="btn btn-default center-block" href="/speicherorte/anlage.html?idFormat=${data.idFormat}&idMedium=${data.mediumid}&mediumType=${data.mediumType}&idFormatType=${data.idFormatType}">Neuanlage Speicherort</a>
+		                        			<a class="btn btn-default center-block" href="${pageContext.request.contextPath}/speicherorte/anlage.html?idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Neuanlage Speicherort</a>
 		                        	 	</div>
                                     	<div class="col-lg-4 col-md-2 col-sm-1">
                                     	</div>
                                 	</div>
 		                        </div>
 	                        </div>
-	                        <div class="panel-footer" id="footer">
-	                        <div class="col-lg-12 col-md-6 col-sm-3" id="button">
-	                        	 <div class="col-lg-4 col-md-2 col-sm-1">
-                                </div>
-                                <div class="col-lg-4 col-md-2 col-sm-1">
-	                            <a class="btn btn-default center-block" href="/formate/anlage.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Neuanlage</a>
-	                        	</div>
-                                <div class="col-lg-4 col-md-2 col-sm-1">
-                                </div>
-	                        </div>
-	                        </div>
 						  </div>
                		</div>
          	 	</c:forEach>
             </div><!--Akkordion Ende  -->
-         		</c:when>
-         		<c:otherwise>
-         		<div class="col-lg-12 col-md-6 col-sm-3" id="button">
-               	 	<div class="col-lg-4 col-md-2 col-sm-1">
-                   	</div>
-                   	<div class="col-lg-4 col-md-2 col-sm-1">
-                   		<a class="btn btn-default center-block" href="/formate/anlage.html?id=${data.dbid}&idMedium=${data.mediumid}&mediumType=${data.mediumType}">Neuanlage</a>
-           			</div>
-                    <div class="col-lg-4 col-md-2 col-sm-1">
-                    </div>
-                </div>
-         		</c:otherwise>
-         	</c:choose>
+   			<div class="col-lg-12 col-md-6 col-sm-3" id="button">
+         	 	<div class="col-lg-4 col-md-2 col-sm-1">
+             	</div>
+             	<div class="col-lg-4 col-md-2 col-sm-1">
+             		<a class="btn btn-default center-block" href="${pageContext.request.contextPath}/formate/anlage.html?idMedium=${context.dbId}&idMediumType=${context.medium.id}">Neuanlage</a>
+     			</div>
+              <div class="col-lg-4 col-md-2 col-sm-1">
+              </div>
+          </div>
 	 </div>
-   	 <div class="form-section">
-        <div class="form-group">
-            <div class="col-lg-12 col-md-6 col-sm-3" id="button">
-                <button class="btn btn-default center-block" name="edit" id="edit">Bearbeiten</button>
-            </div>
-        </div>
-     </div>
 </div>
 </t:template>

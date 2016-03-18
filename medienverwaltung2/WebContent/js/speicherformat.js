@@ -58,9 +58,12 @@ $(document).ready(function(){
         }
         else
         {
-            document.getElementById("abschicken").removeChild(document.getElementById("qua"));
-            document.getElementById("abschicken").removeChild(document.getElementById("dat"));
+        	if (document.getElementById("qua") != null) {
+        		document.getElementById("abschicken").removeChild(document.getElementById("qua"));
+        	}
+        	if (document.getElementById("dat") != null) {
+        		document.getElementById("abschicken").removeChild(document.getElementById("dat"));
+        	}
         }
     });
-
 });

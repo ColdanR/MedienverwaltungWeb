@@ -11,7 +11,7 @@ public class DigitalValidator extends FormateValidator<Digital> {
 			ret = false;
 		}
 		if (object.getQualitaet() == null || object.getQualitaet().trim().length() == 0) {
-			addError("Qualit√§t darf nicht leer sein.");
+			addError("Qualit‰t darf nicht leer sein.");
 			ret = false;
 		}
 		return ret;

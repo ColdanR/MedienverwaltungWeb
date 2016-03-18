@@ -20,6 +20,7 @@ public abstract class FormateDTO extends BaseDTO {
 		this.uri			=	uri;
 		this.idMedium		=	idMedium;
 		this.idMediumType	=	idMediumType;
+		addJsFile("speicherformat.js");
 	}
 	
 	public String getUri() {

@@ -7,7 +7,7 @@ public class HoerbuchValidator extends MediumValidator<Hoerbuch> {
 	public boolean validate(Hoerbuch object) {
 		boolean ret = super.validate(object);
 		if (object.getArt() == null) {
-			addError("Keine HÃ¶rbuchart ausgewÃ¤hlt.");
+			addError("Keine Hörbuchart ausgewählt.");
 			ret = false;
 		}
 		if (object.getSprache() == null || object.getSprache().length() == 0) {

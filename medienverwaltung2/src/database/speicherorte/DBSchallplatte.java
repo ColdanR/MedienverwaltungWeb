@@ -158,7 +158,7 @@ public class DBSchallplatte extends DBSpeicherOrte<Schallplatte> {
 		List<Schallplatte>	ret		=	new ArrayList<>();
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT speicherort.id FROM speicherort s "
+			stmt = conn.prepareStatement("SELECT s.id FROM speicherort s "
 					+ "INNER JOIN schallplatte sp ON s.id = sp.speicherort_id "
 					+ "WHERE s.speicherformat_id = ?");
 			stmt.setInt(1, formatId);
@@ -173,7 +173,7 @@ public class DBSchallplatte extends DBSpeicherOrte<Schallplatte> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste fï¿½r SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return ret;

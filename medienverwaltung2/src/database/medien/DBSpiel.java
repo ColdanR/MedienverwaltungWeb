@@ -206,7 +206,7 @@ public class DBSpiel extends DBMedien<Spiel>{
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Lï¿½schen des Spiels!");
+			addError("Fehler beim Löschen des Spiels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

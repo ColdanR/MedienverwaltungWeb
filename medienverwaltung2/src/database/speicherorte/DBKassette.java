@@ -157,7 +157,7 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 		List<Kassette>		ret		=	new ArrayList<>();
 		try {
 			conn = getConnection();
-			stmt = conn.prepareStatement("SELECT speicherort.id FROM speicherort s "
+			stmt = conn.prepareStatement("SELECT s.id FROM speicherort s "
 					+ "INNER JOIN kassette k ON s.id = k.speicherort_id "
 					+ "WHERE s.speicherformat_id = ?");
 			stmt.setInt(1, formatId);
@@ -172,7 +172,7 @@ public class DBKassette extends DBSpeicherOrte<Kassette> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste fï¿½r SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return ret;

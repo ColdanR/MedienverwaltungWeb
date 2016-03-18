@@ -173,6 +173,13 @@ public class DBFormate extends DataBaseManager {
 				stmt = null;
 				switch (format.getType()) {
 				case Analog:
+					Analog analog = (Analog) format;
+					stmt = conn.prepareStatement("INSERT INTO format_analog "
+							+ "(speicherformat_id) VALUES (?)");
+					stmt.setInt(1, analog.getDbId());
+					stmt.execute();
+					stmt.close();
+					stmt = null;
 					break;
 				case Digital:
 					Digital digital = (Digital) format;

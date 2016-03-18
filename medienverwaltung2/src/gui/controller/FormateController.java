@@ -189,13 +189,13 @@ public class FormateController extends Controller {
 					forward(request, response, dto, "404.jsp");
 				} else {
 					// Parameter übernehmen
-					String	formatTypeString	=	request.getParameter("format");
+					String	formatTypeString	=	request.getParameter("idFormatType");
 					if (formatTypeString == null) {
 						FehlerDTO	dto	=	new	FehlerDTO();
 						dto.addError("Formatart konnte nicht bestimmt werden");
 						forward(request, response, dto, "404.jsp");
 					} else {
-						Format	formatType		=	Format.getElementFromId(Integer.parseInt(request.getParameter("format")));
+						Format	formatType		=	Format.getElementFromId(Integer.parseInt(request.getParameter("idFormatType")));
 						if (formatType != null) {
 							Formate format = logik.getObject();
 							if (request.getParameter("send") != null) {

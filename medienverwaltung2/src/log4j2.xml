@@ -16,13 +16,13 @@
 		</File>
 	</Appenders>
 	<Loggers>
-		<Logger name="gui" level="debug" additivity="false">
+		<Logger name="gui" level="warn" additivity="false">
 			<AppenderRef ref="Console"/>
 		</Logger>
-		<Logger name="logic" level="debug" additivity="false">
+		<Logger name="logic" level="warn" additivity="false">
 			<AppenderRef ref="Console"/>
 		</Logger>
-		<Logger name="database" level="debug" additivity="false">
+		<Logger name="database" level="warn" additivity="false">
 			<AppenderRef ref="Console"/>
 		</Logger>
 		<Root level="trace">
