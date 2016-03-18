@@ -97,7 +97,7 @@
             </div>
          	</c:if>
          	<c:choose>
-         		<c:when test="${context.formate }">
+         		<c:when test="${context.formate}">
          		<!--Akkordion Anfang  -->
          	 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
          	 	<c:forEach items="${context.formate}" var="data">

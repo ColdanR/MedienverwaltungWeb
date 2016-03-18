@@ -4,7 +4,7 @@
 $(document).ready(function(){
     var sel = document.getElementById("genre");
     $("#genre").on("change", function() {
-        if(sel.value == 2)
+        if(sel.value == 0)
         {
             //var divform = new Element('div', {class: 'form-group'});
             var divform = document.createElement("div");
