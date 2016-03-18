@@ -56,6 +56,6 @@ public class Person {
 	
 	@Override
 	public String toString() {
-		return "Ausgabe Person: Vorname: " + vorname + " Nachname: " + nachname + " Künstlername: " + kuenstlername;
+		return "Ausgabe Person: Vorname: " + vorname + " Nachname: " + nachname + " KÃ¼nstlername: " + kuenstlername;
 	}
 }

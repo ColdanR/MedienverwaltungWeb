@@ -133,7 +133,7 @@ private	List<String>	errors	=	new ArrayList<>();
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Genres!");
+			addError("Fehler beim LÃ¶schen des Genres!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

@@ -208,7 +208,7 @@ public class DBFilm extends DBMedien<Film> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Filmes!");
+			addError("Fehler beim LÃ¶schen des Filmes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

@@ -256,7 +256,7 @@ public class DBFormate extends DataBaseManager {
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim L�schen des Formates mit der ID " + id);
+			addError("Fehler beim Löschen des Formates mit der ID " + id);
 			ret = false;
 		} finally {
 			if (stmt != null) {

@@ -212,7 +212,7 @@ public class DBBuch extends DBMedien<Buch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Buchs!");
+			addError("Fehler beim LÃ¶schen des Buchs!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -256,7 +256,7 @@ public class DBBuch extends DBMedien<Buch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Bücherliste!");
+			addError("Fehler beim Laden der BÃ¼cherliste!");
 			ret = null;
 		} finally {
 			if (result != null) {

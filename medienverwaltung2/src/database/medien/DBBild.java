@@ -201,7 +201,7 @@ public class DBBild extends DBMedien<Bild> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Bildes!");
+			addError("Fehler beim LÃ¶schen des Bildes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {

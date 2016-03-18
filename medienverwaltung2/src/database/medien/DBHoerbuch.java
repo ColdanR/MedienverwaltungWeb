@@ -56,7 +56,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden des Hörbuchs!");
+			addError("Fehler beim Laden des HÃ¶rbuchs!");
 		} finally {
 			if (result != null) {
 				try {
@@ -153,7 +153,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Schreiben des Hörbuchs!");
+			addError("Fehler beim Schreiben des HÃ¶rbuchs!");
 			ret = false;
 		} finally {
 			if (result != null) {
@@ -208,7 +208,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			conn = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Hörbuchs!");
+			addError("Fehler beim LÃ¶schen des HÃ¶rbuchs!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
@@ -252,7 +252,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Laden der Hörbuchliste!");
+			addError("Fehler beim Laden der HÃ¶rbuchliste!");
 			ret = null;
 		} finally {
 			if (result != null) {
