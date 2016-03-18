@@ -2,8 +2,8 @@
  * Created by Jasmin Burger on 16.03.2016.
  */
 $(document).ready(function(){
-    var sel = document.getElementById("genre");
-    $("#genre").on("change", function() {
+    var sel = document.getElementById("format");
+    $("#format").on("change", function() {
         if(sel.value == 0)
         {
             //var divform = new Element('div', {class: 'form-group'});

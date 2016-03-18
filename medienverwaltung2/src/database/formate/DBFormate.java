@@ -54,6 +54,7 @@ public class DBFormate extends DataBaseManager {
 					element.setDateiformat(result.getString(4));
 					element.setDbId(result.getInt(1));
 					element.setQualitaet(result.getString(5));
+					format = element;
 				} else {
 					addError("Unbekanntes Format!");
 				}
@@ -255,7 +256,7 @@ public class DBFormate extends DataBaseManager {
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			addError("Fehler beim Löschen des Formates mit der ID " + id);
+			addError("Fehler beim Lï¿½schen des Formates mit der ID " + id);
 			ret = false;
 		} finally {
 			if (stmt != null) {

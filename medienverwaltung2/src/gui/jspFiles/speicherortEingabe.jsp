@@ -34,6 +34,8 @@
                         <input class="form-control" name="bemerkung" id="bemerkung" required="required">
                     </div>
                 </div>
+                <div id="addFields">
+                </div>
             </div>
         </div>
         <div class="form-section">
