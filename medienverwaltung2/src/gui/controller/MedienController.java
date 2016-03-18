@@ -437,8 +437,6 @@ public class MedienController extends Controller {
 								errors.add("Ausgew�hlte Genre konnte nicht ermittelt werden.");
 							}
 						}
-					} else {
-						errors.add("Keine Genre ausgewählt.");
 					}
 					LocalDate	erscheinungsdatum	=	null;
 					try {
