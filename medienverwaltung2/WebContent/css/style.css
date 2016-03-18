@@ -61,10 +61,10 @@ form.form-inline button[type=submit] {
 #accordion h4.panel-title {
 	height: 34px;
 }
-#test p{
+.test p{
 	margin-top: 10px;
 }
-#test div {
+.test div {
 	height: 40px;
 }
 #footer {

@@ -34,9 +34,9 @@
                 <div class="col-lg-6 col-md-6 col-sm-4">
                     <input class="form-control" name="bemerkung" id="bemerkung" required="required">
                 </div>
-                <div id="addFields">
-                </div>
             </div>
+            <div id="addFields">
+                </div>
         </div>
         <div class="form-section">
             <div class="form-group">
