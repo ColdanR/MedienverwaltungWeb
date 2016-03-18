@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-3 clo-lg-3 control-label">
-                    <label> Datum</label>
+                    <label> Erscheinungsdatum</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-4">
                     <p> ${context.datum}</p>

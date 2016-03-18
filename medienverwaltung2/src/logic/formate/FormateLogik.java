@@ -51,7 +51,7 @@ public class FormateLogik extends DatenLogik<Formate> {
 				return false;
 			}
 		} else {
-			addError("Kein Element geladen oder nur tempor√§res Objekt gefunden.");
+			addError("Kein Element geladen oder nur tempor‰res Objekt gefunden.");
 			return false;
 		}
 	}
@@ -66,7 +66,7 @@ public class FormateLogik extends DatenLogik<Formate> {
 				return false;
 			}
 		} else {
-			addError("Kein Element geladen oder nur tempor√§res Objekt gefunden.");
+			addError("Kein Element geladen oder nur tempor‰res Objekt gefunden.");
 			return false;
 		}
 	}

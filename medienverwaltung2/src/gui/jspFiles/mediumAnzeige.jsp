@@ -12,7 +12,7 @@
             <th></th>
             <th>Titel</th>
             <th>Genre</th>
-            <th>Datum</th>
+            <th>Erscheinungsdatum</th>
             </tr>
             </thead>
             <tbody>
