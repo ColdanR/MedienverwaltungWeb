@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template>
 <form class="form-horizontal" role="form" action="" method="post">
                 <div class="form-section">
-                    <h3>Alle Felder müssen ausgefüllt werden</h3>
+                    <h3>Alle Felder mÃ¼ssen ausgefÃ¼llt werden</h3>
                     <input type="hidden" name="id" value="${context.dbId}">
                     <div class="form-group">
                         <div class="col-sm-3 col-lg-3 control-label">

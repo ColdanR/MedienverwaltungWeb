@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <t:template>
@@ -10,7 +10,7 @@
             <th></th>
             <th>Vorname</th>
             <th>Nachname</th>
-            <th>Künstlername</th>
+            <th>KÃ¼nstlername</th>
             </tr>
             </thead>
             <tbody>
@@ -24,7 +24,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li><a href="${context.baseURI}details.html?id=${data.dbId}">Details</a></li>
                         <li><a href="${context.baseURI}?action=editMedium&id=${data.dbId}">Bearbeiten</a></li>
-                        <li><a href="${context.baseURI}?action=delete&id=${data.dbId}">Löschen</a></li>
+                        <li><a href="${context.baseURI}?action=delete&id=${data.dbId}">LÃ¶schen</a></li>
                     </ul>
                 </div></td>
                 <td>${data.vname}</td>
