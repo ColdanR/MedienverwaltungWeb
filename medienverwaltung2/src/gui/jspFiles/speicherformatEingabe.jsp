@@ -21,11 +21,8 @@
 	            <div class="col-lg-6 col-md-6 col-sm-3">
 	           		<cu:comboBox parameterName="format" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"/>
 	            </div>
-	            <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->
-	            <div class="col-lg-3 col-md-3 col-sm-3">
-	                <button class="btn btn-default">Hinzufügen</button>
-	            </div>
 	        </div>
+	        <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->
 	        <c:if test="${not empty context.selectedFormat && context.selectedFormat.id == 0 }">
 	        	<div class="form-group" id="dat">
 	        	<div class="col-lg-3 col-md-3 col-sm-3 control-label">

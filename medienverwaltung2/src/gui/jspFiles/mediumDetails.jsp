@@ -60,13 +60,10 @@
                 <div class="col-lg-6 col-md-6 col-sm-3 control-label">
                 	<p>${context.art}</p>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <button class="btn btn-default">Hinzufügen</button>
-                </div>
             </div>
             </c:if>
             <c:if test="${context.medium.id != 0 && context.medium.id != 5}">
-            <div>
+            <div class="form-group">
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label>Sprache</label>
                 </div>
@@ -76,7 +73,7 @@
             </div>    
             </c:if>
             <c:if test="${context.medium.id == 2}">
-            <div>
+            <div class="form-group">
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label for="auflage">Auflage</label>
                 </div>
@@ -122,7 +119,7 @@
 				                       				<th>Art</th>	
 				                       				<th>Bezeichnung</th>	
 				                       				<th>Bemerkung</th>	
-				                       				<th>Zustand}</th>	
+				                       				<th>Zustand</th>	
 				                       				<th></th>
 				                       			</tr>
 		                        			</thead>
@@ -163,6 +160,7 @@
                		</div>
          	 	</c:forEach>
             </div><!--Akkordion Ende  -->
+            <div class="form-group">
    			<div class="col-lg-12 col-md-6 col-sm-3" id="button">
          	 	<div class="col-lg-4 col-md-2 col-sm-1">
              	</div>
@@ -171,6 +169,7 @@
      			</div>
               <div class="col-lg-4 col-md-2 col-sm-1">
               </div>
+          </div>
           </div>
 	 </div>
 </div>
