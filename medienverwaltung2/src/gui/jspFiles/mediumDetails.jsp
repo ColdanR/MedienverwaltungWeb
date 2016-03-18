@@ -94,11 +94,11 @@
          	</c:if>
          		<!--Akkordion Anfang  -->
          	 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-         	 	<c:forEach items="${context.formate}" var="data">
+         	 	<c:forEach items="${context.formate}" var="data" varStatus="dataCounter">
          	 		<div class="panel panel-default">
-	                    <div class="panel-heading" role="tab" id="headingOne">
+	                    <div class="panel-heading" role="tab" id="heading${dataCounter.count}">
 	                        <h4 class="panel-title">
-	                            <a id="test" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	                            <a id="test" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${dataCounter.count}" aria-expanded="false" aria-controls="collapse${dataCounter.count}">
 	                                <div class="col-lg-8">
 	                                    <p> ${data.bezeichnung }</p>
 	                                </div>
@@ -109,7 +109,7 @@
 	                            </a>
 	                        </h4>
 	                     </div>
-	                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+	                     <div id="collapse${dataCounter.count}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${dataCounter.count}">
 	                        <div class="panel-body">
 		                        <div class="table-responsive">
 		        					<table class="table table-striped">
@@ -123,7 +123,7 @@
 				                       				<th></th>
 				                       			</tr>
 		                        			</thead>
-		                        		<c:forEach items="${data.speicherorte}" var="dat">
+		                        		<c:forEach items="${data.speicherorte}" var="dat" varStatus="datCounter">
 		                        			<tr>
 		                        				<td>${dat.type}</td>	
 		                        				<td>${dat.art}</td>	
@@ -132,14 +132,14 @@
 		                        				<td>${dat.zustand}</td>	
 		                        				<td>
 			                        				<div class="dropdown">
-	                    								<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                    								<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu${datCounter.count}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 	                        								Action
 	                       									<span class="caret"></span>
 	                    								</button>
-	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu${datCounter.count}">
 									                        <li><a href="${pageContext.request.contextPath}/speicherorte/editieren.html?id=${dat.id}&idSpeicherortArt=${dat.type.id}&idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Bearbeiten</a></li>
 									                        <li><a href="${pageContext.request.contextPath}/speicherorte/loeschen.html?id=${dat.id}&idSpeicherortArt=${dat.type.id}&idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Löschen</a></li>
-	                    								</ul>idFormatType
+	                    								</ul>
 	                								</div>
                 								</td>
 		                        			</tr>
