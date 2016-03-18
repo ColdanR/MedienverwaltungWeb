@@ -30,6 +30,7 @@ public class SpeicherorteDTO extends BaseDTO {
 		this.idMedium			=	idMedium;
 		this.idMediumType		=	idMediumType;
 		this.idFormatType		=	idFormatType;
+		addJsFile("speicherort.js");
 	}
 
 	public int getDbId() {
