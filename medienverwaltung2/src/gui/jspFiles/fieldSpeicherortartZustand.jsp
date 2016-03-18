@@ -6,6 +6,6 @@
            <label for="zustand">Zustand</label>
        </div>
        <div class="col-lg-6 col-md-6 col-sm-4">
-           <input class="form-control" name="zustand" id="zustand" required="required" value="${context.zustand}">
+           <input class="form-control" name="zustand" id="zustand" value="${context.zustand}">
        </div>
    </div>

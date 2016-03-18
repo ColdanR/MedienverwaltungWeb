@@ -32,7 +32,7 @@
                     <label for="bemerkung">Bemerkung</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-4">
-                    <input class="form-control" name="bemerkung" id="bemerkung" required="required">
+                    <input class="form-control" name="bemerkung" id="bemerkung">
                 </div>
             </div>
             <div id="addFields">
