@@ -20,6 +20,7 @@ import data.speicherorte.Festplatte;
 import data.speicherorte.Kassette;
 import data.speicherorte.Optisch;
 import data.speicherorte.Schallplatte;
+import data.speicherorte.Speicherort;
 import data.speicherorte.enums.BuchArt;
 import data.speicherorte.enums.KassettenArt;
 import data.speicherorte.enums.OptischArt;
@@ -86,7 +87,7 @@ public class SpeicherOrteController extends Controller {
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMedium") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Kein Medium Type beim Aufruf zum Anlagen des Speicherortes gefunden.");
+			dto.addError("Kein Medium ID beim Aufruf zum Anlagen des Speicherortes gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMediumType") == null) {
 			FehlerDTO dto = new FehlerDTO();
@@ -114,8 +115,8 @@ public class SpeicherOrteController extends Controller {
 					forward(request, response, dto, "404.jsp");
 				} else {
 					if (request.getParameter("send") != null) {
+						SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 						if (request.getParameter("speicherortArt") == null || request.getParameter("speicherortArt").trim().length() == 0) {
-							SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 							dto.addError("Keine Art für den Speicherort angegeben.");
 							forward(request, response, dto, "speicherortEingabe.jsp");
 						} else {
@@ -123,7 +124,6 @@ public class SpeicherOrteController extends Controller {
 								SpeicherortArt	speicherOrtArt = SpeicherortArt.getElementFromId(Integer.parseInt(request.getParameter("speicherortArt")));
 								if (speicherOrtArt != null) {
 									if (request.getParameter("lagerort") == null || request.getParameter("lagerort").trim().length() == 0) {
-										SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 										dto.addError("Keine Bezeichnung für den Speicherort angegeben.");
 										forward(request, response, dto, "speicherortEingabe.jsp");
 									} else {
@@ -136,7 +136,6 @@ public class SpeicherOrteController extends Controller {
 										switch (speicherOrtArt) {
 										case Buch:
 											if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-												SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 												dto.addError("Keine Art für das Buch ausgewählt.");
 												forward(request, response, dto, "speicherortEingabe.jsp");
 												return;
@@ -156,13 +155,11 @@ public class SpeicherOrteController extends Controller {
 														buch.setLagerOrt(bezeichnung);
 														buch.setZustand(zustandBuch);
 													} else {
-														SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 														dto.addError("Ungültige Art für das Buch ausgewählt.");
 														forward(request, response, dto, "speicherortEingabe.jsp");
 														return;
 													}
 												} catch (NumberFormatException e) {
-													SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 													dto.addError("Ungültige Art für das Buch ausgewählt.");
 													forward(request, response, dto, "speicherortEingabe.jsp");
 													return;
@@ -190,8 +187,7 @@ public class SpeicherOrteController extends Controller {
 											break;
 										case Kassette:
 											if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-												SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-												dto.addError("Keine Art für das Buch ausgewählt.");
+												dto.addError("Keine Art für die Kassette ausgewählt.");
 												forward(request, response, dto, "speicherortEingabe.jsp");
 												return;
 											} else {
@@ -210,14 +206,12 @@ public class SpeicherOrteController extends Controller {
 														kassette.setLagerOrt(bezeichnung);
 														kassette.setZustand(zustandKassette);
 													} else {
-														SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-														dto.addError("Ungültige Art für das Buch ausgewählt.");
+														dto.addError("Ungültige Art für die Kassette ausgewählt.");
 														forward(request, response, dto, "speicherortEingabe.jsp");
 														return;
 													}
 												} catch (NumberFormatException e) {
-													SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-													dto.addError("Ungültige Art für das Buch ausgewählt.");
+													dto.addError("Ungültige Art für die Kassette ausgewählt.");
 													forward(request, response, dto, "speicherortEingabe.jsp");
 													return;
 												}
@@ -225,8 +219,7 @@ public class SpeicherOrteController extends Controller {
 											break;
 										case Optisch:
 											if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-												SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-												dto.addError("Keine Art für das Buch ausgewählt.");
+												dto.addError("Keine Art für den optischen Datenträger ausgewählt.");
 												forward(request, response, dto, "speicherortEingabe.jsp");
 												return;
 											} else {
@@ -245,14 +238,12 @@ public class SpeicherOrteController extends Controller {
 														optisch.setLagerOrt(bezeichnung);
 														optisch.setZustand(zustandOptisch);
 													} else {
-														SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-														dto.addError("Ungültige Art für das Buch ausgewählt.");
+														dto.addError("Ungültige Art für den optischen Datenträger ausgewählt.");
 														forward(request, response, dto, "speicherortEingabe.jsp");
 														return;
 													}
 												} catch (NumberFormatException e) {
-													SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-													dto.addError("Ungültige Art für das Buch ausgewählt.");
+													dto.addError("Ungültige Art für den optischen Datenträger ausgewählt.");
 													forward(request, response, dto, "speicherortEingabe.jsp");
 													return;
 												}
@@ -260,8 +251,7 @@ public class SpeicherOrteController extends Controller {
 											break;
 										case Schallplatte:
 											if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-												SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-												dto.addError("Keine Art für das Buch ausgewählt.");
+												dto.addError("Keine Art für die Schallplatte ausgewählt.");
 												forward(request, response, dto, "speicherortEingabe.jsp");
 												return;
 											} else {
@@ -280,23 +270,21 @@ public class SpeicherOrteController extends Controller {
 														schallplatte.setLagerOrt(bezeichnung);
 														schallplatte.setZustand(zustandSchallplatte);
 													} else {
-														SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-														dto.addError("Ungültige Art für das Buch ausgewählt.");
+														dto.addError("Ungültige Art für die Schallplatte ausgewählt.");
 														forward(request, response, dto, "speicherortEingabe.jsp");
 														return;
 													}
 												} catch (NumberFormatException e) {
-													SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-													dto.addError("Ungültige Art für das Buch ausgewählt.");
+													dto.addError("Ungültige Art für die Schallplatte ausgewählt.");
 													forward(request, response, dto, "speicherortEingabe.jsp");
 													return;
 												}
 											}
 											break;
 										default:
-											FehlerDTO dto = new FehlerDTO();
-											dto.addError("Unbekannte Speicherort Art");
-											forward(request, response, dto, "404.jsp");
+											FehlerDTO dtoFehler = new FehlerDTO();
+											dtoFehler.addError("Unbekannte Speicherort Art");
+											forward(request, response, dtoFehler, "404.jsp");
 											return;
 										}
 										// Validator erzeugen
@@ -305,7 +293,6 @@ public class SpeicherOrteController extends Controller {
 											String uri = "medium/" + typeMedium.getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + idMedium;
 											redirect(request, response, uri);
 										} else {
-											SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 											logik.getErrors().stream().forEach(error -> {
 												dto.addError(error);;
 											});
@@ -313,12 +300,10 @@ public class SpeicherOrteController extends Controller {
 										}
 									}
 								} else {
-									SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 									dto.addError("Speicherort Art konnte nicht bestimmt werden.");
 									forward(request, response, dto, "speicherortEingabe.jsp");
 								}
 							} catch (NumberFormatException e) {
-								SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort anlegen", 0, null, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 								dto.addError("Speicherort Art konnte nicht bestimmt werden.");
 								forward(request, response, dto, "speicherortEingabe.jsp");
 							}
@@ -329,9 +314,9 @@ public class SpeicherOrteController extends Controller {
 					}
 				}
 			} catch (NumberFormatException e) {
-				FehlerDTO dto = new FehlerDTO();
-				dto.addError("Fehlerhafte ID beim Aufruf zum Löschen des Formates gefunden.");
-				forward(request, response, dto, "404.jsp");
+				FehlerDTO dtoFehler = new FehlerDTO();
+				dtoFehler.addError("Fehlerhafte ID beim Aufruf zum Löschen des Formates gefunden.");
+				forward(request, response, dtoFehler, "404.jsp");
 			}
 		}
 	}
@@ -351,7 +336,7 @@ public class SpeicherOrteController extends Controller {
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMedium") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Kein Medium Type beim Aufruf zum Bearbeiten des Speicherortes gefunden.");
+			dto.addError("Kein Medium ID beim Aufruf zum Bearbeiten des Speicherortes gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMediumType") == null) {
 			FehlerDTO dto = new FehlerDTO();
@@ -384,10 +369,10 @@ public class SpeicherOrteController extends Controller {
 					dto.addError("Format Type konnte nicht bestimmt werden.");
 					forward(request, response, dto, "404.jsp");
 				} else {
+					SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 					if (request.getParameter("send") != null) {
 						try {
 							if (request.getParameter("lagerort") == null || request.getParameter("lagerort").trim().length() == 0) {
-								SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 								dto.addError("Keine Bezeichnung für den Speicherort angegeben.");
 								forward(request, response, dto, "speicherortEingabe.jsp");
 							} else {
@@ -400,7 +385,6 @@ public class SpeicherOrteController extends Controller {
 								switch (speicherOrtArt) {
 								case Buch:
 									if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-										SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 										dto.addError("Keine Art für das Buch ausgewählt.");
 										forward(request, response, dto, "speicherortEingabe.jsp");
 										return;
@@ -421,21 +405,19 @@ public class SpeicherOrteController extends Controller {
 													buch.setLagerOrt(bezeichnung);
 													buch.setZustand(zustandBuch);
 												} else {
-													FehlerDTO dto = new FehlerDTO();
+													FehlerDTO dtoFehler = new FehlerDTO();
 													for (String error : logik.getErrors()) {
-														dto.addError(error);
+														dtoFehler.addError(error);
 													}
-													forward(request, response, dto, "404.jsp");
+													forward(request, response, dtoFehler, "404.jsp");
 													return;
 												}
 											} else {
-												SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 												dto.addError("Ungültige Art für das Buch ausgewählt.");
 												forward(request, response, dto, "speicherortEingabe.jsp");
 												return;
 											}
 										} catch (NumberFormatException e) {
-											SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 											dto.addError("Ungültige Art für das Buch ausgewählt.");
 											forward(request, response, dto, "speicherortEingabe.jsp");
 											return;
@@ -463,8 +445,7 @@ public class SpeicherOrteController extends Controller {
 									break;
 								case Kassette:
 									if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-										SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-										dto.addError("Keine Art für das Buch ausgewählt.");
+										dto.addError("Keine Art für die Kassette ausgewählt.");
 										forward(request, response, dto, "speicherortEingabe.jsp");
 										return;
 									} else {
@@ -484,22 +465,20 @@ public class SpeicherOrteController extends Controller {
 													kassette.setLagerOrt(bezeichnung);
 													kassette.setZustand(zustandKassette);
 												} else {
-													FehlerDTO dto = new FehlerDTO();
+													FehlerDTO dtoFehler = new FehlerDTO();
 													for (String error : logik.getErrors()) {
-														dto.addError(error);
+														dtoFehler.addError(error);
 													}
-													forward(request, response, dto, "404.jsp");
+													forward(request, response, dtoFehler, "404.jsp");
 													return;
 												}
 											} else {
-												SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-												dto.addError("Ungültige Art für das Buch ausgewählt.");
+												dto.addError("Ungültige Art für die Kassette ausgewählt.");
 												forward(request, response, dto, "speicherortEingabe.jsp");
 												return;
 											}
 										} catch (NumberFormatException e) {
-											SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-											dto.addError("Ungültige Art für das Buch ausgewählt.");
+											dto.addError("Ungültige Art für die Kassette ausgewählt.");
 											forward(request, response, dto, "speicherortEingabe.jsp");
 											return;
 										}
@@ -507,8 +486,7 @@ public class SpeicherOrteController extends Controller {
 									break;
 								case Optisch:
 									if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-										SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-										dto.addError("Keine Art für das Buch ausgewählt.");
+										dto.addError("Keine Art für den optischen Datenträger ausgewählt.");
 										forward(request, response, dto, "speicherortEingabe.jsp");
 										return;
 									} else {
@@ -528,22 +506,20 @@ public class SpeicherOrteController extends Controller {
 													optisch.setLagerOrt(bezeichnung);
 													optisch.setZustand(zustandOptisch);
 												} else {
-													FehlerDTO dto = new FehlerDTO();
+													FehlerDTO dtoFehler = new FehlerDTO();
 													for (String error : logik.getErrors()) {
-														dto.addError(error);
+														dtoFehler.addError(error);
 													}
-													forward(request, response, dto, "404.jsp");
+													forward(request, response, dtoFehler, "404.jsp");
 													return;
 												}
 											} else {
-												SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-												dto.addError("Ungültige Art für das Buch ausgewählt.");
+												dto.addError("Ungültige Art für den optischen Datenträger ausgewählt.");
 												forward(request, response, dto, "speicherortEingabe.jsp");
 												return;
 											}
 										} catch (NumberFormatException e) {
-											SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-											dto.addError("Ungültige Art für das Buch ausgewählt.");
+											dto.addError("Ungültige Art für den optischen Datenträger ausgewählt.");
 											forward(request, response, dto, "speicherortEingabe.jsp");
 											return;
 										}
@@ -551,8 +527,7 @@ public class SpeicherOrteController extends Controller {
 									break;
 								case Schallplatte:
 									if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-										SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-										dto.addError("Keine Art für das Buch ausgewählt.");
+										dto.addError("Keine Art für die Schallplatte ausgewählt.");
 										forward(request, response, dto, "speicherortEingabe.jsp");
 										return;
 									} else {
@@ -572,31 +547,29 @@ public class SpeicherOrteController extends Controller {
 													schallplatte.setLagerOrt(bezeichnung);
 													schallplatte.setZustand(zustandSchallplatte);
 												} else {
-													FehlerDTO dto = new FehlerDTO();
+													FehlerDTO dtoFehler = new FehlerDTO();
 													for (String error : logik.getErrors()) {
-														dto.addError(error);
+														dtoFehler.addError(error);
 													}
-													forward(request, response, dto, "404.jsp");
+													forward(request, response, dtoFehler, "404.jsp");
 													return;
 												}
 											} else {
-												SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-												dto.addError("Ungültige Art für das Buch ausgewählt.");
+												dto.addError("Ungültige Art für die Schallplatte ausgewählt.");
 												forward(request, response, dto, "speicherortEingabe.jsp");
 												return;
 											}
 										} catch (NumberFormatException e) {
-											SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
-											dto.addError("Ungültige Art für das Buch ausgewählt.");
+											dto.addError("Ungültige Art für die Schallplatte ausgewählt.");
 											forward(request, response, dto, "speicherortEingabe.jsp");
 											return;
 										}
 									}
 									break;
 								default:
-									FehlerDTO dto = new FehlerDTO();
-									dto.addError("Unbekannte Speicherort Art");
-									forward(request, response, dto, "404.jsp");
+									FehlerDTO dtoFehler = new FehlerDTO();
+									dtoFehler.addError("Unbekannte Speicherort Art");
+									forward(request, response, dtoFehler, "404.jsp");
 									return;
 								}
 								// Validator erzeugen
@@ -605,20 +578,52 @@ public class SpeicherOrteController extends Controller {
 									String uri = "medium/" + typeMedium.getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + idMedium;
 									redirect(request, response, uri);
 								} else {
-									SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 									logik.getErrors().stream().forEach(error -> {
 										dto.addError(error);;
 									});
+									Speicherort	speicherort	=	logik.getObject();
+									dto.setBemerkung(speicherort.getBemerkung());
+									dto.setBezeichnung(speicherort.getLagerOrt());
+									switch (speicherOrtArt) {
+									case Buch:
+										Buch buch = (Buch) logik.getObject();
+										dto.setArtSelected(buch.getArt());
+										dto.setArtOptions(Arrays.asList(BuchArt.values()));
+										dto.setZustand(buch.getZustand());
+										break;
+									case Dia:
+										Dia dia = (Dia) logik.getObject();
+										dto.setZustand(dia.getZustand());
+										break;
+									case Festplatte:
+										break;
+									case Kassette:
+										Kassette kassette = (Kassette) logik.getObject();
+										dto.setArtSelected(kassette.getArt());
+										dto.setArtOptions(Arrays.asList(KassettenArt.values()));
+										dto.setZustand(kassette.getZustand());
+										break;
+									case Optisch:
+										Optisch	optisch = (Optisch) logik.getObject();
+										dto.setArtSelected(optisch.getArt());
+										dto.setArtOptions(Arrays.asList(OptischArt.values()));
+										dto.setZustand(optisch.getZustand());
+										break;
+									case Schallplatte:
+										Schallplatte schallplatte = (Schallplatte) logik.getObject();
+										dto.setArtSelected(schallplatte.getArt());
+										dto.setArtOptions(Arrays.asList(SchallplatteArt.values()));
+										dto.setZustand(schallplatte.getZustand());
+										break;
+									}
 									forward(request, response, dto, "speicherortEingabe.jsp");
 								}
 							}
 						} catch (NumberFormatException e) {
-							SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 							dto.addError("Speicherort Art konnte nicht bestimmt werden.");
 							forward(request, response, dto, "speicherortEingabe.jsp");
 						}
 					} else {
-						SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 						switch (speicherOrtArt) {
 						case Buch:
 							// Logik erzeugen und zuweisen

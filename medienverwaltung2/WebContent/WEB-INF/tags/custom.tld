@@ -56,5 +56,11 @@
 			<rtexprvalue>true</rtexprvalue>
 			<type>java.lang.Boolean</type>
 		</attribute>
+		<attribute>
+			<name>noDefault</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Boolean</type>
+		</attribute>
 	</tag>
 </taglib>

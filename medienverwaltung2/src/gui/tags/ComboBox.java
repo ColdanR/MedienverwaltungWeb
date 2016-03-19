@@ -11,8 +11,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import data.medien.Genre;
-import enums.Format;
 import interfaces.SelectAble;
 
 public class ComboBox extends TagSupport {
@@ -29,6 +27,7 @@ public class ComboBox extends TagSupport {
 	private	boolean				multiple		=	false;
 	
 	private	boolean				readonly		=	false;
+	private	boolean				noDefault		=	false;
 	
 	@Override
 	public int doStartTag() throws JspException {
@@ -52,7 +51,7 @@ public class ComboBox extends TagSupport {
 			sb.append(" disabled");
 		}
 		sb.append(">").append(System.lineSeparator());
-		if (!(selected instanceof Format) && !(selected instanceof Genre)) {
+		if (!noDefault) {
 			sb.append("<option value=\"-1\">Keine Auswahl</option>").append(System.lineSeparator());
 		}
 		for (SelectAble element : selectOptions) {
@@ -128,5 +127,13 @@ public class ComboBox extends TagSupport {
 
 	public void setReadonly(boolean readonly) {
 		this.readonly = readonly;
+	}
+
+	public boolean isNoDefault() {
+		return noDefault;
+	}
+
+	public void setNoDefault(boolean noDefault) {
+		this.noDefault = noDefault;
 	}
 }

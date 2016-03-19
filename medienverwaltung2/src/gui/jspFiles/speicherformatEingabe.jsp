@@ -19,7 +19,7 @@ ${context.titel}
 	                <label for="genre">Format</label>
 	            </div>
 	            <div class="col-lg-6 col-md-6 col-sm-3">
-	           		<cu:comboBox parameterName="format" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"  readonly="${context.dbId != 0}" />
+	           		<cu:comboBox parameterName="format" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"  readonly="${context.dbId != 0}" noDefault="true" />
 	           		<c:if test="${context.dbId != 0}">
                      <input type="hidden" name="speicherortArt" value="${context.selectedFormat.id}">
                      </c:if>
@@ -32,7 +32,7 @@ ${context.titel}
 	        		<label for="dateiformat">Dateiformat</label>
 	        	</div>
 	        	<div class="col-lg-6 col-md-6 col-sm-3">
-	        		<input type="text" class="form-control" name="dateiformat" id="dateiformat" required>
+	        		<input type="text" class="form-control" name="dateiformat" id="dateiformat" value="${context.qualitaet}" required>
 	        	</div>	
 	        	</div>
 	        	<div class="form-group" id="qua">
@@ -40,7 +40,7 @@ ${context.titel}
 	        		<label for="quali">Qualität</label>
 	        	</div>
 	        	<div class="col-lg-6 col-md-6 col-sm-3">
-	        		<input type="text" class="form-control" name="quali" id="quali" required>
+	        		<input type="text" class="form-control" name="quali" id="quali" value="${context.dateiformat}" required>
 	        	</div>	
 	        	</div>
 	        </c:if>

@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,6 +37,8 @@ public class Dispatcher implements Filter {
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
 			throws IOException, ServletException {
 		LocalDateTime	start	=	LocalDateTime.now();
+		arg0.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		arg1.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		try {
 			HttpServletRequest	request		=	(HttpServletRequest) arg0;
 			HttpServletResponse	response	=	(HttpServletResponse) arg1;
@@ -66,7 +69,7 @@ public class Dispatcher implements Filter {
 				}
 			}
 		} catch (ClassCastException e) {
-			LOGGER.warn("Fehlerhafter Cast für HttpServletRequest oder HttpServletResponse.");
+			LOGGER.warn("Fehlerhafter Cast fï¿½r HttpServletRequest oder HttpServletResponse.");
 			arg2.doFilter(arg0, arg1);
 		}
 		LOGGER.info("Dauer des Requests auf Server: {} ms", ChronoUnit.MILLIS.between(start, LocalDateTime.now()));
@@ -85,7 +88,7 @@ public class Dispatcher implements Filter {
 					try {
 						handler = (Controller) Class.forName(className).newInstance();
 					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-						LOGGER.error("Erstellung des Controllers {} fehlgeschlagen! Teilweise sind Komponenten daher nicht verfügbar!", line);
+						LOGGER.error("Erstellung des Controllers {} fehlgeschlagen! Teilweise sind Komponenten daher nicht verfï¿½gbar!", line);
 						LOGGER.catching(e);
 					}
 					if (handler != null) {
@@ -94,7 +97,7 @@ public class Dispatcher implements Filter {
 				}
 			});
 		} catch (IOException | SecurityException e) {
-			LOGGER.error("Zugriff auf Controller Verzeichnis nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
+			LOGGER.error("Zugriff auf Controller Verzeichnis nicht mï¿½glich. Bitte Zugriffsrechte und Namenskonventionen prï¿½fen!");
 			LOGGER.catching(e);
 		}
 	}

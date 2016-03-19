@@ -165,7 +165,7 @@
          	 	<div class="col-lg-4 col-md-2 col-sm-1">
              	</div>
              	<div class="col-lg-4 col-md-2 col-sm-1">
-             		<a class="btn btn-default center-block" href="${pageContext.request.contextPath}/formate/anlage.html?idMedium=${context.dbId}&idMediumType=${context.medium.id}">Neuanlage</a>
+             		<a class="btn btn-default center-block" href="${pageContext.request.contextPath}/formate/anlage.html?idMedium=${context.dbId}&idMediumType=${context.medium.id}">Neuanlage Format</a>
      			</div>
               <div class="col-lg-4 col-md-2 col-sm-1">
               </div>

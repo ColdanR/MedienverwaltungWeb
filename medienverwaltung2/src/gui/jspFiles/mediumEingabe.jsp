@@ -76,7 +76,7 @@
                     <label for="genre">Genre</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-3">
-                <cu:comboBox multiple="true" parameterName="genre" selectOptions="${context.genreOptions}" className="form-control" title="genre" selectedList="${context.genreSelected}"/>
+                <cu:comboBox multiple="true" parameterName="genre" selectOptions="${context.genreOptions}" className="form-control" title="genre" selectedList="${context.genreSelected}" noDefault="true"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <button data-toggle="modal" data-target="#genreDialog" class="btn btn-default" type="button">Hinzufügen</button>
@@ -88,7 +88,7 @@
                     <label for="art">Art</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-3">
-                <cu:comboBox multiple="false" parameterName="art" selectOptions="${context.artOptions}" className="form-control" title="art" selected="${context.artSelected}"/>
+                <cu:comboBox parameterName="art" selectOptions="${context.artOptions}" className="form-control" title="art" selected="${context.artSelected}"/>
                 </div>
             </div>
             </c:if>
