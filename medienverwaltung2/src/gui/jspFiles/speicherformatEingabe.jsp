@@ -5,7 +5,7 @@
  <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <t:template>
 <h1>
-${context.titel}<
+${context.titel}
 </h1>
 <form class="form-horizontal" role="form" action="" method="post">
     <div class="form-section">
@@ -19,13 +19,31 @@ ${context.titel}<
 	                <label for="genre">Format</label>
 	            </div>
 	            <div class="col-lg-6 col-md-6 col-sm-3">
-	           		<cu:comboBox parameterName="format" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"/>
-	            </div>
-	            <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->
-	            <div class="col-lg-3 col-md-3 col-sm-3">
-	                <button class="btn btn-default">Hinzufügen</button>
+	           		<cu:comboBox parameterName="format" selectOptions="${context.selectFormatOptions}" className="form-control" title="Format" selected="${context.selectedFormat}"  readonly="${context.dbId != 0}" />
+	           		<c:if test="${context.dbId != 0}">
+                     <input type="hidden" name="speicherortArt" value="${context.selectedFormat.id}">
+                     </c:if>
 	            </div>
 	        </div>
+	        <!--bei auswahl Digital 2 Input Felder mit dazugehörigen Label einfügen!!! -->
+	        <c:if test="${not empty context.selectedFormat && context.selectedFormat.id == 0 }">
+	        	<div class="form-group" id="dat">
+	        	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
+	        		<label for="dateiformat">Dateiformat</label>
+	        	</div>
+	        	<div class="col-lg-6 col-md-6 col-sm-3">
+	        		<input type="text" class="form-control" name="dateiformat" id="dateiformat" required>
+	        	</div>	
+	        	</div>
+	        	<div class="form-group" id="qua">
+	        	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
+	        		<label for="quali">Qualität</label>
+	        	</div>
+	        	<div class="col-lg-6 col-md-6 col-sm-3">
+	        		<input type="text" class="form-control" name="quali" id="quali" required>
+	        	</div>	
+	        	</div>
+	        </c:if>
         </div>
     </div>
     <div class="form-section">

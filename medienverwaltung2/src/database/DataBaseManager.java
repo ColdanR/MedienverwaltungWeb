@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 
 public abstract class DataBaseManager {
 	/**
-	 * Enumeration für die unterstützten Datenbanken
+	 * Enumeration fÃ¼r die unterstÃ¼tzten Datenbanken
 	 * @author User
 	 *
 	 */

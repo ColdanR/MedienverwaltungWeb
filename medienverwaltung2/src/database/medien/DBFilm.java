@@ -56,29 +56,22 @@ public class DBFilm extends DBMedien<Film> {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden des Filmes!");
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}		
 		return ret;
@@ -152,30 +145,23 @@ public class DBFilm extends DBMedien<Film> {
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Schreiben des Filmes!");
 			ret = false;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}		
 		return ret;
@@ -207,23 +193,18 @@ public class DBFilm extends DBMedien<Film> {
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim L�schen des Filmes!");
+			addError("Fehler beim Löschen des Filmes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -251,33 +232,25 @@ public class DBFilm extends DBMedien<Film> {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden der Filmliste!");
 			ret = null;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
 	}
-
 }

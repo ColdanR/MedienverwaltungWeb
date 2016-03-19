@@ -57,29 +57,22 @@ public class DBBuch extends DBMedien<Buch> {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden des Buchs!");
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}		
 		return ret;
@@ -154,32 +147,24 @@ public class DBBuch extends DBMedien<Buch> {
 			conn.setAutoCommit(true);
 			conn.close();
 			conn = null;
-			
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Schreiben des Buchs!");
 			ret = false;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}		
 		return ret;
@@ -211,23 +196,18 @@ public class DBBuch extends DBMedien<Buch> {
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim L�schen des Buchs!");
+			addError("Fehler beim Löschen des Buchs!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -255,30 +235,23 @@ public class DBBuch extends DBMedien<Buch> {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim Laden der B�cherliste!");
+			addError("Fehler beim Laden der Bücherliste!");
 			ret = null;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;

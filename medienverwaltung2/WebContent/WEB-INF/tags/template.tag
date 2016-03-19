@@ -41,17 +41,6 @@ and open the template in the editor.
             </li>
             </ul>
             <ul class="nav navbar-nav navbar-left">
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Person
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="person-anlegen.html">Anlegen</a></li>
-                    <li><a href="person-anzeigen.html">Anzeigen</a></li>
-                </ul>   
-            </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Buch
                         <span class="caret"></span>
@@ -105,6 +94,17 @@ and open the template in the editor.
                         <li><a href="${pageContext.request.contextPath}/medium/bild/anzeigen.html">Anzeigen</a></li>
                     </ul>
                 </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-left">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Genre
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="${pageContext.request.contextPath}/genre/anlage.html">Anlegen</a></li>
+                    <li><a href="${pageContext.request.contextPath}/genre/anzeigen.html">Anzeigen</a></li>
+                </ul>   
+            </li>
             </ul>
         </div> 
         </nav>

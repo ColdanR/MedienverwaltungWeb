@@ -44,29 +44,22 @@ public class DBSchallplatte extends DBSpeicherOrte<Schallplatte> {
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden der Schallplatte");
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -120,30 +113,23 @@ public class DBSchallplatte extends DBSpeicherOrte<Schallplatte> {
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Schreiben der Schallplatte");
 			ret = false;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -172,11 +158,9 @@ public class DBSchallplatte extends DBSpeicherOrte<Schallplatte> {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste f�r SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return ret;
 	}
-
 }

@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import data.medien.Genre;
+import enums.Format;
 import interfaces.SelectAble;
 
 public class ComboBox extends TagSupport {
@@ -47,10 +49,12 @@ public class ComboBox extends TagSupport {
 			sb.append(" multiple");
 		}
 		if (readonly) {
-			sb.append(" readonly");
+			sb.append(" disabled");
 		}
 		sb.append(">").append(System.lineSeparator());
-		sb.append("<option value=\"-1\">Keine Auswahl</option>").append(System.lineSeparator());
+		if (!(selected instanceof Format) && !(selected instanceof Genre)) {
+			sb.append("<option value=\"-1\">Keine Auswahl</option>").append(System.lineSeparator());
+		}
 		for (SelectAble element : selectOptions) {
 			sb.append("<option value=\"").append(element.getId()).append("\"");
 			if (selected != null && selected.equals(element)) {

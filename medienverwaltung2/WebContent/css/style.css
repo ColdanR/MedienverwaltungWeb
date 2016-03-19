@@ -55,6 +55,18 @@ form.form-inline button[type=submit] {
 #button button {
 	margin-top: 7px;
 }
+#collapse {
+	margin-right: 5px;
+}
+#accordion h4.panel-title {
+	height: 34px;
+}
+.test p{
+	margin-top: 10px;
+}
+.test div {
+	height: 40px;
+}
 #footer {
 	height: 54px;
 }

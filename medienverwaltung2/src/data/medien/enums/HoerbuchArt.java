@@ -3,11 +3,11 @@ package data.medien.enums;
 import interfaces.SelectAble;
 
 public enum HoerbuchArt implements SelectAble {
-	Hoerspiel		(1,"Hörspiel"),
+	Hoerspiel		(1,"HÃ¶rspiel"),
 	Lesung			(2,"Lesung"),
 	szenischeLesung	(3,"szenische Lesung"),
-	SachHoerbuch	(4,"Sach-Hörbuch"),
-	LehrHoerbuch	(5,"Lehr-Hörbuch"),
+	SachHoerbuch	(4,"Sach-HÃ¶rbuch"),
+	LehrHoerbuch	(5,"Lehr-HÃ¶rbuch"),
 	Audioguide		(6,"Audioguide"),
 	Podcast			(7,"Podcast");
 	

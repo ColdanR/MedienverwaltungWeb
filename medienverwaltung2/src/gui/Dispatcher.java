@@ -66,7 +66,7 @@ public class Dispatcher implements Filter {
 				}
 			}
 		} catch (ClassCastException e) {
-			LOGGER.warn("Fehlerhafter Cast fÃ¼r HttpServletRequest oder HttpServletResponse.");
+			LOGGER.warn("Fehlerhafter Cast für HttpServletRequest oder HttpServletResponse.");
 			arg2.doFilter(arg0, arg1);
 		}
 		LOGGER.info("Dauer des Requests auf Server: {} ms", ChronoUnit.MILLIS.between(start, LocalDateTime.now()));
@@ -85,7 +85,7 @@ public class Dispatcher implements Filter {
 					try {
 						handler = (Controller) Class.forName(className).newInstance();
 					} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-						LOGGER.error("Erstellung des Controllers {} fehlgeschlagen! Teilweise sind Komponenten daher nicht verfÃ¼gbar!", line);
+						LOGGER.error("Erstellung des Controllers {} fehlgeschlagen! Teilweise sind Komponenten daher nicht verfügbar!", line);
 						LOGGER.catching(e);
 					}
 					if (handler != null) {
@@ -94,7 +94,7 @@ public class Dispatcher implements Filter {
 				}
 			});
 		} catch (IOException | SecurityException e) {
-			LOGGER.error("Zugriff auf Controller Verzeichnis nicht mÃ¶glich. Bitte Zugriffsrechte und Namenskonventionen prÃ¼fen!");
+			LOGGER.error("Zugriff auf Controller Verzeichnis nicht möglich. Bitte Zugriffsrechte und Namenskonventionen prüfen!");
 			LOGGER.catching(e);
 		}
 	}

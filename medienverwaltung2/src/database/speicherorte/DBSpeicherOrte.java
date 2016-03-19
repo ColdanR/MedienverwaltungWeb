@@ -38,23 +38,18 @@ public abstract class DBSpeicherOrte<E extends Speicherort> extends DataBaseMana
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim Löschen des Speicherortes!");
+			addError("Fehler beim LÃ¶schen des Speicherortes!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;

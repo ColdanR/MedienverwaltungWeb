@@ -25,7 +25,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 		try {
 			conn = getConnection();
 			stmt = conn.prepareStatement("SELECT mb.id, mb.titel, mb.erscheinungsdatum, mb.bemerkung, "
-					+ "hoerbuch.sprache, hoerbuch.art "
+					+ "hb.sprache, hb.art "
 					+ "FROM mediabase mb "
 					+ "INNER JOIN hoerbuch hb ON mb.id = hb.mediabase_id "
 					+ "WHERE mb.id = ?");
@@ -55,29 +55,22 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim Laden des H�rbuchs!");
+			addError("Fehler beim Laden des Hörbuchs!");
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}		
 		return ret;
@@ -152,30 +145,23 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			conn = null;
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim Schreiben des H�rbuchs!");
+			addError("Fehler beim Schreiben des Hörbuchs!");
 			ret = false;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}		
 		return ret;
@@ -207,23 +193,18 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim L�schen des H�rbuchs!");
+			addError("Fehler beim Löschen des Hörbuchs!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -231,7 +212,7 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 
 	@Override
 	public List<Hoerbuch> list() {
-		List<Hoerbuch>			ret		=	new ArrayList<>();
+		List<Hoerbuch>		ret		=	new ArrayList<>();
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		ResultSet			result	=	null;
@@ -251,30 +232,23 @@ public class DBHoerbuch extends DBMedien<Hoerbuch> {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim Laden der H�rbuchliste!");
+			addError("Fehler beim Laden der Hörbuchliste!");
 			ret = null;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;

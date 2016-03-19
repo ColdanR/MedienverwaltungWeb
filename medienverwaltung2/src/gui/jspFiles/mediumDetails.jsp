@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="cu" uri="/WEB-INF/tags/custom.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-3 clo-lg-3 control-label">
-                    <label> Datum</label>
+                    <label> Erscheinungsdatum</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-4">
                     <p> ${context.datum}</p>
@@ -60,13 +60,10 @@
                 <div class="col-lg-6 col-md-6 col-sm-3 control-label">
                 	<p>${context.art}</p>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <button class="btn btn-default">Hinzufügen</button>
-                </div>
             </div>
             </c:if>
-            <c:if test="${context.medium.id != 0 && context.medium.id != 4}">
-            <div>
+            <c:if test="${context.medium.id != 0 && context.medium.id != 5}">
+            <div class="form-group">
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label>Sprache</label>
                 </div>
@@ -76,7 +73,7 @@
             </div>    
             </c:if>
             <c:if test="${context.medium.id == 2}">
-            <div>
+            <div class="form-group">
             	<div class="col-lg-3 col-md-3 col-sm-3 control-label">
                     <label for="auflage">Auflage</label>
                 </div>
@@ -97,22 +94,22 @@
          	</c:if>
          		<!--Akkordion Anfang  -->
          	 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-         	 	<c:forEach items="${context.formate}" var="data">
+         	 	<c:forEach items="${context.formate}" var="data" varStatus="dataCounter">
          	 		<div class="panel panel-default">
-	                    <div class="panel-heading" role="tab" id="headingOne">
+	                    <div class="panel-heading" role="tab" id="heading${dataCounter.count}">
 	                        <h4 class="panel-title">
-	                            <a id="test" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	                            <a class="test" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${dataCounter.count}" aria-expanded="false" aria-controls="collapse${dataCounter.count}">
 	                                <div class="col-lg-8">
 	                                    <p> ${data.bezeichnung }</p>
 	                                </div>
 	                                <div class="col-lg-4">
 	                                    <a id="collapse" class="btn btn-default pull-right" href="${pageContext.request.contextPath}/formate/editieren.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Bearbeiten</a>
-	                                    <a id="collapse" class="btn btn-default pull-right" href="${pageContext.request.contextPath}/formate/loeschen.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">Löschen</a>
+	                                    <a id="collapse" class="btn btn-default pull-right" href="${pageContext.request.contextPath}/formate/loeschen.html?id=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}">LÃ¶schen</a>
 	                                </div>
 	                            </a>
 	                        </h4>
 	                     </div>
-	                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+	                     <div id="collapse${dataCounter.count}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${dataCounter.count}">
 	                        <div class="panel-body">
 		                        <div class="table-responsive">
 		        					<table class="table table-striped">
@@ -122,11 +119,11 @@
 				                       				<th>Art</th>	
 				                       				<th>Bezeichnung</th>	
 				                       				<th>Bemerkung</th>	
-				                       				<th>Zustand}</th>	
+				                       				<th>Zustand</th>	
 				                       				<th></th>
 				                       			</tr>
 		                        			</thead>
-		                        		<c:forEach items="${data.speicherorte}" var="dat">
+		                        		<c:forEach items="${data.speicherorte}" var="dat" varStatus="datCounter">
 		                        			<tr>
 		                        				<td>${dat.type}</td>	
 		                        				<td>${dat.art}</td>	
@@ -135,14 +132,14 @@
 		                        				<td>${dat.zustand}</td>	
 		                        				<td>
 			                        				<div class="dropdown">
-	                    								<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                    								<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu${datCounter.count}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 	                        								Action
 	                       									<span class="caret"></span>
 	                    								</button>
-	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+	                    								<ul class="dropdown-menu" aria-labelledby="dropdownMenu${datCounter.count}">
 									                        <li><a href="${pageContext.request.contextPath}/speicherorte/editieren.html?id=${dat.id}&idSpeicherortArt=${dat.type.id}&idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Bearbeiten</a></li>
-									                        <li><a href="${pageContext.request.contextPath}/speicherorte/loeschen.html?id=${dat.id}&idSpeicherortArt=${dat.type.id}&idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">Löschen</a></li>
-	                    								</ul>idFormatType
+									                        <li><a href="${pageContext.request.contextPath}/speicherorte/loeschen.html?id=${dat.id}&idSpeicherortArt=${dat.type.id}&idFormat=${data.id}&idMedium=${context.dbId}&idMediumType=${context.medium.id}&idFormatType=${data.idFormatType}">LÃ¶schen</a></li>
+	                    								</ul>
 	                								</div>
                 								</td>
 		                        			</tr>
@@ -163,6 +160,7 @@
                		</div>
          	 	</c:forEach>
             </div><!--Akkordion Ende  -->
+            <div class="form-group">
    			<div class="col-lg-12 col-md-6 col-sm-3" id="button">
          	 	<div class="col-lg-4 col-md-2 col-sm-1">
              	</div>
@@ -171,6 +169,7 @@
      			</div>
               <div class="col-lg-4 col-md-2 col-sm-1">
               </div>
+          </div>
           </div>
 	 </div>
 </div>

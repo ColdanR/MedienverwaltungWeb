@@ -13,7 +13,7 @@ import data.person.Person;
 
 /**
  * Database management Class for Person Object
- * @author <b>Bernd Schmidt</b> Funktionsköpfe angelegt
+ * @author <b>Bernd Schmidt</b> FunktionskÃ¶pfe angelegt
  * @author <b>Andreas John</b> Implementierung der Funktionen
  *
  */

@@ -54,29 +54,22 @@ public class DBSpiel extends DBMedien<Spiel>{
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden des Spiels!");
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}		
 		return ret;
@@ -150,30 +143,23 @@ public class DBSpiel extends DBMedien<Spiel>{
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Schreiben des Spiels!");
 			ret = false;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}		
 		return ret;
@@ -205,23 +191,18 @@ public class DBSpiel extends DBMedien<Spiel>{
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim L�schen des Spiels!");
+			addError("Fehler beim Löschen des Spiels!");
 			ret = false;
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -249,33 +230,25 @@ public class DBSpiel extends DBMedien<Spiel>{
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden der Spieleliste!");
 			ret = null;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
 	}
-
 }

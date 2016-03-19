@@ -27,7 +27,7 @@ public abstract class DatenLogik<E> {
 	}
 	
 	protected final void addErrors(List<String> errors) {
-		errors.addAll(errors);
+		this.errors.addAll(errors);
 	}
 	
 	public final List<String> getErrors() {

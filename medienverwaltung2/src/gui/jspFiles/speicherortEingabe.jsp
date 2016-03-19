@@ -16,24 +16,35 @@
                     <label for="speichermedium">Speicherortart</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-3">
-                     <cu:comboBox multiple="false" parameterName="speicherortArt" selectOptions="${context.selectOptions}" className="form-control" title="speichermedium" selected="${context.selected}"/>                    
+                     <cu:comboBox multiple="false" parameterName="speicherortArt" selectOptions="${context.selectOptions}" className="form-control" title="speichermedium" selected="${context.selected}" readonly="${context.dbId != 0}"/>
+                     <c:if test="${context.dbId != 0}">
+                     <input type="hidden" name="speicherortArt" value="${context.selected.id}">
+                     </c:if>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-3 col-lg-3 control-label">
-                        <label for="lagerort">Lagerort</label>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-4">
-                        <input class="form-control" name="lagerort" id="lagerort" required="required">
-                    </div>
+            </div>    
+            <div class="form-group">
+                <div class="col-sm-3 col-lg-3 control-label">
+                    <label for="lagerort">Lagerort</label>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-3 col-lg-3 control-label">
-                        <label for="bemerkung">Bemerkung</label>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-4">
-                        <input class="form-control" name="bemerkung" id="bemerkung" required="required">
-                    </div>
+                <div class="col-lg-6 col-md-6 col-sm-4">
+                    <input class="form-control" name="lagerort" id="lagerort" required="required" value="${context.bezeichnung}">
                 </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3 col-lg-3 control-label">
+                    <label for="bemerkung">Bemerkung</label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-4">
+                    <input class="form-control" name="bemerkung" id="bemerkung" value="${context.bemerkung}">
+                </div>
+            </div>
+            <div id="addFields">
+            <c:if test="${context.selected.id == 0 || context.selected.id == 1 || context.selected.id == 2 || context.selected.id == 3}">
+            <jsp:directive.include file="fieldSpeicherortartArt.jsp"/>
+            </c:if>
+            <c:if test="${context.selected.id == 0 || context.selected.id == 1 || context.selected.id == 2 || context.selected.id == 3 || context.selected.id == 5}">
+            <jsp:directive.include file="fieldSpeicherortartZustand.jsp"/>
+            </c:if>
             </div>
         </div>
         <div class="form-section">

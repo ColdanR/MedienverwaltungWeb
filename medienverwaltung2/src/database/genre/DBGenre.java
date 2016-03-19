@@ -42,28 +42,24 @@ private	List<String>	errors	=	new ArrayList<>();
 				ret.setBezeichnung(result.getString(1));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden des Genres!");
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 		}
@@ -93,30 +89,23 @@ private	List<String>	errors	=	new ArrayList<>();
 				genre.setDbId(result.getInt(1));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Schreiben des Genres!");
 			ret = false;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -132,23 +121,22 @@ private	List<String>	errors	=	new ArrayList<>();
 			stmt.setInt(1, id);
 			stmt.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim L�schen des Genre!");
+			if (e.getErrorCode() == 1451) {
+				addError("Das Genre ist mindestens noch einem Medium zugeordnet. Bitte dort zuerst löschen.");
+			} else {
+				addError("Fehler beim Löschen des Genres!");
+			}
 			ret = false;
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -170,30 +158,23 @@ private	List<String>	errors	=	new ArrayList<>();
 				ret.add(element);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden der Genres!");
 			ret = null;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -218,30 +199,23 @@ private	List<String>	errors	=	new ArrayList<>();
 				ret.add(element);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden der Genres!");
 			ret = null;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
