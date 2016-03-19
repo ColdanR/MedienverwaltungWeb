@@ -442,7 +442,7 @@ public class MedienController extends Controller {
 					try {
 						erscheinungsdatum = LocalDate.parse(erscheinung, StaticElements.FORMATTER);
 					} catch (DateTimeParseException e) {
-						errors.add("Datum hat falsches Format.");
+						errors.add("Bitte das Datum in folgendem Format eingeben: TT.MM.JJJJ");
 					}
 					mediumItem.setTitel(titel);
 					mediumItem.setBemerkungen(bemerkungen);
@@ -944,7 +944,7 @@ public class MedienController extends Controller {
 							try {
 								erscheinungsdatum = LocalDate.parse(erscheinung, StaticElements.FORMATTER);
 							} catch (DateTimeParseException e) {
-								errors.add("Datum hat falsches Format.");
+								errors.add("Bitte das Datum in folgendem Format eingeben: TT.MM.JJJJ");
 							}
 							mediumItem.setTitel(titel);
 							mediumItem.setBemerkungen(bemerkungen);
