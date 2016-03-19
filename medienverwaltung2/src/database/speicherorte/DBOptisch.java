@@ -35,7 +35,7 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 				ret.setZustand(result.getString(3));
 				ret.setArt(OptischArt.getElementFromId(result.getInt(4)));
 			} else {
-				addError("Optischer Datenträger  mit der ID " + id + " nicht gefunden");
+				addError("Optischer Datentrï¿½ger  mit der ID " + id + " nicht gefunden");
 			}
 			result.close();
 			result = null;
@@ -44,29 +44,22 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim Laden des Optischen Datenträgers");
+			addError("Fehler beim Laden des Optischen DatentrÃ¤gers");
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -120,30 +113,23 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim Schreiben des optischen Datenträgers");
+			addError("Fehler beim Schreiben des optischen DatentrÃ¤gers");
 			ret = false;
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return ret;
@@ -172,11 +158,9 @@ public class DBOptisch extends DBSpeicherOrte<Optisch> {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			addError("Fehler beim Zuholen der ID Liste für SpeicherformatID " + formatId);
+			addError("Fehler beim Zuholen der ID Liste fÃ¼r SpeicherformatID " + formatId);
 			ret = null;
 		}
 		return ret;
 	}
-
 }

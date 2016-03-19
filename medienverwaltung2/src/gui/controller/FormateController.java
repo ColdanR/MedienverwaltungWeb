@@ -73,11 +73,11 @@ public class FormateController extends Controller {
 	private void neuanlage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("idMedium") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine Medium ID beim Aufruf zum Löschen des Formates gefunden.");
+			dto.addError("Keine Medium ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMediumType") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Kein Medium Type beim Aufruf zum Löschen des Formates gefunden.");
+			dto.addError("Kein Medium Type beim Aufruf zum LÃ¶schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
@@ -85,7 +85,7 @@ public class FormateController extends Controller {
 				Mediengruppe	type		=	Mediengruppe.getElementFromId(Integer.parseInt(request.getParameter("idMediumType")));
 				FormateLogik	logik		=	new FormateLogik(mediumId);
 				if (request.getParameter("send") != null) {
-					// Parameter übernehmen
+					// Parameter Ã¼bernehmen
 					String	formatTypeString	=	request.getParameter("format");
 					if (formatTypeString == null) {
 						FormateDTO	dto	=	new	AnalogFormateDTO("Format eingeben", request.getContextPath() + "/formate/" + Action.Neuanlage.getURIPart() + ".html", mediumId, type.getId());
@@ -156,9 +156,8 @@ public class FormateController extends Controller {
 					forward(request, response, dto, "speicherformatEingabe.jsp");
 				}
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
 				FehlerDTO dto = new FehlerDTO();
-				dto.addError("Fehlerhafte ID beim Aufruf zum Löschen des Formates gefunden.");
+				dto.addError("Fehlerhafte ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 				forward(request, response, dto, "404.jsp");
 			}
 		}
@@ -167,15 +166,15 @@ public class FormateController extends Controller {
 	private void bearbeiten(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("id") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ID beim Aufruf zum Löschen des Formates gefunden.");
+			dto.addError("Keine ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMedium") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMediumType") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
@@ -188,7 +187,7 @@ public class FormateController extends Controller {
 					dto.addError("Format konnte nicht geladen werden");
 					forward(request, response, dto, "404.jsp");
 				} else {
-					// Parameter übernehmen
+					// Parameter Ã¼bernehmen
 					String	formatTypeString	=	request.getParameter("idFormatType");
 					if (formatTypeString == null) {
 						FehlerDTO	dto	=	new	FehlerDTO();
@@ -276,9 +275,8 @@ public class FormateController extends Controller {
 					}
 				}
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
 				FehlerDTO dto = new FehlerDTO();
-				dto.addError("Fehlerhafte ID beim Aufruf zum Löschen des Formates gefunden.");
+				dto.addError("Fehlerhafte ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 				forward(request, response, dto, "404.jsp");
 			}
 		}
@@ -287,15 +285,15 @@ public class FormateController extends Controller {
 	private void loeschen(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("id") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ID beim Aufruf zum Löschen des Formates gefunden.");
+			dto.addError("Keine ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMedium") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMediumType") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Keine ParentID beim Aufruf zum Löschen des Formates gefunden.");
+			dto.addError("Keine ParentID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
@@ -321,9 +319,8 @@ public class FormateController extends Controller {
 					forward(request, response, dto, "404.jsp");
 				}
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
 				FehlerDTO dto = new FehlerDTO();
-				dto.addError("Fehlerhafte ID beim Aufruf zum Löschen des Formates gefunden.");
+				dto.addError("Fehlerhafte ID beim Aufruf zum LÃ¶schen des Formates gefunden.");
 				forward(request, response, dto, "404.jsp");
 			}
 		}

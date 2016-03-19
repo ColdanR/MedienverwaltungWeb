@@ -2,7 +2,6 @@ package gui.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,25 +121,25 @@ public class MedienController extends Controller {
 		MediumLogik<?>	logic	=	MediumLogicFactory.create(medium);
 		dto.setMedium(medium);
 		dto.setBaseURI(request.getContextPath() + "/medium/" + medium.getURIPart() + "/");
-		// Medium l�schen?
+		// Medium löschen?
 		if (request.getParameter("act") != null && request.getParameter("act").equals("delete")) {
 			String idString = request.getParameter("id");
 			if (idString == null || idString.trim().length() == 0) {
 				// Fehler: ID fehlt
-				dto.addError("L�schen konnte nicht durchgef�hrt werden: Fehlende ID beim Aufruf.");
+				dto.addError("Löschen konnte nicht durchgeführt werden: Fehlende ID beim Aufruf.");
 			} else {
 				try {
 					int id = Integer.parseInt(idString);
 					if (logic.load(id)) {
 						if (!logic.delete()) {
 							// Fehler DTO
-							dto.addError("Fehler beim L�schen.");
+							dto.addError("Fehler beim Löschen.");
 							logic.getErrors().stream().forEach(data -> {
 								dto.addError(data);
 							});
 						} else {
 							// Mitteilung DTO
-							dto.addError(medium.getBezeichnung() + " mit der ID " + id + " wurde gel�scht.");
+							dto.addError(medium.getBezeichnung() + " mit der ID " + id + " wurde gelöscht.");
 						}
 					} else {
 						// Fehler DTO
@@ -151,7 +150,7 @@ public class MedienController extends Controller {
 					}
 				} catch (NumberFormatException e) {
 					// Fehler: Falsche ID
-					dto.addError("L�schen konnte nicht durchgef�hrt werden: Fehlende ID beim Aufruf.");
+					dto.addError("Löschen konnte nicht durchgeführt werden: Fehlende ID beim Aufruf.");
 				}
 			}
 		}
@@ -170,7 +169,7 @@ public class MedienController extends Controller {
 				try {
 					listDTO.add(listElementToDTO(data, medium));
 				} catch (IllegalArgumentException e) {
-					LOGGER.error("Fehlerhafte Klasse f�r DTO Umwandlung! Medium: {} - Klasse: {}", medium.getBezeichnung(), data.getClass().getCanonicalName());
+					LOGGER.error("Fehlerhafte Klasse für DTO Umwandlung! Medium: {} - Klasse: {}", medium.getBezeichnung(), data.getClass().getCanonicalName());
 				}
 			});
 			dto.setList(listDTO);
@@ -187,7 +186,7 @@ public class MedienController extends Controller {
 			Medium 	medium	=	(Medium) data;
 			id			=	medium.getDbId();
 			bezeichnung	=	medium.getTitel();
-			erscheinung	=	medium.getErscheinungsdatum().format(DateTimeFormatter.BASIC_ISO_DATE);
+			erscheinung	=	medium.getErscheinungsdatum().format(StaticElements.FORMATTER);
 			genre		=	medium.getGenre().stream().map(Genre::getBezeichnung).collect(Collectors.joining(", "));
 		} else {
 			throw new IllegalArgumentException();
@@ -319,7 +318,7 @@ public class MedienController extends Controller {
 					case Hoerbuch:
 						if (item instanceof Hoerbuch) {
 							Hoerbuch hoerbuch = (Hoerbuch) item;
-							HoerbuchDetailDTO dto = new HoerbuchDetailDTO("H�rbuch betrachten");
+							HoerbuchDetailDTO dto = new HoerbuchDetailDTO("Hörbuch betrachten");
 							dto.setBemerkung(hoerbuch.getBemerkungen());
 							dto.setBezeichnung(hoerbuch.getTitel());
 							dto.setDbId(hoerbuch.getDbId());
@@ -424,17 +423,18 @@ public class MedienController extends Controller {
 					List<Genre>	genre		=	new ArrayList<>();
 					if (genres != null) {
 						for (String element : genres) {
+							GenreLogik genreLogikCheck = new GenreLogik();
 							try {
 								int idGenre = Integer.parseInt(element);
-								if (genreLogik.load(idGenre)) {
-									genre.add(genreLogik.getObject());
+								if (genreLogikCheck.load(idGenre)) {
+									genre.add(genreLogikCheck.getObject());
 								} else {
-									genreLogik.getErrors().stream().forEach(error -> {
+									genreLogikCheck.getErrors().stream().forEach(error -> {
 										errors.add(error);
 									});
 								}
 							} catch (NumberFormatException e) {
-								errors.add("Ausgew�hlte Genre konnte nicht ermittelt werden.");
+								errors.add("Ausgewähltes Genre konnte nicht ermittelt werden.");
 							}
 						}
 					}
@@ -456,7 +456,7 @@ public class MedienController extends Controller {
 						if (request.getParameter("send") != null) {
 							// Keine weiteren Parameter
 							BildValidator validator = new BildValidator();
-							if (validator.validate(bild) && logic.write()) {
+							if (validator.validate(bild) && logic.write() && errors.size() == 0) {
 								redirect(request, response, "medium/" + bild.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + bild.getDbId());
 							} else {
 								validator.getErrors().stream().forEach(error -> {
@@ -465,7 +465,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt best�cken
+								// DTO aus Objekt bestücken
 								BildEingabeDTO	dto	=	new BildEingabeDTO("Bild anlegen");
 								errors.stream().forEach(error -> {
 									dto.addError(error);
@@ -483,7 +483,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object best�cken
+							// DTO aus Object bestücken
 							BildEingabeDTO	dto	=	new BildEingabeDTO("Bild anlegen");
 							errors.stream().forEach(error -> {
 								dto.addError(error);
@@ -533,7 +533,7 @@ public class MedienController extends Controller {
 							buch.setSprache(sprache);
 							// Validieren und Speichern
 							BuchValidator validator = new BuchValidator();
-							if (validator.validate(buch) && logic.write()) {
+							if (validator.validate(buch) && logic.write() && errors.size() == 0) {
 								redirect(request, response, "medium/" + buch.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + buch.getDbId());
 							} else {
 								validator.getErrors().stream().forEach(error -> {
@@ -542,7 +542,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt best�cken
+								// DTO aus Objekt bestücken
 								BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch anlegen");
 								errors.stream().forEach(error -> {
 									dto.addError(error);
@@ -564,7 +564,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object best�cken
+							// DTO aus Object bestücken
 							BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch anlegen");
 							errors.stream().forEach(error -> {
 								dto.addError(error);
@@ -614,7 +614,7 @@ public class MedienController extends Controller {
 							film.setArt(filmArt);
 							// Validieren und Speichern
 							FilmValidator validator = new FilmValidator();
-							if (validator.validate(film) && logic.write()) {
+							if (validator.validate(film) && logic.write() && errors.size() == 0) {
 								redirect(request, response, "medium/" + film.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + film.getDbId());
 							} else {
 								validator.getErrors().stream().forEach(error -> {
@@ -623,7 +623,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt best�cken
+								// DTO aus Objekt bestücken
 								FilmEingabeDTO dto = new FilmEingabeDTO("Film anlegen");
 								errors.stream().forEach(error -> {
 									dto.addError(error);
@@ -644,7 +644,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object best�cken
+							// DTO aus Object bestücken
 							FilmEingabeDTO dto = new FilmEingabeDTO("Film anlegen");
 							errors.stream().forEach(error -> {
 								dto.addError(error);
@@ -686,14 +686,14 @@ public class MedienController extends Controller {
 								int artId = Integer.parseInt(art);
 								hoerbuchArt = HoerbuchArt.getFromId(artId);
 							} catch (NumberFormatException e) {
-								errors.add("Fehlerhafte H�rbuchart");
+								errors.add("Fehlerhafte Hörbuchart");
 							}
 							// Parameter binden
 							hoerbuch.setSprache(sprache);
 							hoerbuch.setArt(hoerbuchArt);
 							// Validieren und speichern
 							HoerbuchValidator validator = new HoerbuchValidator();
-							if (validator.validate(hoerbuch) && logic.write()) {
+							if (validator.validate(hoerbuch) && logic.write() && errors.size() == 0) {
 								redirect(request, response, "medium/" + hoerbuch.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + hoerbuch.getDbId());
 							} else {
 								validator.getErrors().stream().forEach(error -> {
@@ -702,8 +702,8 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt best�cken
-								HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("H�rbuch anlegen");
+								// DTO aus Objekt bestücken
+								HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch anlegen");
 								dto.setBemerkung(hoerbuch.getBemerkungen());
 								dto.setBezeichnung(hoerbuch.getTitel());
 								dto.setDbId(hoerbuch.getDbId());
@@ -720,7 +720,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object best�cken
+							// DTO aus Object bestücken
 							HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch anlegen");
 							errors.stream().forEach(error -> {
 								dto.addError(error);
@@ -759,7 +759,7 @@ public class MedienController extends Controller {
 							musik.setLive(live);
 							// Validieren und Speichern
 							MusikValidator validator = new MusikValidator();
-							if (validator.validate(musik) && logic.write()) {
+							if (validator.validate(musik) && logic.write() && errors.size() == 0) {
 								redirect(request, response, "medium/" + musik.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + musik.getDbId());
 							} else {
 								validator.getErrors().stream().forEach(error -> {
@@ -768,7 +768,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt best�cken
+								// DTO aus Objekt bestücken
 								MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel anlegen");
 								errors.stream().forEach(error -> {
 									dto.addError(error);
@@ -787,7 +787,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object best�cken
+							// DTO aus Object bestücken
 							MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel anlegen");
 							dto.setBemerkung(musik.getBemerkungen());
 							dto.setBezeichnung(musik.getTitel());
@@ -823,7 +823,7 @@ public class MedienController extends Controller {
 							spiel.setBetriebssystem(betrieb);
 							// Validieren und Speichern
 							SpielValidator validator = new SpielValidator();
-							if (validator.validate(spiel) && logic.write()) {
+							if (validator.validate(spiel) && logic.write() && errors.size() == 0) {
 								redirect(request, response, "medium/" + spiel.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + spiel.getDbId());
 							} else {
 								validator.getErrors().stream().forEach(error -> {
@@ -832,7 +832,7 @@ public class MedienController extends Controller {
 								logic.getErrors().stream().forEach(error -> {
 									errors.add(error);
 								});
-								// DTO aus Objekt best�cken
+								// DTO aus Objekt bestücken
 								SpielEingabeDTO dto = new SpielEingabeDTO("Spiel anlegen");
 								dto.setBemerkung(spiel.getBemerkungen());
 								dto.setBetriebssystem(spiel.getBetriebssystem());
@@ -849,7 +849,7 @@ public class MedienController extends Controller {
 								forward(request, response, dto, "mediumEingabe.jsp");
 							}
 						} else {
-							// DTO aus Object best�cken
+							// DTO aus Object bestücken
 							SpielEingabeDTO dto = new SpielEingabeDTO("Spiel anlegen");
 							errors.stream().forEach(error -> {
 								dto.addError(error);
@@ -925,17 +925,18 @@ public class MedienController extends Controller {
 							List<Genre>	genre		=	new ArrayList<>();
 							if (genres != null) {
 								for (String element : genres) {
+									GenreLogik genreLogikCheck = new GenreLogik();
 									try {
 										int idGenre = Integer.parseInt(element);
-										if (genreLogik.load(idGenre)) {
-											genre.add(genreLogik.getObject());
+										if (genreLogikCheck.load(idGenre)) {
+											genre.add(genreLogikCheck.getObject());
 										} else {
-											genreLogik.getErrors().stream().forEach(error -> {
+											genreLogikCheck.getErrors().stream().forEach(error -> {
 												errors.add(error);
 											});
 										}
 									} catch (NumberFormatException e) {
-										errors.add("Ausgew�hltes Genre konnte nicht ermittelt werden.");
+										errors.add("Ausgewähltes Genre konnte nicht ermittelt werden.");
 									}
 								}
 							}
@@ -957,7 +958,7 @@ public class MedienController extends Controller {
 								if (request.getParameter("send") != null) {
 									// Keine weiteren Parameter
 									BildValidator validator = new BildValidator();
-									if (validator.validate(bild) && logic.write()) {
+									if (validator.validate(bild) && logic.write() && errors.size() == 0) {
 										redirect(request, response, "medium/" + bild.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + bild.getDbId());
 									} else {
 										validator.getErrors().stream().forEach(error -> {
@@ -966,7 +967,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt best�cken
+										// DTO aus Objekt bestücken
 										BildEingabeDTO	dto	=	new BildEingabeDTO("Bild editieren");
 										errors.stream().forEach(error -> {
 											dto.addError(error);
@@ -984,7 +985,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object best�cken
+									// DTO aus Object bestücken
 									BildEingabeDTO	dto	=	new BildEingabeDTO("Bild editieren");
 									errors.stream().forEach(error -> {
 										dto.addError(error);
@@ -1034,7 +1035,7 @@ public class MedienController extends Controller {
 									buch.setSprache(sprache);
 									// Validieren und Speichern
 									BuchValidator validator = new BuchValidator();
-									if (validator.validate(buch) && logic.write()) {
+									if (validator.validate(buch) && logic.write() && errors.size() == 0) {
 										redirect(request, response, "medium/" + buch.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + buch.getDbId());
 									} else {
 										validator.getErrors().stream().forEach(error -> {
@@ -1043,7 +1044,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt best�cken
+										// DTO aus Objekt bestücken
 										BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch editieren");
 										errors.stream().forEach(error -> {
 											dto.addError(error);
@@ -1065,7 +1066,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object best�cken
+									// DTO aus Object bestücken
 									BuchEingabeDTO	dto	=	new BuchEingabeDTO("Buch editieren");
 									errors.stream().forEach(error -> {
 										dto.addError(error);
@@ -1115,7 +1116,7 @@ public class MedienController extends Controller {
 									film.setArt(filmArt);
 									// Validieren und Speichern
 									FilmValidator validator = new FilmValidator();
-									if (validator.validate(film) && logic.write()) {
+									if (validator.validate(film) && logic.write() && errors.size() == 0) {
 										redirect(request, response, "medium/" + film.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + film.getDbId());
 									} else {
 										validator.getErrors().stream().forEach(error -> {
@@ -1124,7 +1125,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt best�cken
+										// DTO aus Objekt bestücken
 										FilmEingabeDTO dto = new FilmEingabeDTO("Film editieren");
 										errors.stream().forEach(error -> {
 											dto.addError(error);
@@ -1145,7 +1146,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object best�cken
+									// DTO aus Object bestücken
 									FilmEingabeDTO dto = new FilmEingabeDTO("Film editieren");
 									errors.stream().forEach(error -> {
 										dto.addError(error);
@@ -1187,14 +1188,14 @@ public class MedienController extends Controller {
 										int artId = Integer.parseInt(art);
 										hoerbuchArt = HoerbuchArt.getFromId(artId);
 									} catch (NumberFormatException e) {
-										errors.add("Fehlerhafte H�rbuchart");
+										errors.add("Fehlerhafte Hörbuchart");
 									}
 									// Parameter binden
 									hoerbuch.setSprache(sprache);
 									hoerbuch.setArt(hoerbuchArt);
 									// Validieren und speichern
 									HoerbuchValidator validator = new HoerbuchValidator();
-									if (validator.validate(hoerbuch) && logic.write()) {
+									if (validator.validate(hoerbuch) && logic.write() && errors.size() == 0) {
 										redirect(request, response, "medium/" + hoerbuch.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + hoerbuch.getDbId());
 									} else {
 										validator.getErrors().stream().forEach(error -> {
@@ -1203,7 +1204,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt best�cken
+										// DTO aus Objekt bestücken
 										HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch editieren");
 										errors.stream().forEach(error -> {
 											dto.addError(error);
@@ -1224,7 +1225,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object best�cken
+									// DTO aus Object bestücken
 									HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch editieren");
 									errors.stream().forEach(error -> {
 										dto.addError(error);
@@ -1263,7 +1264,7 @@ public class MedienController extends Controller {
 									musik.setLive(live);
 									// Validieren und Speichern
 									MusikValidator validator = new MusikValidator();
-									if (validator.validate(musik) && logic.write()) {
+									if (validator.validate(musik) && logic.write() && errors.size() == 0) {
 										redirect(request, response, "medium/" + musik.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + musik.getDbId());
 									} else {
 										validator.getErrors().stream().forEach(error -> {
@@ -1272,7 +1273,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt best�cken
+										// DTO aus Objekt bestücken
 										MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel editieren");
 										errors.stream().forEach(error -> {
 											dto.addError(error);
@@ -1291,7 +1292,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object best�cken
+									// DTO aus Object bestücken
 									MusikEingabeDTO dto = new MusikEingabeDTO("Musiktitel editieren");
 									errors.stream().forEach(error -> {
 										dto.addError(error);
@@ -1330,7 +1331,7 @@ public class MedienController extends Controller {
 									spiel.setBetriebssystem(betrieb);
 									// Validieren und Speichern
 									SpielValidator validator = new SpielValidator();
-									if (validator.validate(spiel) && logic.write()) {
+									if (validator.validate(spiel) && logic.write() && errors.size() == 0) {
 										redirect(request, response, "medium/" + spiel.getType().getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + spiel.getDbId());
 									} else {
 										validator.getErrors().stream().forEach(error -> {
@@ -1339,7 +1340,7 @@ public class MedienController extends Controller {
 										logic.getErrors().stream().forEach(error -> {
 											errors.add(error);
 										});
-										// DTO aus Objekt best�cken
+										// DTO aus Objekt bestücken
 										SpielEingabeDTO dto = new SpielEingabeDTO("Spiel editieren");
 										errors.stream().forEach(error -> {
 											dto.addError(error);
@@ -1359,7 +1360,7 @@ public class MedienController extends Controller {
 										forward(request, response, dto, "mediumEingabe.jsp");
 									}
 								} else {
-									// DTO aus Object best�cken
+									// DTO aus Object bestücken
 									SpielEingabeDTO dto = new SpielEingabeDTO("Spiel editieren");
 									errors.stream().forEach(error -> {
 										dto.addError(error);

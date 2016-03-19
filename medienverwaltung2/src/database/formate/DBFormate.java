@@ -71,28 +71,24 @@ public class DBFormate extends DataBaseManager {
 				addError("Format wurde nicht gefunden.");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden des Formates mit der ID " + id);
 		} finally {
 			if (result != null) {
 				try {
 					result.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 		}
@@ -122,7 +118,6 @@ public class DBFormate extends DataBaseManager {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Laden der Formate mit der ID " + idMedium);
 			formate = null;
 		} finally {
@@ -130,21 +125,18 @@ public class DBFormate extends DataBaseManager {
 				try {
 					result.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 		}
@@ -216,7 +208,6 @@ public class DBFormate extends DataBaseManager {
 			conn.close();
 			conn = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Schreiben der Formate mit der ID " + format.getDbId());
 			noError = false;
 		} finally {
@@ -224,28 +215,26 @@ public class DBFormate extends DataBaseManager {
 				try {
 					result.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 		}
 		return noError;
 	}
 	
-	public	boolean			delete(int id) {
+	public	boolean			delete(int id)
+	{
 		Connection			conn	=	null;
 		PreparedStatement	stmt	=	null;
 		boolean				ret		=	true;
@@ -255,7 +244,6 @@ public class DBFormate extends DataBaseManager {
 			stmt.setInt(1, id);
 			stmt.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			addError("Fehler beim Löschen des Formates mit der ID " + id);
 			ret = false;
 		} finally {
@@ -263,14 +251,12 @@ public class DBFormate extends DataBaseManager {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 		}

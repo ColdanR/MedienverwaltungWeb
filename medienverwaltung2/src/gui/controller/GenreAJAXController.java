@@ -22,7 +22,7 @@ public class GenreAJAXController extends Controller {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		if (request.getParameter("bez") == null || request.getParameter("bez").trim().length() == 0) {
-			String ret = "{\"status\":1,\"error\":[\"Keine Bezeichnung uebermittelt.\"]}";
+			String ret = "{\"status\":1,\"error\":[\"Keine Bezeichnung übermittelt.\"]}";
 			response.getOutputStream().print(ret);
 			response.flushBuffer();
 		} else {

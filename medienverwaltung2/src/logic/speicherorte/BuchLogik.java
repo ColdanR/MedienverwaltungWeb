@@ -7,7 +7,6 @@ public class BuchLogik extends SpeicherorteLogik<Buch> {
 
 	public BuchLogik(int formatId) {
 		super(new DBBuchformat(), formatId);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
