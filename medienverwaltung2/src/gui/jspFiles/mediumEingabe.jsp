@@ -50,7 +50,7 @@
                     <label for="erscheinungsjahr"> Erscheinungsdatum</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-4">
-                    <input  type="text" class="form-control" name="erscheinungsjahr" id="erscheinungsjahr" required="required" value="${context.datum}">
+                    <input  type="text" class="form-control" name="erscheinungsjahr" id="erscheinungsjahr" required="required" value="${context.datum}" placeholder="TT.MM.JJJJ">
                 </div>
             </div>
             <c:if test="${context.medium.id == 0}">
