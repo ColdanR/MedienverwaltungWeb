@@ -91,11 +91,11 @@ public class SpeicherOrteController extends Controller {
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMediumType") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Kein Medium Type beim Aufruf zum Anlagen des Speicherortes gefunden.");
+			dto.addError("Kein Medium Typ beim Aufruf zum Anlegen des Speicherortes gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idFormatType") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Kein Format Type beim Aufruf zum Anlagen des Speicherortes gefunden.");
+			dto.addError("Kein Format Typ beim Aufruf zum Anlegen des Speicherortes gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
@@ -107,11 +107,11 @@ public class SpeicherOrteController extends Controller {
 				Format					typeFormat			=	Format.getElementFromId(idFormatType);
 				if (typeMedium == null) {
 					FehlerDTO dto = new FehlerDTO();
-					dto.addError("Medium Type konnte nicht bestimmt werden.");
+					dto.addError("Medium Typ konnte nicht bestimmt werden.");
 					forward(request, response, dto, "404.jsp");
 				} else if (typeFormat == null) {
 					FehlerDTO dto = new FehlerDTO();
-					dto.addError("Format Type konnte nicht bestimmt werden.");
+					dto.addError("Format Typ konnte nicht bestimmt werden.");
 					forward(request, response, dto, "404.jsp");
 				} else {
 					if (request.getParameter("send") != null) {
@@ -340,11 +340,11 @@ public class SpeicherOrteController extends Controller {
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idMediumType") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Kein Medium Type beim Aufruf zum Bearbeiten des Speicherortes gefunden.");
+			dto.addError("Kein Medium Typ beim Aufruf zum Bearbeiten des Speicherortes gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else if (request.getParameter("idFormatType") == null) {
 			FehlerDTO dto = new FehlerDTO();
-			dto.addError("Kein Format Type beim Aufruf zum Bearbeiten des Speicherortes gefunden.");
+			dto.addError("Kein Format Typ beim Aufruf zum Bearbeiten des Speicherortes gefunden.");
 			forward(request, response, dto, "404.jsp");
 		} else {
 			try {
@@ -358,15 +358,15 @@ public class SpeicherOrteController extends Controller {
 				SpeicherortArt			speicherOrtArt		=	SpeicherortArt.getElementFromId(Integer.parseInt(request.getParameter("idSpeicherortArt")));
 				if (speicherOrtArt == null) {
 					FehlerDTO dto = new FehlerDTO();
-					dto.addError("Speicherort Type konnte nicht bestimmt werden.");
+					dto.addError("Speicherort Typ konnte nicht bestimmt werden.");
 					forward(request, response, dto, "404.jsp");
 				} else if (typeMedium == null) {
 					FehlerDTO dto = new FehlerDTO();
-					dto.addError("Medium Type konnte nicht bestimmt werden.");
+					dto.addError("Medium Typ konnte nicht bestimmt werden.");
 					forward(request, response, dto, "404.jsp");
 				} else if (typeFormat == null) {
 					FehlerDTO dto = new FehlerDTO();
-					dto.addError("Format Type konnte nicht bestimmt werden.");
+					dto.addError("Format Typ konnte nicht bestimmt werden.");
 					forward(request, response, dto, "404.jsp");
 				} else {
 					SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
@@ -776,11 +776,11 @@ public class SpeicherOrteController extends Controller {
 				SpeicherorteLogik<?>	logik				=	null;
 				if (speicherOrtArt == null) {
 					FehlerDTO dto = new FehlerDTO();
-					dto.addError("Kein Speicherort Art beim Aufruf zum Löschen des Speicherortes gefunden.");
+					dto.addError("Keine Speicherortart beim Aufruf zum Löschen des Speicherortes gefunden.");
 					forward(request, response, dto, "404.jsp");
 				} else if (type == null) {
 					FehlerDTO dto = new FehlerDTO();
-					dto.addError("Kein Medium Type beim Aufruf zum Löschen des Speicherortes gefunden.");
+					dto.addError("Kein Medium Typ beim Aufruf zum Löschen des Speicherortes gefunden.");
 					forward(request, response, dto, "404.jsp");
 				} else {
 					switch (speicherOrtArt) {

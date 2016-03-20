@@ -115,7 +115,7 @@
 		        					<table class="table table-striped">
 		                        			<thead>
 				                       			<tr>
-				                       				<th>Type</th>	
+				                       				<th>Medientyp</th>	
 				                       				<th>Art</th>	
 				                       				<th>Bezeichnung</th>	
 				                       				<th>Bemerkung</th>	

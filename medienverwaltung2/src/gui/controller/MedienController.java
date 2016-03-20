@@ -97,7 +97,7 @@ public class MedienController extends Controller {
 		String			actionPart	=	matcher.group(2);
 		Mediengruppe	medium		=	Mediengruppe.getElementFromUriPart(mediumPart);
 		Action			action		=	Action.getFromURIPart(actionPart);
-		LOGGER.debug("Medientype: {} - Action: {}", medium.getBezeichnung(), action);
+		LOGGER.debug("Medientyp: {} - Action: {}", medium.getBezeichnung(), action);
 		switch (action) {
 		case Bearbeiten:
 			bearbeiten(request, response, medium);
@@ -1417,7 +1417,7 @@ public class MedienController extends Controller {
 			switch (format.getType()) {
 			case Digital:
 				Digital digital = (Digital) format;
-				bezeichnung = bezeichnung + ": Dateiformat: " + digital.getDateiformat() + " Qualitaet: " + digital.getQualitaet();
+				bezeichnung = bezeichnung + ":   Dateiformat: " + digital.getDateiformat() + "   Qualität: " + digital.getQualitaet();
 				break;
 			default:
 				break;
