@@ -34,4 +34,7 @@ public abstract class BaseDTO {
 	public void addError(String error) {
 		this.errors.add(error);
 	}
+	public void addErrors(List<String> errors) {
+		this.errors.addAll(errors);
+	}
 }

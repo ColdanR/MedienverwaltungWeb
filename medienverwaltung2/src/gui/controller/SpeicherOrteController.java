@@ -372,252 +372,242 @@ public class SpeicherOrteController extends Controller {
 					SpeicherorteDTO	dto	=	new SpeicherorteDTO("Speicherort editieren", id, speicherOrtArt, Arrays.asList(typeFormat.getAllowed()), idSpeicherFormat, idMedium, idMediumType, idFormatType);
 					if (request.getParameter("send") != null) {
 						try {
-							if (request.getParameter("lagerort") == null || request.getParameter("lagerort").trim().length() == 0) {
-								dto.addError("Keine Bezeichnung für den Speicherort angegeben.");
-								forward(request, response, dto, "speicherortEingabe.jsp");
-							} else {
-								String	bezeichnung	=	request.getParameter("lagerort");
-								String	bemerkung	=	request.getParameter("bemerkung");
-								if (bemerkung == null) {
-									bemerkung = "";
-								}
-								SpeicherorteLogik<?>	logik	=	null;
-								switch (speicherOrtArt) {
-								case Buch:
-									if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-										dto.addError("Keine Art für das Buch ausgewählt.");
-										forward(request, response, dto, "speicherortEingabe.jsp");
-										return;
-									} else {
-										try {
-											BuchArt	art	=	BuchArt.getElementFromId(Integer.parseInt(request.getParameter("art")));
-											if (art != null) {
-												String zustandBuch = request.getParameter("zustand");
-												if (zustandBuch == null) {
-													zustandBuch = "";
-												}
-												// Logik erzeugen und zuweisen
-												logik = new BuchLogik(idSpeicherFormat);
-												if (logik.load(id)) {
-													Buch buch = (Buch) logik.getObject();
-													buch.setArt(art);
-													buch.setBemerkung(bemerkung);
-													buch.setLagerOrt(bezeichnung);
-													buch.setZustand(zustandBuch);
-												} else {
-													FehlerDTO dtoFehler = new FehlerDTO();
-													for (String error : logik.getErrors()) {
-														dtoFehler.addError(error);
-													}
-													forward(request, response, dtoFehler, "404.jsp");
-													return;
-												}
+							String	bezeichnung	=	request.getParameter("lagerort");
+							String	bemerkung	=	request.getParameter("bemerkung");
+							String	zustand		=	request.getParameter("zustand");
+							if (bemerkung == null) {
+								bemerkung = "";
+							}
+							if (zustand == null) {
+								zustand = "";
+							}
+							dto.setBemerkung(bemerkung);
+							dto.setBezeichnung(bezeichnung);
+							dto.setZustand(zustand);
+							SpeicherorteLogik<?>	logik	=	null;
+							switch (speicherOrtArt) {
+							case Buch:
+								dto.setArtOptions(Arrays.asList(BuchArt.values()));
+								if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
+									dto.addError("Keine Art für das Buch ausgewählt.");
+									forward(request, response, dto, "speicherortEingabe.jsp");
+									return;
+								} else {
+									try {
+										BuchArt	art	=	BuchArt.getElementFromId(Integer.parseInt(request.getParameter("art")));
+										if (art != null) {
+											// Logik erzeugen und zuweisen
+											logik = new BuchLogik(idSpeicherFormat);
+											if (logik.load(id)) {
+												Buch buch = (Buch) logik.getObject();
+												buch.setArt(art);
+												buch.setBemerkung(bemerkung);
+												buch.setLagerOrt(bezeichnung);
+												buch.setZustand(zustand);
 											} else {
-												dto.addError("Ungültige Art für das Buch ausgewählt.");
-												forward(request, response, dto, "speicherortEingabe.jsp");
+												FehlerDTO dtoFehler = new FehlerDTO();
+												dtoFehler.addErrors(logik.getErrors());
+												forward(request, response, dtoFehler, "404.jsp");
 												return;
 											}
-										} catch (NumberFormatException e) {
+										} else {
 											dto.addError("Ungültige Art für das Buch ausgewählt.");
 											forward(request, response, dto, "speicherortEingabe.jsp");
 											return;
 										}
-									}
-									break;
-								case Dia:
-									String zustandDia = request.getParameter("zustand");
-									if (zustandDia == null) {
-										zustandDia = "";
-									}
-									// Logik erzeugen und zuweisen
-									logik = new DiaLogik(idSpeicherFormat);
-									Dia	dia	=	(Dia) logik.create();
-									dia.setBemerkung(bemerkung);
-									dia.setLagerOrt(bezeichnung);
-									dia.setZustand(zustandDia);
-									break;
-								case Festplatte:
-									// Logik erzeugen und zuweisen
-									logik = new FestplatteLogik(idSpeicherFormat);
-									Festplatte festplatte = (Festplatte) logik.create();
-									festplatte.setBemerkung(bemerkung);
-									festplatte.setLagerOrt(bezeichnung);
-									break;
-								case Kassette:
-									if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-										dto.addError("Keine Art für die Kassette ausgewählt.");
+									} catch (NumberFormatException e) {
+										dto.addError("Ungültige Art für das Buch ausgewählt.");
 										forward(request, response, dto, "speicherortEingabe.jsp");
 										return;
-									} else {
-										try {
-											KassettenArt	art	=	KassettenArt.getElementFromId(Integer.parseInt(request.getParameter("art")));
-											if (art != null) {
-												String zustandKassette = request.getParameter("zustand");
-												if (zustandKassette == null) {
-													zustandKassette = "";
-												}
-												// Logik erzeugen und zuweisen
-												logik = new KassetteLogik(idSpeicherFormat);
-												if (logik.load(id)) {
-													Kassette kassette = (Kassette) logik.getObject();
-													kassette.setArt(art);
-													kassette.setBemerkung(bemerkung);
-													kassette.setLagerOrt(bezeichnung);
-													kassette.setZustand(zustandKassette);
-												} else {
-													FehlerDTO dtoFehler = new FehlerDTO();
-													for (String error : logik.getErrors()) {
-														dtoFehler.addError(error);
-													}
-													forward(request, response, dtoFehler, "404.jsp");
-													return;
-												}
+									}
+								}
+								break;
+							case Dia:
+								// Logik erzeugen und zuweisen
+								logik = new DiaLogik(idSpeicherFormat);
+								if (logik.load(id)) {
+									Dia	dia	=	(Dia) logik.getObject();
+									dia.setBemerkung(bemerkung);
+									dia.setLagerOrt(bezeichnung);
+									dia.setZustand(zustand);
+								} else {
+									FehlerDTO dtoFehler = new FehlerDTO();
+									dtoFehler.addErrors(logik.getErrors());
+									forward(request, response, dtoFehler, "404.jsp");
+									return;
+								}
+								break;
+							case Festplatte:
+								// Logik erzeugen und zuweisen
+								logik = new FestplatteLogik(idSpeicherFormat);
+								if (logik.load(id)) {
+									Festplatte festplatte = (Festplatte) logik.getObject();
+									festplatte.setBemerkung(bemerkung);
+									festplatte.setLagerOrt(bezeichnung);
+								} else {
+									FehlerDTO dtoFehler = new FehlerDTO();
+									dtoFehler.addErrors(logik.getErrors());
+									forward(request, response, dtoFehler, "404.jsp");
+									return;
+								}
+								break;
+							case Kassette:
+								dto.setArtOptions(Arrays.asList(KassettenArt.values()));
+								if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
+									dto.addError("Keine Art für die Kassette ausgewählt.");
+									forward(request, response, dto, "speicherortEingabe.jsp");
+									return;
+								} else {
+									try {
+										KassettenArt	art	=	KassettenArt.getElementFromId(Integer.parseInt(request.getParameter("art")));
+										if (art != null) {
+											// Logik erzeugen und zuweisen
+											logik = new KassetteLogik(idSpeicherFormat);
+											if (logik.load(id)) {
+												Kassette kassette = (Kassette) logik.getObject();
+												kassette.setArt(art);
+												kassette.setBemerkung(bemerkung);
+												kassette.setLagerOrt(bezeichnung);
+												kassette.setZustand(zustand);
 											} else {
-												dto.addError("Ungültige Art für die Kassette ausgewählt.");
-												forward(request, response, dto, "speicherortEingabe.jsp");
+												FehlerDTO dtoFehler = new FehlerDTO();
+												dtoFehler.addErrors(logik.getErrors());
+												forward(request, response, dtoFehler, "404.jsp");
 												return;
 											}
-										} catch (NumberFormatException e) {
+										} else {
 											dto.addError("Ungültige Art für die Kassette ausgewählt.");
 											forward(request, response, dto, "speicherortEingabe.jsp");
 											return;
 										}
-									}
-									break;
-								case Optisch:
-									if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-										dto.addError("Keine Art für den optischen Datenträger ausgewählt.");
+									} catch (NumberFormatException e) {
+										dto.addError("Ungültige Art für die Kassette ausgewählt.");
 										forward(request, response, dto, "speicherortEingabe.jsp");
 										return;
-									} else {
-										try {
-											OptischArt	art	=	OptischArt.getElementFromId(Integer.parseInt(request.getParameter("art")));
-											if (art != null) {
-												String zustandOptisch = request.getParameter("zustand");
-												if (zustandOptisch == null) {
-													zustandOptisch = "";
-												}
-												// Logik erzeugen und zuweisen
-												logik = new OptischLogik(idSpeicherFormat);
-												if (logik.load(id)) {
-													Optisch optisch = (Optisch) logik.getObject();
-													optisch.setArt(art);
-													optisch.setBemerkung(bemerkung);
-													optisch.setLagerOrt(bezeichnung);
-													optisch.setZustand(zustandOptisch);
-												} else {
-													FehlerDTO dtoFehler = new FehlerDTO();
-													for (String error : logik.getErrors()) {
-														dtoFehler.addError(error);
-													}
-													forward(request, response, dtoFehler, "404.jsp");
-													return;
-												}
+									}
+								}
+								break;
+							case Optisch:
+								dto.setArtOptions(Arrays.asList(OptischArt.values()));
+								if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
+									dto.addError("Keine Art für den optischen Datenträger ausgewählt.");
+									forward(request, response, dto, "speicherortEingabe.jsp");
+									return;
+								} else {
+									try {
+										OptischArt	art	=	OptischArt.getElementFromId(Integer.parseInt(request.getParameter("art")));
+										if (art != null) {
+											// Logik erzeugen und zuweisen
+											logik = new OptischLogik(idSpeicherFormat);
+											if (logik.load(id)) {
+												Optisch optisch = (Optisch) logik.getObject();
+												optisch.setArt(art);
+												optisch.setBemerkung(bemerkung);
+												optisch.setLagerOrt(bezeichnung);
+												optisch.setZustand(zustand);
 											} else {
-												dto.addError("Ungültige Art für den optischen Datenträger ausgewählt.");
-												forward(request, response, dto, "speicherortEingabe.jsp");
+												FehlerDTO dtoFehler = new FehlerDTO();
+												dtoFehler.addErrors(logik.getErrors());
+												forward(request, response, dtoFehler, "404.jsp");
 												return;
 											}
-										} catch (NumberFormatException e) {
+										} else {
 											dto.addError("Ungültige Art für den optischen Datenträger ausgewählt.");
 											forward(request, response, dto, "speicherortEingabe.jsp");
 											return;
 										}
-									}
-									break;
-								case Schallplatte:
-									if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
-										dto.addError("Keine Art für die Schallplatte ausgewählt.");
+									} catch (NumberFormatException e) {
+										dto.addError("Ungültige Art für den optischen Datenträger ausgewählt.");
 										forward(request, response, dto, "speicherortEingabe.jsp");
 										return;
-									} else {
-										try {
-											SchallplatteArt	art	=	SchallplatteArt.getElementFromId(Integer.parseInt(request.getParameter("art")));
-											if (art != null) {
-												String zustandSchallplatte = request.getParameter("zustand");
-												if (zustandSchallplatte == null) {
-													zustandSchallplatte = "";
-												}
-												// Logik erzeugen und zuweisen
-												logik = new SchallplatteLogik(idSpeicherFormat);
-												if(logik.load(id)) {
-													Schallplatte schallplatte = (Schallplatte) logik.getObject();
-													schallplatte.setArt(art);
-													schallplatte.setBemerkung(bemerkung);
-													schallplatte.setLagerOrt(bezeichnung);
-													schallplatte.setZustand(zustandSchallplatte);
-												} else {
-													FehlerDTO dtoFehler = new FehlerDTO();
-													for (String error : logik.getErrors()) {
-														dtoFehler.addError(error);
-													}
-													forward(request, response, dtoFehler, "404.jsp");
-													return;
-												}
+									}
+								}
+								break;
+							case Schallplatte:
+								dto.setArtOptions(Arrays.asList(SchallplatteArt.values()));
+								if (request.getParameter("art") == null || request.getParameter("art").trim().length() == 0) {
+									dto.addError("Keine Art für die Schallplatte ausgewählt.");
+									forward(request, response, dto, "speicherortEingabe.jsp");
+									return;
+								} else {
+									try {
+										SchallplatteArt	art	=	SchallplatteArt.getElementFromId(Integer.parseInt(request.getParameter("art")));
+										if (art != null) {
+											// Logik erzeugen und zuweisen
+											logik = new SchallplatteLogik(idSpeicherFormat);
+											if(logik.load(id)) {
+												Schallplatte schallplatte = (Schallplatte) logik.getObject();
+												schallplatte.setArt(art);
+												schallplatte.setBemerkung(bemerkung);
+												schallplatte.setLagerOrt(bezeichnung);
+												schallplatte.setZustand(zustand);
 											} else {
-												dto.addError("Ungültige Art für die Schallplatte ausgewählt.");
-												forward(request, response, dto, "speicherortEingabe.jsp");
+												FehlerDTO dtoFehler = new FehlerDTO();
+												dtoFehler.addErrors(logik.getErrors());
+												forward(request, response, dtoFehler, "404.jsp");
 												return;
 											}
-										} catch (NumberFormatException e) {
+										} else {
 											dto.addError("Ungültige Art für die Schallplatte ausgewählt.");
 											forward(request, response, dto, "speicherortEingabe.jsp");
 											return;
 										}
+									} catch (NumberFormatException e) {
+										dto.addError("Ungültige Art für die Schallplatte ausgewählt.");
+										forward(request, response, dto, "speicherortEingabe.jsp");
+										return;
 									}
+								}
+								break;
+							default:
+								FehlerDTO dtoFehler = new FehlerDTO();
+								dtoFehler.addError("Unbekannte Speicherort Art");
+								forward(request, response, dtoFehler, "404.jsp");
+								return;
+							}
+							// Validator erzeugen
+							SpeicherOrteValidator validator = new SpeicherOrteValidator();
+							if (validator.validate(logik.getObject()) && logik.write()) {
+								String uri = "medium/" + typeMedium.getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + idMedium;
+								redirect(request, response, uri);
+							} else {
+								dto.addErrors(logik.getErrors());
+								Speicherort	speicherort	=	logik.getObject();
+								dto.setBemerkung(speicherort.getBemerkung());
+								dto.setBezeichnung(speicherort.getLagerOrt());
+								switch (speicherOrtArt) {
+								case Buch:
+									Buch buch = (Buch) logik.getObject();
+									dto.setArtSelected(buch.getArt());
+									dto.setArtOptions(Arrays.asList(BuchArt.values()));
+									dto.setZustand(buch.getZustand());
 									break;
-								default:
-									FehlerDTO dtoFehler = new FehlerDTO();
-									dtoFehler.addError("Unbekannte Speicherort Art");
-									forward(request, response, dtoFehler, "404.jsp");
-									return;
+								case Dia:
+									Dia dia = (Dia) logik.getObject();
+									dto.setZustand(dia.getZustand());
+									break;
+								case Festplatte:
+									break;
+								case Kassette:
+									Kassette kassette = (Kassette) logik.getObject();
+									dto.setArtSelected(kassette.getArt());
+									dto.setArtOptions(Arrays.asList(KassettenArt.values()));
+									dto.setZustand(kassette.getZustand());
+									break;
+								case Optisch:
+									Optisch	optisch = (Optisch) logik.getObject();
+									dto.setArtSelected(optisch.getArt());
+									dto.setArtOptions(Arrays.asList(OptischArt.values()));
+									dto.setZustand(optisch.getZustand());
+									break;
+								case Schallplatte:
+									Schallplatte schallplatte = (Schallplatte) logik.getObject();
+									dto.setArtSelected(schallplatte.getArt());
+									dto.setArtOptions(Arrays.asList(SchallplatteArt.values()));
+									dto.setZustand(schallplatte.getZustand());
+									break;
 								}
-								// Validator erzeugen
-								SpeicherOrteValidator validator = new SpeicherOrteValidator();
-								if (validator.validate(logik.getObject()) && logik.write()) {
-									String uri = "medium/" + typeMedium.getURIPart() + "/" + Action.Details.getURIPart() + ".html?id=" + idMedium;
-									redirect(request, response, uri);
-								} else {
-									logik.getErrors().stream().forEach(error -> {
-										dto.addError(error);;
-									});
-									Speicherort	speicherort	=	logik.getObject();
-									dto.setBemerkung(speicherort.getBemerkung());
-									dto.setBezeichnung(speicherort.getLagerOrt());
-									switch (speicherOrtArt) {
-									case Buch:
-										Buch buch = (Buch) logik.getObject();
-										dto.setArtSelected(buch.getArt());
-										dto.setArtOptions(Arrays.asList(BuchArt.values()));
-										dto.setZustand(buch.getZustand());
-										break;
-									case Dia:
-										Dia dia = (Dia) logik.getObject();
-										dto.setZustand(dia.getZustand());
-										break;
-									case Festplatte:
-										break;
-									case Kassette:
-										Kassette kassette = (Kassette) logik.getObject();
-										dto.setArtSelected(kassette.getArt());
-										dto.setArtOptions(Arrays.asList(KassettenArt.values()));
-										dto.setZustand(kassette.getZustand());
-										break;
-									case Optisch:
-										Optisch	optisch = (Optisch) logik.getObject();
-										dto.setArtSelected(optisch.getArt());
-										dto.setArtOptions(Arrays.asList(OptischArt.values()));
-										dto.setZustand(optisch.getZustand());
-										break;
-									case Schallplatte:
-										Schallplatte schallplatte = (Schallplatte) logik.getObject();
-										dto.setArtSelected(schallplatte.getArt());
-										dto.setArtOptions(Arrays.asList(SchallplatteArt.values()));
-										dto.setZustand(schallplatte.getZustand());
-										break;
-									}
-									forward(request, response, dto, "speicherortEingabe.jsp");
-								}
+								forward(request, response, dto, "speicherortEingabe.jsp");
 							}
 						} catch (NumberFormatException e) {
 							dto.addError("Speicherort Art konnte nicht bestimmt werden.");
@@ -637,9 +627,7 @@ public class SpeicherOrteController extends Controller {
 								dto.setZustand(buch.getZustand());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
-								for (String error : logikBuch.getErrors()) {
-									dtoFehler.addError(error);
-								}
+								dtoFehler.addErrors(logikBuch.getErrors());
 								forward(request, response, dtoFehler, "404.jsp");
 								return;
 							}
@@ -654,9 +642,7 @@ public class SpeicherOrteController extends Controller {
 								dto.setZustand(dia.getZustand());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
-								for (String error : logikDia.getErrors()) {
-									dtoFehler.addError(error);
-								}
+								dtoFehler.addErrors(logikDia.getErrors());
 								forward(request, response, dtoFehler, "404.jsp");
 								return;
 							}
@@ -670,9 +656,7 @@ public class SpeicherOrteController extends Controller {
 								dto.setBezeichnung(item.getLagerOrt());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
-								for (String error : logikFestplatte.getErrors()) {
-									dtoFehler.addError(error);
-								}
+								dtoFehler.addErrors(logikFestplatte.getErrors());
 								forward(request, response, dtoFehler, "404.jsp");
 								return;
 							}
@@ -689,9 +673,7 @@ public class SpeicherOrteController extends Controller {
 								dto.setZustand(item.getZustand());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
-								for (String error : logikKassette.getErrors()) {
-									dtoFehler.addError(error);
-								}
+								dtoFehler.addErrors(logikKassette.getErrors());
 								forward(request, response, dtoFehler, "404.jsp");
 								return;
 							}
@@ -708,9 +690,7 @@ public class SpeicherOrteController extends Controller {
 								dto.setZustand(item.getZustand());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
-								for (String error : logikOptisch.getErrors()) {
-									dtoFehler.addError(error);
-								}
+								dtoFehler.addErrors(logikOptisch.getErrors());
 								forward(request, response, dtoFehler, "404.jsp");
 								return;
 							}
@@ -726,9 +706,7 @@ public class SpeicherOrteController extends Controller {
 								dto.setZustand(item.getZustand());
 							} else {
 								FehlerDTO dtoFehler = new FehlerDTO();
-								for (String error : logikSchallplatte.getErrors()) {
-									dtoFehler.addError(error);
-								}
+								dtoFehler.addErrors(logikSchallplatte.getErrors());
 								forward(request, response, dtoFehler, "404.jsp");
 								return;
 							}
