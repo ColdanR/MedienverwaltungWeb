@@ -704,6 +704,9 @@ public class MedienController extends Controller {
 								});
 								// DTO aus Objekt bestücken
 								HoerbuchEingabeDTO dto = new HoerbuchEingabeDTO("Hörbuch anlegen");
+								errors.stream().forEach(error -> {
+									dto.addError(error);
+								});
 								dto.setBemerkung(hoerbuch.getBemerkungen());
 								dto.setBezeichnung(hoerbuch.getTitel());
 								dto.setDbId(hoerbuch.getDbId());
@@ -834,6 +837,9 @@ public class MedienController extends Controller {
 								});
 								// DTO aus Objekt bestücken
 								SpielEingabeDTO dto = new SpielEingabeDTO("Spiel anlegen");
+								errors.forEach(error -> {
+									dto.addError(error);
+								});
 								dto.setBemerkung(spiel.getBemerkungen());
 								dto.setBetriebssystem(spiel.getBetriebssystem());
 								dto.setBezeichnung(spiel.getTitel());

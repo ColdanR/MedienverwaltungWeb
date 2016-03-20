@@ -95,7 +95,7 @@ public class DBMusik extends DBMedien<Musik> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE musik SET live = ? WHERE musik.id = ?");
+				stmt = conn.prepareStatement("UPDATE musik SET live = ? WHERE mediabase_id = ?");
 				stmt.setBoolean(1, medium.isLive());
 				stmt.setInt(2, medium.getDbId());
 				stmt.execute();

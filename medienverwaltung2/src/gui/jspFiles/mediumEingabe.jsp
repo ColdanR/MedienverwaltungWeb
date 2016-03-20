@@ -98,7 +98,7 @@
                     <label for="sprache">Sprache</label>
                 </div>
             	<div class="col-lg-6 col-md-6 col-sm-4">
-                    <input  type="text" class="form-control" name="sprache" id="sprache" value="${context.sprache}">
+                    <input  type="text" class="form-control" name="sprache" id="sprache" value="${context.sprache}" required>
                 </div>
             </div>    
             </c:if>
@@ -118,7 +118,7 @@
                     <label for="betrieb">Betriebssystem</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-4">
-                    <input class="form-control" name="betrieb" id="betrieb" required="required" value="${context.betriebssystem}">
+                    <input class="form-control" name="betrieb" id="betrieb" value="${context.betriebssystem}">
                 </div>
             </div>
          	</c:if>

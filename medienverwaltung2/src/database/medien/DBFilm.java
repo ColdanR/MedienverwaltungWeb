@@ -97,9 +97,10 @@ public class DBFilm extends DBMedien<Film> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE film SET sprache = ?, art = ? WHERE film.id = ?");
+				stmt = conn.prepareStatement("UPDATE film SET sprache = ?, art = ? WHERE mediabase_id = ?");
 				stmt.setString(1, medium.getSprache());
 				stmt.setInt(2, medium.getArt().getId());
+				stmt.setInt(3, medium.getDbId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;

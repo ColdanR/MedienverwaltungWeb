@@ -95,9 +95,10 @@ public class DBSpiel extends DBMedien<Spiel>{
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE spiel SET sprache = ?, betriebssystem = ? WHERE spiel.id = ?");
+				stmt = conn.prepareStatement("UPDATE spiel SET sprache = ?, betriebssystem = ? WHERE mediabase_id = ?");
 				stmt.setString(1, medium.getSprache());
 				stmt.setString(2, medium.getBetriebssystem());
+				stmt.setInt(3, medium.getDbId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;

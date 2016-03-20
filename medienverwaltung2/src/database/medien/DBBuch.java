@@ -98,10 +98,11 @@ public class DBBuch extends DBMedien<Buch> {
 				stmt.execute();
 				stmt.close();
 				// Zusatztabelle updaten
-				stmt = conn.prepareStatement("UPDATE buch SET sprache = ?, art = ?, auflage =? WHERE buch.id = ?");
+				stmt = conn.prepareStatement("UPDATE buch SET sprache = ?, art = ?, auflage =? WHERE mediabase_id = ?");
 				stmt.setString(1, medium.getSprache());
 				stmt.setInt(2, medium.getArt().getId());
 				stmt.setInt(3, medium.getAuflage());
+				stmt.setInt(4, medium.getDbId());
 				stmt.execute();
 				stmt.close();
 				stmt = null;
