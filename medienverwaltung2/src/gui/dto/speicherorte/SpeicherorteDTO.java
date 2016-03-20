@@ -40,6 +40,10 @@ public class SpeicherorteDTO extends BaseDTO {
 	public SpeicherortArt getSelected() {
 		return selected;
 	}
+	
+	public void setSelected(SpeicherortArt selected) {
+		this.selected = selected;
+	}
 
 	public List<SpeicherortArt> getSelectOptions() {
 		return selectOptions;
