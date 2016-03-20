@@ -7,7 +7,7 @@ public class FilmValidator extends MediumValidator<Film> {
 	public boolean validate(Film object) {
 		boolean ret = super.validate(object);
 		if (object.getArt() == null) {
-			addError("Keine Buchart ausgewählt.");
+			addError("Keine Filmart ausgewählt.");
 			ret = false;
 		}
 		if (object.getSprache() == null || object.getSprache().length() == 0) {
